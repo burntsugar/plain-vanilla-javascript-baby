@@ -1,11 +1,18 @@
 # Plain Vanilla JavaScript Baby
 
+## Now
 * Modular
 * XMLHttpRequest
 * Caching/Local Storage
 * Async/Await
 * Dynamic DOM mods
 * Network status
+
+## TODO:
+
+* Jest
+* captureEnterPress
+* makeItPretty
 
 <hr>
 
