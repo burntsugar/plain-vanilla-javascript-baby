@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+    <link rel="modulepreload" href="scripts/github-deets.js">
+</head>
+
+<body>
+
+    <div id="github-user-wrapper">
+
+    </div>
+
+    <div id="input-username-controls" class="hidden">
+        <h1>Wanna see your Github deets? You know you do...</h1>
+        <label for="input-githubusername">username: </label>
+        <input type="text" id="input-githubusername" name="input-githubusername" value="burntsugar"/>
+        <input class="btn-get" type="button" value="Find me on Github!">
+        <input class="btn-clear" type="button" value="Clear">
+    </div>
+
+    <div id="reset-username-controls" class="hidden">
+        <input class="btn-reset" type="button" value="Reset">
+    </div>
+
+    <script type="module">
+
+        import { getGithubDeets, toggleControlViz, removeUserDeetsNodes } from "./scripts/github-deets.js";
+        import { toggleDisplay } from "./scripts/toggle-viz.js";
+
+        toggleDisplay('input-username-controls')
+
+        document.querySelector('.btn-get').addEventListener('click', (event) => {
+            var username = document.getElementById('input-githubusername').value;
+            getGithubDeets(username)
+        });
+
+        document.querySelector('.btn-clear').addEventListener('click', (event) => {
+            var username = document.getElementById('input-githubusername').value = "";
+        });
+
+        document.querySelector('.btn-reset').addEventListener('click', (event) => {
+            removeUserDeetsNodes()
+            toggleControlViz()
+        });
+
+
+    </script>
+
+</body>
+
+</html>
