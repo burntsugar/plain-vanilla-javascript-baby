@@ -26,10 +26,10 @@ export async function fetchJsonResource(url) {
             resolve(rez)
         };
         xhr.onloadend = () => {
-            console.log("xhr.status: " + xhr.status)
+            console.log(`xhr.status: ${xhr.status}`)
         };
         xhr.onerror = (e) => {
-            console.error("Request failed - Network unavailable " + e.type)
+            console.error(`Request failed - Network unavailable ${e.type}`)
             var rez = new Rezponse(xhr.status, null);
             resolve(rez)
         };

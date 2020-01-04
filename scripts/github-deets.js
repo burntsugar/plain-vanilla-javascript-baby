@@ -27,7 +27,7 @@ export function getGithubDeets(githubUsername) {
         var cleanUsername = cleanString(githubUsername);
         var rez = checkLocalStorageFirst(cleanUsername)
         if (rez.status == -2){
-            console.log("loading from local storage!")
+            console.log('loading from local storage!')
             prepareSuccessNodes(rez.body)
         } else {
             start(githubUsername)
@@ -52,7 +52,8 @@ function processResult(rezObject, username) {
         prepareSuccessNodes(rezObject.body)
         saveToLocalStorage(rezObject.body)
     } else if (rezObject.status == 404) {
-        prepareErrorNode('\"' + username +'\" ' + MESSAGE_USER_NOT_FOUND)
+        prepareErrorNode(`"${username}" ${MESSAGE_USER_NOT_FOUND}`)
+
     } else if (rezObject.status == -1) {
         prepareErrorNode(ERROR_NO_NETWORK)
     } else {
@@ -82,6 +83,7 @@ export function toggleControlViz() {
 }
 
 function checkLocalStorageFirst(username) {
+    console.log(username)
     var val = JSON.parse(window.localStorage.getItem(username));
     if (val != null) {
         var tsDate = new Date(val.timestamp);
@@ -92,6 +94,8 @@ function checkLocalStorageFirst(username) {
         } else {
             return {'status': -1, 'body': null}
         }
+    } else {
+        return {'status': -1, 'body': null}
     }
 }
 
@@ -102,10 +106,10 @@ function saveToLocalStorage(userData) {
 
 // TODO: captureEnterPress
 function captureEnterPress() {
-    console.log("TODO")
+    console.log('TODO')
 }
 
 // TODO: makeItPretty
 function makeItPretty() {
-    console.log("TODO")
+    console.log('TODO')
 }

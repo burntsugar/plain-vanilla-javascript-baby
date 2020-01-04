@@ -1,6 +1,6 @@
 
 export function pText(parentNodeID, nodeAttributes, text) {
-    var p = document.createElement('P');
+    var p = document.createElement('p');
 
     Object.keys(nodeAttributes).forEach(element => {
         p.setAttribute(element, nodeAttributes[element]);

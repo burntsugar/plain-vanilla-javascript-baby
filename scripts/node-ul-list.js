@@ -5,7 +5,6 @@ export function ulList(jsonObj, nodeAttributes, parentNodeID) {
         ul.setAttribute(element, nodeAttributes[element]);
     });
 
-
     document.getElementById(parentNodeID).appendChild(ul);
     Object.keys(jsonObj).forEach(element => {
         var li = document.createElement('li');
