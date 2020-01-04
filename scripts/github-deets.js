@@ -37,14 +37,12 @@ export function getGithubDeets(githubUsername) {
         var rez = checkLocalStorageFirst(cleanUsername)
         if (rez.status == appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS) {
             console.log('loading from local storage!')
-            // prepareSuccessNodes(rez.body)
             prepareDocumentNodes(rez)
         } else {
             startNetworkRequest(githubUsername)
         }
     } else {
         prepareDocumentNodes(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
-        //prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
     }
 }
 
@@ -58,7 +56,7 @@ function startNetworkRequest(githubUsername) {
             processNetworkResult(obj, githubUsername)
         }, function (error) {
             console.error(appVars.ERROR_FAILED, error);
-            // Prepare...
+            // TODO: Prepare...
         })
     }
 }
@@ -66,17 +64,13 @@ function startNetworkRequest(githubUsername) {
 function processNetworkResult(rezObject, username) {
     console.log(rezObject.status)
     if (rezObject.status == 200) {
-        //prepareSuccessNodes(rezObject.body)
         prepareDocumentNodes(rezObject)
         saveToLocalStorage(rezObject.body)
     } else if (rezObject.status == 404) {
-        // prepareErrorNode(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
         prepareDocumentNodes(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
     } else if (rezObject.status == appVars.NETWORK_NOT_AVAILABLE_STATUS) {
-        // prepareErrorNode(appVars.ERROR_NO_NETWORK)
         prepareDocumentNodes(appVars.ERROR_NO_NETWORK)
     } else {
-        // prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
         prepareDocumentNodes(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
     }
 }
