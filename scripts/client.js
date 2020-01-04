@@ -32,16 +32,3 @@ export async function fetchJsonResource(url) {
     })
 
 }
-
-// function Rezponse(status, body) {
-//     this.status = status,
-//     this.body = body
-// }
-
-// class Rezponse {
-//     constructor(status, body) {
-//         this.status = status;
-//         this.body = body;
-//     }
-// }
-
