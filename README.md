@@ -19,6 +19,7 @@
 * makeItPretty
 * cache image
 * offline edge cases
+* prepare nodes from fetch error
 
 <hr>
 
