@@ -15,6 +15,7 @@
 ## TODO:
 
 * Jest
+* Namespacing
 * captureEnterPress
 * makeItPretty
 * cache image
