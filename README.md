@@ -3,16 +3,22 @@
 ## Now
 * Modular
 * XMLHttpRequest
+* DOMException.NetworkError
+* DOMException.TimeoutError
 * Caching/Local Storage
 * Async/Await
+* Promise.then
 * Dynamic DOM mods
-* Network status
+* Network status - window.navigator.onLine
+* Template strings
 
 ## TODO:
 
 * Jest
 * captureEnterPress
 * makeItPretty
+* cache image
+* offline edge cases
 
 <hr>
 
