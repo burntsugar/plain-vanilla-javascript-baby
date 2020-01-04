@@ -1,9 +1,5 @@
 
-import { hasConnection } from './check-network.js'
-
 export async function fetchJsonResource(url) {
-
-    if (!hasConnection()) return new Rezponse(-1, {'network' : 'none'});
 
     return new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest;
@@ -20,18 +16,16 @@ export async function fetchJsonResource(url) {
             }
             resolve(rez)
         };
-        xhr.ontimeout = () => {
+        xhr.ontimeout = (e) => {
             console.error('Timeout!!')
-            var rez = new Rezponse(xhr.status, null);
-            resolve(rez)
+            reject(new DOMException(`Request failed: Request for ${url} timed-out`, 'TimeoutError'))
         };
         xhr.onloadend = () => {
             console.log(`xhr.status: ${xhr.status}`)
         };
         xhr.onerror = (e) => {
-            console.error(`Request failed - Network unavailable ${e.type}`)
-            var rez = new Rezponse(xhr.status, null);
-            resolve(rez)
+            console.error('Request failed: Network error')
+            reject(new DOMException('Request failed: Network error', 'NetworkError'))
         };
         xhr.send()
     })
