@@ -7,6 +7,8 @@ import { removeNode, removeChildNodes } from './remove-node.js'
 import { pText } from './p-node.js'
 import { toggleDisplayControls } from './toggle-viz.js'
 import { hasConnection } from './check-network.js'
+import { Rezponse } from './rezponse.js'
+
 
 const appVars = {
     PARENT_WRAPPER_ID: 'github-user-wrapper',
@@ -43,7 +45,7 @@ export function getGithubDeets(githubUsername) {
 function start(githubUsername) {
 
     if (!hasConnection()) {
-        processNetworkResult({ status: -1, body: null }, githubUsername);
+        processNetworkResult(new Rezponse(-1, null), githubUsername);
     } else {
         var queryURL = appVars.URL_GITHUB_USER_API + githubUsername;
         fetchJsonResource(queryURL).then(function (response) {
@@ -70,7 +72,7 @@ function processNetworkResult(rezObject, username) {
 }
 
 function prepareDocumentNodes(obj) {
-    
+
 }
 
 function prepareErrorNode(errorMessage) {
@@ -102,12 +104,12 @@ function checkLocalStorageFirst(username) {
         var nDate = new Date();
         if (nDate - tsDate <= appVars.LOCAL_STORAGE_CACHE_TIME) {
             val.value.local_storage_time = tsDate;
-            return { 'status': -2, 'body': val.value }
+            return new Rezponse(-2, val.value)
         } else {
-            return { 'status': -1, 'body': null }
+            return new Rezponse(-1, null)
         }
     } else {
-        return { 'status': -1, 'body': null }
+        return new Rezponse(-1, null)
     }
 }
 
