@@ -24,28 +24,33 @@ const appVars = {
     UL_USER_DEETS_ID: 'ul-user-deets',
     DIV_INPUT_USERNAME_CONTROLS_ID: 'input-username-controls',
     DIV_RESET_USERNAME_CONTROLS_ID: 'reset-username-controls',
-    LOCAL_STORAGE_CACHE_TIME: 60000
+    LOCAL_STORAGE_CACHE_TIME: 60000,
+    LOCAL_STORAGE_OBJECT_FOUND_STATUS: 2000,
+    LOCAL_STORAGE_OBJECT_NOT_FOUND_STATUS: -1000,
+    LOCAL_STORAGE_OBJECT_EXPIRED_STATUS: -2000,
+    NETWORK_NOT_AVAILABLE_STATUS: -3000
 }
 
 export function getGithubDeets(githubUsername) {
     if (!stringIsEmpty(githubUsername)) {
         var cleanUsername = cleanString(githubUsername);
         var rez = checkLocalStorageFirst(cleanUsername)
-        if (rez.status == -2) {
+        if (rez.status == appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS) {
             console.log('loading from local storage!')
-            prepareSuccessNodes(rez.body)
+            // prepareSuccessNodes(rez.body)
+            prepareDocumentNodes(rez)
         } else {
-            start(githubUsername)
+            startNetworkRequest(githubUsername)
         }
     } else {
-        prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
+        prepareDocumentNodes(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
+        //prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
     }
 }
 
-function start(githubUsername) {
-
+function startNetworkRequest(githubUsername) {
     if (!hasConnection()) {
-        processNetworkResult(new Rezponse(-1, null), githubUsername);
+        processNetworkResult(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS, null), githubUsername);
     } else {
         var queryURL = appVars.URL_GITHUB_USER_API + githubUsername;
         fetchJsonResource(queryURL).then(function (response) {
@@ -53,6 +58,7 @@ function start(githubUsername) {
             processNetworkResult(obj, githubUsername)
         }, function (error) {
             console.error(appVars.ERROR_FAILED, error);
+            // Prepare...
         })
     }
 }
@@ -60,19 +66,27 @@ function start(githubUsername) {
 function processNetworkResult(rezObject, username) {
     console.log(rezObject.status)
     if (rezObject.status == 200) {
-        prepareSuccessNodes(rezObject.body)
+        //prepareSuccessNodes(rezObject.body)
+        prepareDocumentNodes(rezObject)
         saveToLocalStorage(rezObject.body)
     } else if (rezObject.status == 404) {
-        prepareErrorNode(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
-    } else if (rezObject.status == -1) {
-        prepareErrorNode(appVars.ERROR_NO_NETWORK)
+        // prepareErrorNode(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
+        prepareDocumentNodes(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
+    } else if (rezObject.status == appVars.NETWORK_NOT_AVAILABLE_STATUS) {
+        // prepareErrorNode(appVars.ERROR_NO_NETWORK)
+        prepareDocumentNodes(appVars.ERROR_NO_NETWORK)
     } else {
-        prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
+        // prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
+        prepareDocumentNodes(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
     }
 }
 
 function prepareDocumentNodes(obj) {
-
+    if (obj.status == 200 || obj.status == appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS) {
+        prepareSuccessNodes(obj.body)
+    } else {
+        prepareErrorNode(obj)
+    }
 }
 
 function prepareErrorNode(errorMessage) {
@@ -104,12 +118,12 @@ function checkLocalStorageFirst(username) {
         var nDate = new Date();
         if (nDate - tsDate <= appVars.LOCAL_STORAGE_CACHE_TIME) {
             val.value.local_storage_time = tsDate;
-            return new Rezponse(-2, val.value)
+            return new Rezponse(appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS, val.value)
         } else {
-            return new Rezponse(-1, null)
+            return new Rezponse(appVars.LOCAL_STORAGE_OBJECT_EXPIRED_STATUS, null)
         }
     } else {
-        return new Rezponse(-1, null)
+        return new Rezponse(appVars.LOCAL_STORAGE_OBJECT_NOT_FOUND_STATUS, null)
     }
 }
 
