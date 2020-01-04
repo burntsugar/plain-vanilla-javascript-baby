@@ -43,19 +43,19 @@ export function getGithubDeets(githubUsername) {
 function start(githubUsername) {
 
     if (!hasConnection()) {
-        processResult({ status: -1, body: null }, githubUsername);
+        processNetworkResult({ status: -1, body: null }, githubUsername);
     } else {
         var queryURL = appVars.URL_GITHUB_USER_API + githubUsername;
         fetchJsonResource(queryURL).then(function (response) {
             var obj = response
-            processResult(obj, githubUsername)
+            processNetworkResult(obj, githubUsername)
         }, function (error) {
             console.error(appVars.ERROR_FAILED, error);
         })
     }
 }
 
-function processResult(rezObject, username) {
+function processNetworkResult(rezObject, username) {
     console.log(rezObject.status)
     if (rezObject.status == 200) {
         prepareSuccessNodes(rezObject.body)
@@ -67,6 +67,10 @@ function processResult(rezObject, username) {
     } else {
         prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
     }
+}
+
+function prepareDocumentNodes(obj) {
+    
 }
 
 function prepareErrorNode(errorMessage) {

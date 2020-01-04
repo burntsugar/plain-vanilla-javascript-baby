@@ -1,3 +1,4 @@
+import { Rezponse } from './rezponse.js'
 
 export async function fetchJsonResource(url) {
 
@@ -32,10 +33,15 @@ export async function fetchJsonResource(url) {
 
 }
 
-class Rezponse {
-    constructor(status, body) {
-        this.status = status;
-        this.body = body;
-    }
-}
+// function Rezponse(status, body) {
+//     this.status = status,
+//     this.body = body
+// }
+
+// class Rezponse {
+//     constructor(status, body) {
+//         this.status = status;
+//         this.body = body;
+//     }
+// }
 
