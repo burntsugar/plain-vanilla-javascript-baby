@@ -8,48 +8,49 @@ import { pText } from './p-node.js'
 import { toggleDisplayControls } from './toggle-viz.js'
 import { hasConnection } from './check-network.js'
 
-
-const PARENT_WRAPPER_ID = 'github-user-wrapper';
-const MESSAGE_USER_NOT_FOUND = 'not found!';
-const MESSAGE_OPERATION_CANT_COMPLETE = 'Operation could not be completed at this time!';
-const MESSAGE_USERNAME_CANNOT_BE_EMPTY = 'Github username cannot be empty!';
-const ERROR_FAILED = 'Operation failed!';
-const ERROR_NO_NETWORK = 'No network!';
-const URL_GITHUB_USER_API = 'https://api.github.com/users/';
-const NODE_ERROR_NODE_ID = 'error-node';
-const HEADING_USERNAME_ID = 'h1-username';
-const IMAGE_USER_ID = 'img-user';
-const UL_USER_DEETS_ID = 'ul-user-deets';
-const DIV_INPUT_USERNAME_CONTROLS_ID = 'input-username-controls';
-const DIV_RESET_USERNAME_CONTROLS_ID = 'reset-username-controls';
-const LOCAL_STORAGE_CACHE_TIME = 60000;
+const appVars = {
+    PARENT_WRAPPER_ID: 'github-user-wrapper',
+    MESSAGE_USER_NOT_FOUND: 'not found!',
+    MESSAGE_OPERATION_CANT_COMPLETE: 'Operation could not be completed at this time!',
+    MESSAGE_USERNAME_CANNOT_BE_EMPTY: 'Github username cannot be empty!',
+    ERROR_FAILED: 'Operation failed!',
+    ERROR_NO_NETWORK: 'No network!',
+    URL_GITHUB_USER_API: 'https://api.github.com/users/',
+    NODE_ERROR_NODE_ID: 'error-node',
+    HEADING_USERNAME_ID: 'h1-username',
+    IMAGE_USER_ID: 'img-user',
+    UL_USER_DEETS_ID: 'ul-user-deets',
+    DIV_INPUT_USERNAME_CONTROLS_ID: 'input-username-controls',
+    DIV_RESET_USERNAME_CONTROLS_ID: 'reset-username-controls',
+    LOCAL_STORAGE_CACHE_TIME: 60000
+}
 
 export function getGithubDeets(githubUsername) {
     if (!stringIsEmpty(githubUsername)) {
         var cleanUsername = cleanString(githubUsername);
         var rez = checkLocalStorageFirst(cleanUsername)
-        if (rez.status == -2){
+        if (rez.status == -2) {
             console.log('loading from local storage!')
             prepareSuccessNodes(rez.body)
         } else {
             start(githubUsername)
         }
     } else {
-        prepareErrorNode(MESSAGE_USERNAME_CANNOT_BE_EMPTY)
+        prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
     }
 }
 
 function start(githubUsername) {
 
     if (!hasConnection()) {
-        processResult({status: -1, body: null}, githubUsername);
+        processResult({ status: -1, body: null }, githubUsername);
     } else {
-        var queryURL = URL_GITHUB_USER_API + githubUsername;
+        var queryURL = appVars.URL_GITHUB_USER_API + githubUsername;
         fetchJsonResource(queryURL).then(function (response) {
             var obj = response
             processResult(obj, githubUsername)
         }, function (error) {
-            console.error(ERROR_FAILED, error);
+            console.error(appVars.ERROR_FAILED, error);
         })
     }
 }
@@ -60,33 +61,33 @@ function processResult(rezObject, username) {
         prepareSuccessNodes(rezObject.body)
         saveToLocalStorage(rezObject.body)
     } else if (rezObject.status == 404) {
-        prepareErrorNode(`"${username}" ${MESSAGE_USER_NOT_FOUND}`)
+        prepareErrorNode(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
     } else if (rezObject.status == -1) {
-        prepareErrorNode(ERROR_NO_NETWORK)
+        prepareErrorNode(appVars.ERROR_NO_NETWORK)
     } else {
-        prepareErrorNode(MESSAGE_OPERATION_CANT_COMPLETE)
+        prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
     }
 }
 
 function prepareErrorNode(errorMessage) {
-    removeNode(PARENT_WRAPPER_ID, NODE_ERROR_NODE_ID)
-    pText(PARENT_WRAPPER_ID, {'id': NODE_ERROR_NODE_ID}, errorMessage)
+    removeNode(appVars.PARENT_WRAPPER_ID, appVars.NODE_ERROR_NODE_ID)
+    pText(appVars.PARENT_WRAPPER_ID, { 'id': appVars.NODE_ERROR_NODE_ID }, errorMessage)
 }
 
 function prepareSuccessNodes(userJson) {
     toggleControlViz()
-    removeNode(PARENT_WRAPPER_ID, NODE_ERROR_NODE_ID)
-    h1Heading(PARENT_WRAPPER_ID, {'id': HEADING_USERNAME_ID}, userJson.login)
-    ulList(userJson, {'id': UL_USER_DEETS_ID}, PARENT_WRAPPER_ID)
-    imgImage(PARENT_WRAPPER_ID, {'id': IMAGE_USER_ID}, userJson.avatar_url)
+    removeNode(appVars.PARENT_WRAPPER_ID, appVars.NODE_ERROR_NODE_ID)
+    h1Heading(appVars.PARENT_WRAPPER_ID, { 'id': appVars.HEADING_USERNAME_ID }, userJson.login)
+    ulList(userJson, { 'id': appVars.UL_USER_DEETS_ID }, appVars.PARENT_WRAPPER_ID)
+    imgImage(appVars.PARENT_WRAPPER_ID, { 'id': appVars.IMAGE_USER_ID }, userJson.avatar_url)
 }
 
 export function removeUserDeetsNodes() {
-    removeChildNodes(PARENT_WRAPPER_ID, [HEADING_USERNAME_ID, UL_USER_DEETS_ID, IMAGE_USER_ID])
+    removeChildNodes(appVars.PARENT_WRAPPER_ID, [appVars.HEADING_USERNAME_ID, appVars.UL_USER_DEETS_ID, appVars.IMAGE_USER_ID])
 }
 
 export function toggleControlViz() {
-    toggleDisplayControls([DIV_INPUT_USERNAME_CONTROLS_ID, DIV_RESET_USERNAME_CONTROLS_ID])
+    toggleDisplayControls([appVars.DIV_INPUT_USERNAME_CONTROLS_ID, appVars.DIV_RESET_USERNAME_CONTROLS_ID])
 }
 
 function checkLocalStorageFirst(username) {
@@ -95,19 +96,19 @@ function checkLocalStorageFirst(username) {
     if (val != null) {
         var tsDate = new Date(val.timestamp);
         var nDate = new Date();
-        if (nDate - tsDate <= LOCAL_STORAGE_CACHE_TIME) {
+        if (nDate - tsDate <= appVars.LOCAL_STORAGE_CACHE_TIME) {
             val.value.local_storage_time = tsDate;
-            return {'status': -2, 'body': val.value}
+            return { 'status': -2, 'body': val.value }
         } else {
-            return {'status': -1, 'body': null}
+            return { 'status': -1, 'body': null }
         }
     } else {
-        return {'status': -1, 'body': null}
+        return { 'status': -1, 'body': null }
     }
 }
 
 function saveToLocalStorage(userData) {
-    var object = {value: userData, timestamp: new Date().getTime()}
+    var object = { value: userData, timestamp: new Date().getTime() }
     window.localStorage.setItem(userData.login, JSON.stringify(object));
 }
 
