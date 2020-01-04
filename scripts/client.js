@@ -4,7 +4,7 @@ export async function fetchJsonResource(url) {
     return new Promise(function (resolve, reject) {
         let xhr = new XMLHttpRequest;
         xhr.open('GET', url, true)
-        xhr.timeout = 2000;
+        xhr.timeout = 15000;
         xhr.responseType = 'json';
         // callback
         xhr.onload = function() {

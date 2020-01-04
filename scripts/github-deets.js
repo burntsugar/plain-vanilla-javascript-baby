@@ -6,6 +6,8 @@ import { imgImage } from './node-img.js'
 import { removeNode, removeChildNodes } from './remove-node.js'
 import { pText } from './p-node.js'
 import { toggleDisplayControls } from './toggle-viz.js'
+import { hasConnection } from './check-network.js'
+
 
 const PARENT_WRAPPER_ID = 'github-user-wrapper';
 const MESSAGE_USER_NOT_FOUND = 'not found!';
@@ -38,22 +40,27 @@ export function getGithubDeets(githubUsername) {
 }
 
 function start(githubUsername) {
-    var queryURL = URL_GITHUB_USER_API + githubUsername;
-    fetchJsonResource(queryURL).then(function (response) {
-        var obj = response
-        processResult(obj, githubUsername)
-    }, function (error) {
-        console.error(ERROR_FAILED, error);
-    })
+
+    if (!hasConnection()) {
+        processResult({status: -1, body: null}, githubUsername);
+    } else {
+        var queryURL = URL_GITHUB_USER_API + githubUsername;
+        fetchJsonResource(queryURL).then(function (response) {
+            var obj = response
+            processResult(obj, githubUsername)
+        }, function (error) {
+            console.error(ERROR_FAILED, error);
+        })
+    }
 }
 
 function processResult(rezObject, username) {
+    console.log(rezObject.status)
     if (rezObject.status == 200) {
         prepareSuccessNodes(rezObject.body)
         saveToLocalStorage(rezObject.body)
     } else if (rezObject.status == 404) {
         prepareErrorNode(`"${username}" ${MESSAGE_USER_NOT_FOUND}`)
-
     } else if (rezObject.status == -1) {
         prepareErrorNode(ERROR_NO_NETWORK)
     } else {
@@ -113,3 +120,7 @@ function captureEnterPress() {
 function makeItPretty() {
     console.log('TODO')
 }
+
+// TODO: Cache image
+
+// TODO: offline but stored locally edge cases.
