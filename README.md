@@ -6,6 +6,7 @@
 * DOMException.NetworkError
 * DOMException.TimeoutError
 * Caching/Local Storage - user data and image
+* cache expiration
 * Async/Await
 * Promise.then
 * Dynamic DOM mods
@@ -16,7 +17,6 @@
 
 * Jest
 * Namespacing
-* Only cache if current time exceeds cachetime + cacheexpiry
 * makeItPretty
 
 <hr>

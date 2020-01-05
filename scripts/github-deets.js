@@ -28,7 +28,6 @@ const appProps = {
     ID_DIV_RESET_USERNAME_CONTROLS: 'reset-username-controls',
     STATUS_LOCAL_STORAGE_OBJECT_FOUND: 2000,
     STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND: -1000,
-    STATUS_LOCAL_STORAGE_OBJECT_EXPIRED: -2000,
     STATUS_NETWORK_NOT_AVAILABLE: -3000,
     STATUS_USERNAME_IS_EMPTY: -4000,
     STATUS_START_NEW_REQUEST: 7000,
@@ -123,8 +122,6 @@ function prepareErrorNode(errorMessage) {
 }
 
 function prepareSuccessNodes(rezponseObj) {
-    console.log('prepareSuccessNodes ::: ' + rezponseObj.status)
-    console.log('prepareSuccessNodes ::: ' + rezponseObj.body.login)
     toggleControlVisibility()
     removeNode(appProps.ID_PARENT_WRAPPER, appProps.ID_NODE_ERROR_NODE)
     h1Heading(appProps.ID_PARENT_WRAPPER, { 'id': appProps.ID_HEADING_USERNAME }, rezponseObj.body.login)
@@ -145,40 +142,18 @@ export function toggleControlVisibility() {
 function checkLocalStorage(uname) {
     var val = retrieveFromLocalStorage(uname);
     if (val != null) {
-        var tsDate = new Date(val.timestamp);
-        var nDate = new Date();
-        if (nDate - tsDate <= appConf.LOCAL_STORAGE_CACHE_TIME) {
-            val.avatar_url = retrieveImageFromLocalStorage(`${val.login}_imageData`)
-            return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, val);
-        } else {
-            return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_EXPIRED, null)
-        }
+        val.avatar_url = retrieveImageFromLocalStorage(`${val.login}_imageData`)
+        return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, val);
     } else {
         return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND, null)
     }
 }
 
-function shouldCache(uname){
-    var val = JSON.parse(window.localStorage.getItem(uname));
-    if (val != null) {
-        var tsDate = new Date(val.timestamp);
-        var nDate = new Date();
-        tsDate.setMinutes(tsDate.getMinutes() + 1)
-        return nDate > tsDate ? true : false
-    } 
-    return true;
-}
-
 function saveToLocalStorage(rezponseObj) {
-    if (!shouldCache(rezponseObj.body.login)) return
     persistToLocalStorage(rezponseObj.body.login, rezponseObj.body)
-    cacheImage(rezponseObj.body.login)
-}
-
-function cacheImage(uname) {
     var userImageNode = document.getElementById(appProps.ID_IMAGE_USER);
     userImageNode.addEventListener('load', function () {
-        persistImageToLocalStorage(`${uname}_imageData`, imageToDataURL(userImageNode))
+        persistImageToLocalStorage(`${rezponseObj.body.login}_imageData`, imageToDataURL(userImageNode))
     })
 }
 
