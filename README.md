@@ -5,7 +5,7 @@
 * XMLHttpRequest
 * DOMException.NetworkError
 * DOMException.TimeoutError
-* Caching/Local Storage
+* Caching/Local Storage - user data and image
 * Async/Await
 * Promise.then
 * Dynamic DOM mods
@@ -18,8 +18,6 @@
 * Namespacing
 * captureEnterPress
 * makeItPretty
-* cache image
-* offline edge cases
 * prepare nodes from fetch error
 
 <hr>
