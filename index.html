@@ -29,14 +29,14 @@
 
     <script type="module">
 
-        import { getGithubDeets, toggleControlViz, removeUserDeetsNodes } from "./scripts/github-deets.js";
+        import { getGithubProfile, toggleControlViz, removeUserDeetsNodes } from "./scripts/github-deets.js";
         import { toggleDisplay } from "./scripts/toggle-viz.js";
 
         toggleDisplay('input-username-controls')
 
         document.querySelector('.btn-get').addEventListener('click', (event) => {
             var username = document.getElementById('input-githubusername').value;
-            getGithubDeets(username)
+            getGithubProfile(username)
         });
 
         document.querySelector('.btn-clear').addEventListener('click', (event) => {
