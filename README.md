@@ -16,7 +16,6 @@
 
 * Jest
 * Namespacing
-* captureEnterPress
 * makeItPretty
 * prepare nodes from fetch error
 

@@ -34,6 +34,13 @@
 
         toggleDisplay('input-username-controls')
 
+        window.addEventListener('keydown', (event) => {
+            if (event.keyCode == '13') {
+                var username = document.getElementById('input-githubusername').value;
+                getGithubProfile(username)
+            }
+        });
+
         document.querySelector('.btn-get').addEventListener('click', (event) => {
             var username = document.getElementById('input-githubusername').value;
             getGithubProfile(username)
