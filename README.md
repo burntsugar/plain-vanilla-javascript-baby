@@ -16,8 +16,8 @@
 
 * Jest
 * Namespacing
+* Only cache if current time exceeds cachetime + cacheexpiry
 * makeItPretty
-* prepare nodes from fetch error
 
 <hr>
 
