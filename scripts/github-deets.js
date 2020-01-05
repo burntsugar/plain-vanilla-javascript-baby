@@ -82,6 +82,8 @@ function respond(obj) {
     }
 }
 
+// TODO: Only cache if current time exceeds cachetime + cacheexpiry
+
 function startNetworkRequest(githubUsername) {
     if (!hasConnection()) {
         processNetworkResult(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS, null), githubUsername);
@@ -92,7 +94,11 @@ function startNetworkRequest(githubUsername) {
            return processNetworkResult(obj, githubUsername)
         }, function (error) {
             console.error(appVars.ERROR_FAILED, error);
-            // TODO: Prepare...
+            if (error.name == 'NetworkError') {
+                return processNetworkResult(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS), null)
+            } else {
+                return processNetworkResult(new Rezponse(appVars.CANT_COMPLETE_OPERATION_STATUS), null)
+            }
         })
     }
 }
