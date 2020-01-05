@@ -28,21 +28,57 @@ const appVars = {
     LOCAL_STORAGE_OBJECT_FOUND_STATUS: 2000,
     LOCAL_STORAGE_OBJECT_NOT_FOUND_STATUS: -1000,
     LOCAL_STORAGE_OBJECT_EXPIRED_STATUS: -2000,
-    NETWORK_NOT_AVAILABLE_STATUS: -3000
+    NETWORK_NOT_AVAILABLE_STATUS: -3000,
+    USERNAME_IS_EMPTY_STATUS: -4000,
+    START_NEW_REQUEST: 7000,
+    GITHUB_USER_NOT_FOUND_STATUS: -5000,
+    GITHUB_USER_FOUND_STATUS: 8000,
+    CANT_COMPLETE_OPERATION_STATUS: -7000
 }
 
-export function getGithubDeets(githubUsername) {
-    if (!stringIsEmpty(githubUsername)) {
-        var cleanUsername = cleanString(githubUsername);
-        var rez = checkLocalStorageFirst(cleanUsername)
-        if (rez.status == appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS) {
-            console.log('loading from local storage!')
-            prepareDocumentNodes(rez)
-        } else {
-            startNetworkRequest(githubUsername)
-        }
+export function getGithubProfile(username) {
+    var uname = cleanString(username);
+    if (usernameIsEmpty(uname)) respond(new Rezponse(appVars.USERNAME_IS_EMPTY_STATUS, null))
+    var cachedRezponse = cachedInLocalStorage(uname);
+    if (cachedRezponse.status == appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS) { 
+        respond(new Rezponse(appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS, cachedRezponse.body))
     } else {
-        prepareDocumentNodes(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
+        respond(new Rezponse(appVars.START_NEW_REQUEST, {login: uname}))
+    }
+}
+
+function cachedInLocalStorage(username) {
+    return checkLocalStorage(username);
+}
+
+function usernameIsEmpty(username) {
+    return (stringIsEmpty(username))
+}
+
+function respond(obj) {
+    console.log('obj.status: ' + obj.status)
+    switch(obj.status) {
+        case appVars.USERNAME_IS_EMPTY_STATUS:
+            prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
+        break
+        case appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS:
+            prepareSuccessNodes(obj.body)
+        break
+        case appVars.START_NEW_REQUEST:
+            startNetworkRequest(obj.body.login)
+        break
+        case appVars.GITHUB_USER_FOUND_STATUS:
+            prepareSuccessNodes(obj.body)
+        break
+        case appVars.GITHUB_USER_NOT_FOUND_STATUS:
+            prepareErrorNode(appVars.MESSAGE_USER_NOT_FOUND)
+        break
+        case appVars.NETWORK_NOT_AVAILABLE_STATUS:
+            prepareErrorNode(appVars.ERROR_NO_NETWORK)
+        break
+        case appVars.CANT_COMPLETE_OPERATION_STATUS:
+            prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
+        break
     }
 }
 
@@ -53,7 +89,7 @@ function startNetworkRequest(githubUsername) {
         var queryURL = appVars.URL_GITHUB_USER_API + githubUsername;
         fetchJsonResource(queryURL).then(function (response) {
             var obj = response
-            processNetworkResult(obj, githubUsername)
+           return processNetworkResult(obj, githubUsername)
         }, function (error) {
             console.error(appVars.ERROR_FAILED, error);
             // TODO: Prepare...
@@ -64,22 +100,13 @@ function startNetworkRequest(githubUsername) {
 function processNetworkResult(rezObject, username) {
     console.log(rezObject.status)
     if (rezObject.status == 200) {
-        prepareDocumentNodes(rezObject)
-        saveToLocalStorage(rezObject.body)
+        respond(new Rezponse(appVars.GITHUB_USER_FOUND_STATUS, rezObject.body))
     } else if (rezObject.status == 404) {
-        prepareDocumentNodes(`"${username}" ${appVars.MESSAGE_USER_NOT_FOUND}`)
+        respond(new Rezponse(appVars.GITHUB_USER_NOT_FOUND_STATUS, null))
     } else if (rezObject.status == appVars.NETWORK_NOT_AVAILABLE_STATUS) {
-        prepareDocumentNodes(appVars.ERROR_NO_NETWORK)
+        respond(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS, null))
     } else {
-        prepareDocumentNodes(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
-    }
-}
-
-function prepareDocumentNodes(obj) {
-    if (obj.status == 200 || obj.status == appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS) {
-        prepareSuccessNodes(obj.body)
-    } else {
-        prepareErrorNode(obj)
+        respond(new Rezponse(appVars.CANT_COMPLETE_OPERATION_STATUS, null))
     }
 }
 
@@ -93,7 +120,8 @@ function prepareSuccessNodes(userJson) {
     removeNode(appVars.PARENT_WRAPPER_ID, appVars.NODE_ERROR_NODE_ID)
     h1Heading(appVars.PARENT_WRAPPER_ID, { 'id': appVars.HEADING_USERNAME_ID }, userJson.login)
     ulList(userJson, { 'id': appVars.UL_USER_DEETS_ID }, appVars.PARENT_WRAPPER_ID)
-    imgImage(appVars.PARENT_WRAPPER_ID, { 'id': appVars.IMAGE_USER_ID }, userJson.avatar_url)
+    imgImage(appVars.PARENT_WRAPPER_ID, { 'id': appVars.IMAGE_USER_ID, 'crossorigin': 'anonymous' }, userJson.avatar_url)
+    saveToLocalStorage(userJson)
 }
 
 export function removeUserDeetsNodes() {
@@ -104,7 +132,7 @@ export function toggleControlViz() {
     toggleDisplayControls([appVars.DIV_INPUT_USERNAME_CONTROLS_ID, appVars.DIV_RESET_USERNAME_CONTROLS_ID])
 }
 
-function checkLocalStorageFirst(username) {
+function checkLocalStorage(username) {
     console.log(username)
     var val = JSON.parse(window.localStorage.getItem(username));
     if (val != null) {
@@ -112,6 +140,7 @@ function checkLocalStorageFirst(username) {
         var nDate = new Date();
         if (nDate - tsDate <= appVars.LOCAL_STORAGE_CACHE_TIME) {
             val.value.local_storage_time = tsDate;
+            val.value.avatar_url = window.localStorage.getItem(`${val.value.login}_imageData`)
             return new Rezponse(appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS, val.value)
         } else {
             return new Rezponse(appVars.LOCAL_STORAGE_OBJECT_EXPIRED_STATUS, null)
@@ -124,6 +153,25 @@ function checkLocalStorageFirst(username) {
 function saveToLocalStorage(userData) {
     var object = { value: userData, timestamp: new Date().getTime() }
     window.localStorage.setItem(userData.login, JSON.stringify(object));
+    cacheImage(userData.login)
+}
+
+function cacheImage(username) {
+    var userImage = document.getElementById(appVars.IMAGE_USER_ID);
+    userImage.addEventListener('load', function () {
+        var imgData = getBase64Image(userImage);
+        window.localStorage.setItem(`${username}_imageData`, imgData)
+    })
+}
+
+function getBase64Image(img) {
+    var canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, img.width, img.height)
+    var dataURL = canvas.toDataURL('image/png');
+    return dataURL
 }
 
 // TODO: captureEnterPress
@@ -136,6 +184,5 @@ function makeItPretty() {
     console.log('TODO')
 }
 
-// TODO: Cache image
 
-// TODO: offline but stored locally edge cases.
+

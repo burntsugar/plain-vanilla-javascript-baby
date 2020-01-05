@@ -3,6 +3,7 @@ export function imgImage(parentNodeID, nodeAttributes, imageURL) {
 
     Object.keys(nodeAttributes).forEach(element => {
         img.setAttribute(element, nodeAttributes[element]);
+       
     });
 
     img.src = imageURL;
