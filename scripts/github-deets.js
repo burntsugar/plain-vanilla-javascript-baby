@@ -8,9 +8,11 @@ import { pText } from './p-node.js'
 import { toggleDisplayControls } from './toggle-viz.js'
 import { hasConnection } from './check-network.js'
 import { Rezponse } from './rezponse.js'
+import { imageToDataURL } from './img-utils.js'
+import { retrieveFromLocalStorage, persistToLocalStorage, retrieveImageFromLocalStorage, persistImageToLocalStorage } from './local-storage-utils.js'
 
 
-const appVars = {
+const appProps = {
     MESSAGE_USER_NOT_FOUND: 'Not found!',
     MESSAGE_OPERATION_CANT_COMPLETE: 'Operation could not be completed at this time!',
     MESSAGE_USERNAME_CANNOT_BE_EMPTY: 'Github username cannot be empty!',
@@ -24,7 +26,6 @@ const appVars = {
     ID_UL_USER_DEETS: 'ul-user-deets',
     ID_DIV_INPUT_USERNAME_CONTROLS: 'input-username-controls',
     ID_DIV_RESET_USERNAME_CONTROLS: 'reset-username-controls',
-    LOCAL_STORAGE_CACHE_TIME: 60000,
     STATUS_LOCAL_STORAGE_OBJECT_FOUND: 2000,
     STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND: -1000,
     STATUS_LOCAL_STORAGE_OBJECT_EXPIRED: -2000,
@@ -36,14 +37,18 @@ const appVars = {
     STATUS_CANT_COMPLETE_OPERATION: -7000
 }
 
+const appConf = {
+    LOCAL_STORAGE_CACHE_TIME: 60000
+}
+
 export function getGithubProfile(username) {
     var uname = cleanString(username);
-    if (usernameIsEmpty(uname)) respond(new Rezponse(appVars.STATUS_USERNAME_IS_EMPTY, null))
+    if (usernameIsEmpty(uname)) respond(new Rezponse(appProps.STATUS_USERNAME_IS_EMPTY, null))
     var cachedRezponse = cachedInLocalStorage(uname);
-    if (cachedRezponse.status == appVars.STATUS_LOCAL_STORAGE_OBJECT_FOUND) { 
-        respond(new Rezponse(appVars.STATUS_LOCAL_STORAGE_OBJECT_FOUND, cachedRezponse.body))
+    if (cachedRezponse.status == appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND) { 
+        respond(new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, cachedRezponse.body))
     } else {
-        respond(new Rezponse(appVars.STATUS_START_NEW_REQUEST, {login: uname}))
+        respond(new Rezponse(appProps.STATUS_START_NEW_REQUEST, {login: uname}))
     }
 }
 
@@ -57,44 +62,44 @@ function usernameIsEmpty(uname) {
 
 function respond(rezponseObj) {
     switch(rezponseObj.status) {
-        case appVars.STATUS_USERNAME_IS_EMPTY:
-            prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
+        case appProps.STATUS_USERNAME_IS_EMPTY:
+            prepareErrorNode(appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
         break
-        case appVars.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
+        case appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
             prepareSuccessNodes(rezponseObj)
         break
-        case appVars.STATUS_START_NEW_REQUEST:
+        case appProps.STATUS_START_NEW_REQUEST:
             startNetworkRequest(rezponseObj.body.login)
         break
-        case appVars.STATUS_GITHUB_USER_FOUND:
+        case appProps.STATUS_GITHUB_USER_FOUND:
             prepareSuccessNodes(rezponseObj)
         break
-        case appVars.STATUS_GITHUB_USER_NOT_FOUND:
-            prepareErrorNode(appVars.MESSAGE_USER_NOT_FOUND)
+        case appProps.STATUS_GITHUB_USER_NOT_FOUND:
+            prepareErrorNode(appProps.MESSAGE_USER_NOT_FOUND)
         break
-        case appVars.STATUS_NETWORK_NOT_AVAILABLE:
-            prepareErrorNode(appVars.MESSAGE_ERROR_NO_NETWORK)
+        case appProps.STATUS_NETWORK_NOT_AVAILABLE:
+            prepareErrorNode(appProps.MESSAGE_ERROR_NO_NETWORK)
         break
-        case appVars.STATUS_CANT_COMPLETE_OPERATION:
-            prepareErrorNode(appVars.MESSAGE_OPERATION_CANT_COMPLETE)
+        case appProps.STATUS_CANT_COMPLETE_OPERATION:
+            prepareErrorNode(appProps.MESSAGE_OPERATION_CANT_COMPLETE)
         break
     }
 }
 
 function startNetworkRequest(uname) {
     if (!hasConnection()) {
-        processNetworkResult(new Rezponse(appVars.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
+        processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
     } else {
-        var queryURL = appVars.URL_GITHUB_USER_API + uname;
+        var queryURL = appProps.URL_GITHUB_USER_API + uname;
         fetchJsonResource(queryURL).then(function (response) {
             var obj = response
            return processNetworkResult(obj, uname)
         }, function (error) {
-            console.error(appVars.MESSAGE_ERROR_FAILED, error);
+            console.error(appProps.MESSAGE_ERROR_FAILED, error);
             if (error.name == 'NetworkError') {
-                return processNetworkResult(new Rezponse(appVars.STATUS_NETWORK_NOT_AVAILABLE), null)
+                return processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE), null)
             } else {
-                return processNetworkResult(new Rezponse(appVars.STATUS_CANT_COMPLETE_OPERATION), null)
+                return processNetworkResult(new Rezponse(appProps.STATUS_CANT_COMPLETE_OPERATION), null)
             }
         })
     }
@@ -102,53 +107,54 @@ function startNetworkRequest(uname) {
 
 function processNetworkResult(rezponseObj, uname) {
     if (rezponseObj.status == 200) {
-        respond(new Rezponse(appVars.STATUS_GITHUB_USER_FOUND, rezponseObj.body))
+        respond(new Rezponse(appProps.STATUS_GITHUB_USER_FOUND, rezponseObj.body))
     } else if (rezponseObj.status == 404) {
-        respond(new Rezponse(appVars.STATUS_GITHUB_USER_NOT_FOUND, null))
-    } else if (rezponseObj.status == appVars.STATUS_NETWORK_NOT_AVAILABLE) {
-        respond(new Rezponse(appVars.STATUS_NETWORK_NOT_AVAILABLE, null))
+        respond(new Rezponse(appProps.STATUS_GITHUB_USER_NOT_FOUND, null))
+    } else if (rezponseObj.status == appProps.STATUS_NETWORK_NOT_AVAILABLE) {
+        respond(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null))
     } else {
-        respond(new Rezponse(appVars.STATUS_CANT_COMPLETE_OPERATION, null))
+        respond(new Rezponse(appProps.STATUS_CANT_COMPLETE_OPERATION, null))
     }
 }
 
 function prepareErrorNode(errorMessage) {
-    removeNode(appVars.ID_PARENT_WRAPPER, appVars.ID_NODE_ERROR_NODE)
-    pText(appVars.ID_PARENT_WRAPPER, { 'id': appVars.ID_NODE_ERROR_NODE }, errorMessage)
+    removeNode(appProps.ID_PARENT_WRAPPER, appProps.ID_NODE_ERROR_NODE)
+    pText(appProps.ID_PARENT_WRAPPER, { 'id': appProps.ID_NODE_ERROR_NODE }, errorMessage)
 }
 
 function prepareSuccessNodes(rezponseObj) {
+    console.log('prepareSuccessNodes ::: ' + rezponseObj.status)
+    console.log('prepareSuccessNodes ::: ' + rezponseObj.body.login)
     toggleControlVisibility()
-    removeNode(appVars.ID_PARENT_WRAPPER, appVars.ID_NODE_ERROR_NODE)
-    h1Heading(appVars.ID_PARENT_WRAPPER, { 'id': appVars.ID_HEADING_USERNAME }, rezponseObj.body.login)
-    ulList(rezponseObj.body, { 'id': appVars.ID_UL_USER_DEETS }, appVars.ID_PARENT_WRAPPER)
-    imgImage(appVars.ID_PARENT_WRAPPER, { 'id': appVars.ID_IMAGE_USER, 'crossorigin': 'anonymous' }, rezponseObj.body.avatar_url)
+    removeNode(appProps.ID_PARENT_WRAPPER, appProps.ID_NODE_ERROR_NODE)
+    h1Heading(appProps.ID_PARENT_WRAPPER, { 'id': appProps.ID_HEADING_USERNAME }, rezponseObj.body.login)
+    ulList(rezponseObj.body, { 'id': appProps.ID_UL_USER_DEETS }, appProps.ID_PARENT_WRAPPER)
+    imgImage(appProps.ID_PARENT_WRAPPER, { 'id': appProps.ID_IMAGE_USER, 'crossorigin': 'anonymous' }, rezponseObj.body.avatar_url)
     saveToLocalStorage(rezponseObj)
 }
 
 // TODO: Smelly.
 export function removeUserDeetsNodes() {
-    removeChildNodes(appVars.ID_PARENT_WRAPPER, [appVars.ID_HEADING_USERNAME, appVars.ID_UL_USER_DEETS, appVars.ID_IMAGE_USER])
+    removeChildNodes(appProps.ID_PARENT_WRAPPER, [appProps.ID_HEADING_USERNAME, appProps.ID_UL_USER_DEETS, appProps.ID_IMAGE_USER])
 }
 
 export function toggleControlVisibility() {
-    toggleDisplayControls([appVars.ID_DIV_INPUT_USERNAME_CONTROLS, appVars.ID_DIV_RESET_USERNAME_CONTROLS])
+    toggleDisplayControls([appProps.ID_DIV_INPUT_USERNAME_CONTROLS, appProps.ID_DIV_RESET_USERNAME_CONTROLS])
 }
 
 function checkLocalStorage(uname) {
-    var val = JSON.parse(window.localStorage.getItem(uname));
+    var val = retrieveFromLocalStorage(uname);
     if (val != null) {
         var tsDate = new Date(val.timestamp);
         var nDate = new Date();
-        if (nDate - tsDate <= appVars.LOCAL_STORAGE_CACHE_TIME) {
-            val.value.local_storage_time = tsDate;
-            val.value.avatar_url = window.localStorage.getItem(`${val.value.login}_imageData`)
-            return new Rezponse(appVars.STATUS_LOCAL_STORAGE_OBJECT_FOUND, val.value)
+        if (nDate - tsDate <= appConf.LOCAL_STORAGE_CACHE_TIME) {
+            val.avatar_url = retrieveImageFromLocalStorage(`${val.login}_imageData`)
+            return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, val);
         } else {
-            return new Rezponse(appVars.STATUS_LOCAL_STORAGE_OBJECT_EXPIRED, null)
+            return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_EXPIRED, null)
         }
     } else {
-        return new Rezponse(appVars.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND, null)
+        return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND, null)
     }
 }
 
@@ -165,29 +171,15 @@ function shouldCache(uname){
 
 function saveToLocalStorage(rezponseObj) {
     if (!shouldCache(rezponseObj.body.login)) return
- 
-    var object = { value: rezponseObj.body, timestamp: new Date().getTime() }
-    window.localStorage.setItem(rezponseObj.body.login, JSON.stringify(object));
+    persistToLocalStorage(rezponseObj.body.login, rezponseObj.body)
     cacheImage(rezponseObj.body.login)
 }
 
 function cacheImage(uname) {
-    var userImageNode = document.getElementById(appVars.ID_IMAGE_USER);
+    var userImageNode = document.getElementById(appProps.ID_IMAGE_USER);
     userImageNode.addEventListener('load', function () {
-        var imgData = getBase64Image(userImageNode);
-        window.localStorage.setItem(`${uname}_imageData`, imgData)
+        persistImageToLocalStorage(`${uname}_imageData`, imageToDataURL(userImageNode))
     })
-}
-
-// TODO: Place in own file.
-function getBase64Image(imgNode) {
-    var canvas = document.createElement('canvas');
-    canvas.width = imgNode.width;
-    canvas.height = imgNode.height;
-    var context = canvas.getContext('2d');
-    context.drawImage(imgNode, 0, 0, imgNode.width, imgNode.height)
-    var dataURL = canvas.toDataURL('image/png');
-    return dataURL
 }
 
 // TODO: makeItPretty
