@@ -1,4 +1,4 @@
-
+/*jslint es6 */
 const CACHE_DURATION = 1000;
 
 export function retrieveFromLocalStorage(key) {
