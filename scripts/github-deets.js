@@ -47,28 +47,27 @@ export function getGithubProfile(username) {
     }
 }
 
-function cachedInLocalStorage(username) {
-    return checkLocalStorage(username);
+function cachedInLocalStorage(uname) {
+    return checkLocalStorage(uname);
 }
 
-function usernameIsEmpty(username) {
-    return (stringIsEmpty(username))
+function usernameIsEmpty(uname) {
+    return (stringIsEmpty(uname))
 }
 
-function respond(obj) {
-    console.log('obj.status: ' + obj.status)
-    switch(obj.status) {
+function respond(rezponseObj) {
+    switch(rezponseObj.status) {
         case appVars.USERNAME_IS_EMPTY_STATUS:
             prepareErrorNode(appVars.MESSAGE_USERNAME_CANNOT_BE_EMPTY)
         break
         case appVars.LOCAL_STORAGE_OBJECT_FOUND_STATUS:
-            prepareSuccessNodes(obj.body)
+            prepareSuccessNodes(rezponseObj)
         break
         case appVars.START_NEW_REQUEST:
-            startNetworkRequest(obj.body.login)
+            startNetworkRequest(rezponseObj.body.login)
         break
         case appVars.GITHUB_USER_FOUND_STATUS:
-            prepareSuccessNodes(obj.body)
+            prepareSuccessNodes(rezponseObj)
         break
         case appVars.GITHUB_USER_NOT_FOUND_STATUS:
             prepareErrorNode(appVars.MESSAGE_USER_NOT_FOUND)
@@ -82,16 +81,14 @@ function respond(obj) {
     }
 }
 
-// TODO: Only cache if current time exceeds cachetime + cacheexpiry
-
-function startNetworkRequest(githubUsername) {
+function startNetworkRequest(uname) {
     if (!hasConnection()) {
-        processNetworkResult(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS, null), githubUsername);
+        processNetworkResult(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS, null), uname);
     } else {
-        var queryURL = appVars.URL_GITHUB_USER_API + githubUsername;
+        var queryURL = appVars.URL_GITHUB_USER_API + uname;
         fetchJsonResource(queryURL).then(function (response) {
             var obj = response
-           return processNetworkResult(obj, githubUsername)
+           return processNetworkResult(obj, uname)
         }, function (error) {
             console.error(appVars.ERROR_FAILED, error);
             if (error.name == 'NetworkError') {
@@ -103,13 +100,12 @@ function startNetworkRequest(githubUsername) {
     }
 }
 
-function processNetworkResult(rezObject, username) {
-    console.log(rezObject.status)
-    if (rezObject.status == 200) {
-        respond(new Rezponse(appVars.GITHUB_USER_FOUND_STATUS, rezObject.body))
-    } else if (rezObject.status == 404) {
+function processNetworkResult(rezponseObj, uname) {
+    if (rezponseObj.status == 200) {
+        respond(new Rezponse(appVars.GITHUB_USER_FOUND_STATUS, rezponseObj.body))
+    } else if (rezponseObj.status == 404) {
         respond(new Rezponse(appVars.GITHUB_USER_NOT_FOUND_STATUS, null))
-    } else if (rezObject.status == appVars.NETWORK_NOT_AVAILABLE_STATUS) {
+    } else if (rezponseObj.status == appVars.NETWORK_NOT_AVAILABLE_STATUS) {
         respond(new Rezponse(appVars.NETWORK_NOT_AVAILABLE_STATUS, null))
     } else {
         respond(new Rezponse(appVars.CANT_COMPLETE_OPERATION_STATUS, null))
@@ -121,26 +117,26 @@ function prepareErrorNode(errorMessage) {
     pText(appVars.PARENT_WRAPPER_ID, { 'id': appVars.NODE_ERROR_NODE_ID }, errorMessage)
 }
 
-function prepareSuccessNodes(userJson) {
-    toggleControlViz()
+function prepareSuccessNodes(rezponseObj) {
+    toggleControlVisibility()
     removeNode(appVars.PARENT_WRAPPER_ID, appVars.NODE_ERROR_NODE_ID)
-    h1Heading(appVars.PARENT_WRAPPER_ID, { 'id': appVars.HEADING_USERNAME_ID }, userJson.login)
-    ulList(userJson, { 'id': appVars.UL_USER_DEETS_ID }, appVars.PARENT_WRAPPER_ID)
-    imgImage(appVars.PARENT_WRAPPER_ID, { 'id': appVars.IMAGE_USER_ID, 'crossorigin': 'anonymous' }, userJson.avatar_url)
-    saveToLocalStorage(userJson)
+    h1Heading(appVars.PARENT_WRAPPER_ID, { 'id': appVars.HEADING_USERNAME_ID }, rezponseObj.body.login)
+    ulList(rezponseObj.body, { 'id': appVars.UL_USER_DEETS_ID }, appVars.PARENT_WRAPPER_ID)
+    imgImage(appVars.PARENT_WRAPPER_ID, { 'id': appVars.IMAGE_USER_ID, 'crossorigin': 'anonymous' }, rezponseObj.body.avatar_url)
+    saveToLocalStorage(rezponseObj)
 }
 
+// TODO: Smelly.
 export function removeUserDeetsNodes() {
     removeChildNodes(appVars.PARENT_WRAPPER_ID, [appVars.HEADING_USERNAME_ID, appVars.UL_USER_DEETS_ID, appVars.IMAGE_USER_ID])
 }
 
-export function toggleControlViz() {
+export function toggleControlVisibility() {
     toggleDisplayControls([appVars.DIV_INPUT_USERNAME_CONTROLS_ID, appVars.DIV_RESET_USERNAME_CONTROLS_ID])
 }
 
-function checkLocalStorage(username) {
-    console.log(username)
-    var val = JSON.parse(window.localStorage.getItem(username));
+function checkLocalStorage(uname) {
+    var val = JSON.parse(window.localStorage.getItem(uname));
     if (val != null) {
         var tsDate = new Date(val.timestamp);
         var nDate = new Date();
@@ -156,26 +152,29 @@ function checkLocalStorage(username) {
     }
 }
 
-function saveToLocalStorage(userData) {
-    var object = { value: userData, timestamp: new Date().getTime() }
-    window.localStorage.setItem(userData.login, JSON.stringify(object));
-    cacheImage(userData.login)
+// TODO: Only cache if current time exceeds cachetime + cacheexpiry
+
+function saveToLocalStorage(rezponseObj) {
+    var object = { value: rezponseObj.body, timestamp: new Date().getTime() }
+    window.localStorage.setItem(rezponseObj.body.login, JSON.stringify(object));
+    cacheImage(rezponseObj.body.login)
 }
 
-function cacheImage(username) {
-    var userImage = document.getElementById(appVars.IMAGE_USER_ID);
-    userImage.addEventListener('load', function () {
-        var imgData = getBase64Image(userImage);
-        window.localStorage.setItem(`${username}_imageData`, imgData)
+function cacheImage(uname) {
+    var userImageNode = document.getElementById(appVars.IMAGE_USER_ID);
+    userImageNode.addEventListener('load', function () {
+        var imgData = getBase64Image(userImageNode);
+        window.localStorage.setItem(`${uname}_imageData`, imgData)
     })
 }
 
-function getBase64Image(img) {
+// TODO: Place in own file.
+function getBase64Image(imgNode) {
     var canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, img.width, img.height)
+    canvas.width = imgNode.width;
+    canvas.height = imgNode.height;
+    var context = canvas.getContext('2d');
+    context.drawImage(imgNode, 0, 0, imgNode.width, imgNode.height)
     var dataURL = canvas.toDataURL('image/png');
     return dataURL
 }
