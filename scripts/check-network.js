@@ -9,6 +9,7 @@
 const checkNetwork = (function() {
   /**
    * Returns online state of the user agent
+   * @public
    * @returns {boolean} the online state of the user agent
    */
   function hasConnection() {
@@ -17,6 +18,7 @@ const checkNetwork = (function() {
 
   /**
    * Returns whether the user agent has no network connection.
+   * @public
    * @returns {boolean} whether the user agent has no internet connection
    */
   function hasNoConnection() {
