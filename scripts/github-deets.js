@@ -40,7 +40,7 @@ const appConf = {
 }
 
 export function getGithubProfile(username) {
-    var uname = stringUtils.cleanString(username);
+    var uname = stringUtils.removeIllegalCharacters(username);
     if (usernameIsEmpty(uname)) respond(new Rezponse(appProps.STATUS_USERNAME_IS_EMPTY, null))
     var cachedRezponse = cachedInLocalStorage(uname);
     if (cachedRezponse.status == appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND) { 
