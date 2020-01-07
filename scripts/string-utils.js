@@ -1,7 +1,18 @@
-export function stringIsEmpty(str) {
-    return (str.length == 0 ? true : false)
-}
+const stringUtils = (function() {
 
-export function cleanString(str) {
-    return str.replace(/[|&;$%@"<>()+,]/g, "")
-}
+    function stringIsEmpty(str) {
+        return (str.length == 0 ? true : false);
+    }
+
+    function cleanString(str) {
+        return str.replace(/[|&;$%@"<>()+,]/g, '');
+    }
+
+    return {
+        stringIsEmpty: stringIsEmpty,
+        cleanString: cleanString
+    }
+
+}());
+
+export { stringUtils };

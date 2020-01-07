@@ -30,9 +30,9 @@
     <script type="module">
 
         import { getGithubProfile, toggleControlVisibility, removeUserDeetsNodes } from "./scripts/github-deets.js";
-        import { toggleDisplay } from "./scripts/toggle-viz.js";
+        import { toggleViz } from "./scripts/toggle-viz.js";
 
-        toggleDisplay('input-username-controls')
+        toggleViz.toggleDisplay('input-username-controls')
 
         window.addEventListener('keydown', (event) => {
             if (event.keyCode == '13') {

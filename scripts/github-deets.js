@@ -1,16 +1,16 @@
 import { fetchJsonResource } from './client.js'
-import { stringIsEmpty, cleanString } from './string-utils.js'
+// import { stringIsEmpty, cleanString } from './string-utils.js'
+import { stringUtils } from './string-utils.js'
 import { ulList } from './node-ul-list.js'
 import { h1Heading } from './node-h1.js'
 import { imgImage } from './node-img.js'
 import { removeNode, removeChildNodes } from './remove-node.js'
 import { pText } from './p-node.js'
-import { toggleDisplayControls } from './toggle-viz.js'
+import { toggleViz } from './toggle-viz.js';
 import { hasConnection } from './check-network.js'
 import { Rezponse } from './rezponse.js'
 import { imageToDataURL } from './img-utils.js'
 import { retrieveFromLocalStorage, persistToLocalStorage, retrieveImageFromLocalStorage, persistImageToLocalStorage } from './local-storage-utils.js'
-
 
 const appProps = {
     MESSAGE_USER_NOT_FOUND: 'Not found!',
@@ -41,7 +41,7 @@ const appConf = {
 }
 
 export function getGithubProfile(username) {
-    var uname = cleanString(username);
+    var uname = stringUtils.cleanString(username);
     if (usernameIsEmpty(uname)) respond(new Rezponse(appProps.STATUS_USERNAME_IS_EMPTY, null))
     var cachedRezponse = cachedInLocalStorage(uname);
     if (cachedRezponse.status == appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND) { 
@@ -56,7 +56,7 @@ function cachedInLocalStorage(uname) {
 }
 
 function usernameIsEmpty(uname) {
-    return (stringIsEmpty(uname))
+    return (stringUtils.stringIsEmpty(uname))
 }
 
 function respond(rezponseObj) {
@@ -136,7 +136,7 @@ export function removeUserDeetsNodes() {
 }
 
 export function toggleControlVisibility() {
-    toggleDisplayControls([appProps.ID_DIV_INPUT_USERNAME_CONTROLS, appProps.ID_DIV_RESET_USERNAME_CONTROLS])
+    toggleViz.toggleDisplayControls([appProps.ID_DIV_INPUT_USERNAME_CONTROLS, appProps.ID_DIV_RESET_USERNAME_CONTROLS])
 }
 
 function checkLocalStorage(uname) {

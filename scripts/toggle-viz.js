@@ -1,9 +1,24 @@
-export function toggleDisplayControls(controlz) {
-    controlz.forEach(element => {
-        document.getElementById(element).classList.toggle('hidden');
-    });
-}
+const toggleViz = (function () {
 
-export function toggleDisplay(elementID){
-    document.getElementById(elementID).classList.toggle('hidden');
-}
+    function toggleDisplayControls(controlz) {
+        controlz.forEach(element => {
+            document.getElementById(element).classList.toggle('hidden');
+        });
+    }
+
+    function toggleDisplay(elementID){
+        document.getElementById(elementID).classList.toggle('hidden');
+    }
+
+    return {
+        toggleDisplayControls: toggleDisplayControls,
+        toggleDisplay: toggleDisplay
+    };
+
+}());
+
+export { toggleViz };
+
+
+
+
