@@ -28,7 +28,7 @@ const stringUtils = (function() {
     return {
         stringIsEmpty: stringIsEmpty,
         removeIllegalCharacters: removeIllegalCharacters
-    }
+    };
 
 }());
 
