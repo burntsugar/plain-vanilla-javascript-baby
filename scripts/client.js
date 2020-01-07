@@ -1,4 +1,4 @@
-import { Rezponse } from './rezponse.js'
+import { userProfile } from './user-profile.js'
 
 export async function fetchJsonResource(url) {
 
@@ -11,9 +11,9 @@ export async function fetchJsonResource(url) {
         xhr.onload = function() {
             var rez = null;
             if (this.status === 200) {
-                rez = new Rezponse(this.status, this.response);
+                rez = new userProfile.Data(this.status, this.response);
             } else {
-                rez = new Rezponse(this.status, null);
+                rez = new userProfile.Data(this.status, null);
             }
             resolve(rez)
         };

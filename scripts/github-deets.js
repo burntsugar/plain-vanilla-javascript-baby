@@ -7,7 +7,7 @@ import { removeNode, removeChildNodes } from './remove-node.js'
 import { pText } from './p-node.js'
 import { toggleViz } from './toggle-viz.js';
 import { checkNetwork } from './check-network.js'
-import { Rezponse } from './rezponse.js'
+import { userProfile } from './user-profile.js'
 import { imgUtils } from './img-utils.js'
 import { retrieveFromLocalStorage, persistToLocalStorage, retrieveImageFromLocalStorage, persistImageToLocalStorage } from './local-storage-utils.js'
 
@@ -41,12 +41,12 @@ const appConf = {
 
 export function getGithubProfile(username) {
     var uname = stringUtils.removeIllegalCharacters(username);
-    if (usernameIsEmpty(uname)) respond(new Rezponse(appProps.STATUS_USERNAME_IS_EMPTY, null))
+    if (usernameIsEmpty(uname)) respond(new userProfile.Data(appProps.STATUS_USERNAME_IS_EMPTY, null))
     var cachedRezponse = cachedInLocalStorage(uname);
     if (cachedRezponse.status == appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND) { 
-        respond(new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, cachedRezponse.body))
+        respond(new userProfile.Data(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, cachedRezponse.body))
     } else {
-        respond(new Rezponse(appProps.STATUS_START_NEW_REQUEST, {login: uname}))
+        respond(new userProfile.Data(appProps.STATUS_START_NEW_REQUEST, {login: uname}))
     }
 }
 
@@ -89,7 +89,7 @@ function startNetworkRequest(uname) {
     //     processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
     // } else {
        if (checkNetwork.hasNoConnection()) {
-           processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
+           processNetworkResult(new userProfile.Data(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
        } else {
         var queryURL = appProps.URL_GITHUB_USER_API + uname;
         fetchJsonResource(queryURL).then(function (response) {
@@ -98,9 +98,9 @@ function startNetworkRequest(uname) {
         }, function (error) {
             console.error(appProps.MESSAGE_ERROR_FAILED, error);
             if (error.name == 'NetworkError') {
-                return processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE), null)
+                return processNetworkResult(new userProfile.Data(appProps.STATUS_NETWORK_NOT_AVAILABLE), null)
             } else {
-                return processNetworkResult(new Rezponse(appProps.STATUS_CANT_COMPLETE_OPERATION), null)
+                return processNetworkResult(new userProfile.Data(appProps.STATUS_CANT_COMPLETE_OPERATION), null)
             }
         })
     }
@@ -108,13 +108,13 @@ function startNetworkRequest(uname) {
 
 function processNetworkResult(rezponseObj, uname) {
     if (rezponseObj.status == 200) {
-        respond(new Rezponse(appProps.STATUS_GITHUB_USER_FOUND, rezponseObj.body))
+        respond(new userProfile.Data(appProps.STATUS_GITHUB_USER_FOUND, rezponseObj.body))
     } else if (rezponseObj.status == 404) {
-        respond(new Rezponse(appProps.STATUS_GITHUB_USER_NOT_FOUND, null))
+        respond(new userProfile.Data(appProps.STATUS_GITHUB_USER_NOT_FOUND, null))
     } else if (rezponseObj.status == appProps.STATUS_NETWORK_NOT_AVAILABLE) {
-        respond(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null))
+        respond(new userProfile.Data(appProps.STATUS_NETWORK_NOT_AVAILABLE, null))
     } else {
-        respond(new Rezponse(appProps.STATUS_CANT_COMPLETE_OPERATION, null))
+        respond(new userProfile.Data(appProps.STATUS_CANT_COMPLETE_OPERATION, null))
     }
 }
 
@@ -145,9 +145,9 @@ function checkLocalStorage(uname) {
     var val = retrieveFromLocalStorage(uname);
     if (val != null) {
         val.avatar_url = retrieveImageFromLocalStorage(`${val.login}_imageData`)
-        return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, val);
+        return new userProfile.Data(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, val);
     } else {
-        return new Rezponse(appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND, null)
+        return new userProfile.Data(appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND, null)
     }
 }
 
