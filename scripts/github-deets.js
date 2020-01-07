@@ -8,7 +8,7 @@ import { pText } from './p-node.js'
 import { toggleViz } from './toggle-viz.js';
 import { checkNetwork } from './check-network.js'
 import { Rezponse } from './rezponse.js'
-import { imageToDataURL } from './img-utils.js'
+import { imgUtils } from './img-utils.js'
 import { retrieveFromLocalStorage, persistToLocalStorage, retrieveImageFromLocalStorage, persistImageToLocalStorage } from './local-storage-utils.js'
 
 const appProps = {
@@ -155,7 +155,7 @@ function saveToLocalStorage(rezponseObj) {
     persistToLocalStorage(rezponseObj.body.login, rezponseObj.body)
     var userImageNode = document.getElementById(appProps.ID_IMAGE_USER);
     userImageNode.addEventListener('load', function () {
-        persistImageToLocalStorage(`${rezponseObj.body.login}_imageData`, imageToDataURL(userImageNode))
+        persistImageToLocalStorage(`${rezponseObj.body.login}_imageData`, imgUtils.imageToDataURL(userImageNode))
     })
 }
 
