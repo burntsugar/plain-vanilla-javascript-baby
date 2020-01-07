@@ -8,6 +8,7 @@ const stringUtils = (function() {
 
     /**
      * Operates on a given string and returns whether it is empty.
+     * @public
      * @param {string} str the string to examine
      * @returns {boolean} whether the string is empty such that str.length is equal to 0
      */
@@ -18,6 +19,7 @@ const stringUtils = (function() {
      /**
      * Operates on a given string, returning a copy with illegal characters removed.
      * Illegal characters are: | & ; $ % @ " < > ( ) + ,
+     * @public
      * @param {string} str the string to cleans
      * @returns {string} the cleansed copy of str
      */
