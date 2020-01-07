@@ -1,5 +1,4 @@
 import { fetchJsonResource } from './client.js'
-// import { stringIsEmpty, cleanString } from './string-utils.js'
 import { stringUtils } from './string-utils.js'
 import { ulList } from './node-ul-list.js'
 import { h1Heading } from './node-h1.js'
@@ -7,7 +6,7 @@ import { imgImage } from './node-img.js'
 import { removeNode, removeChildNodes } from './remove-node.js'
 import { pText } from './p-node.js'
 import { toggleViz } from './toggle-viz.js';
-import { hasConnection } from './check-network.js'
+import { checkNetwork } from './check-network.js'
 import { Rezponse } from './rezponse.js'
 import { imageToDataURL } from './img-utils.js'
 import { retrieveFromLocalStorage, persistToLocalStorage, retrieveImageFromLocalStorage, persistImageToLocalStorage } from './local-storage-utils.js'
@@ -86,9 +85,12 @@ function respond(rezponseObj) {
 }
 
 function startNetworkRequest(uname) {
-    if (!hasConnection()) {
-        processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
-    } else {
+    // if (!checkNetwork.hasConnection()) {
+    //     processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
+    // } else {
+       if (checkNetwork.hasNoConnection()) {
+           processNetworkResult(new Rezponse(appProps.STATUS_NETWORK_NOT_AVAILABLE, null), uname);
+       } else {
         var queryURL = appProps.URL_GITHUB_USER_API + uname;
         fetchJsonResource(queryURL).then(function (response) {
             var obj = response
@@ -157,10 +159,7 @@ function saveToLocalStorage(rezponseObj) {
     })
 }
 
-// TODO: makeItPretty
-function makeItPretty() {
-    console.log('TODO')
-}
+/** TODO: Would you like to see a cached result? */
 
 
 
