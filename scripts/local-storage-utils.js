@@ -3,7 +3,11 @@ const CACHE_DURATION = 1000;
 
 export function retrieveFromLocalStorage(key) {
     var entry = JSON.parse(window.localStorage.getItem(key));
-    return cacheExpired(entry.timestamp) ? null : entry
+    if (entry == null) {
+        return null;
+    } else {
+        return cacheExpired(entry.timestamp) ? null : entry
+    }
 }
 
 export function persistToLocalStorage(keyString, valueObject) {

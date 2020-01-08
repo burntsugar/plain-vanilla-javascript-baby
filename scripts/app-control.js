@@ -41,10 +41,10 @@ const appConf = {
 
 export function getGithubProfile(username) {
     var uname = stringUtils.removeIllegalCharacters(username);
-    if (usernameIsEmpty(uname)) respond(new userProfile.Data(appProps.STATUS_USERNAME_IS_EMPTY, null))
-    var cachedRezponse = cachedInLocalStorage(uname);
-    if (cachedRezponse.status == appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND) { 
-        respond(new userProfile.Data(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, cachedRezponse.body))
+    if (usernameIsEmpty(uname)) {
+        respond(new userProfile.Data(appProps.STATUS_USERNAME_IS_EMPTY, null))
+    } else if (cachedInLocalStorage(uname).status == appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND) {
+        respond(new userProfile.Data(appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND, cachedInLocalStorage(uname).body))
     } else {
         respond(new userProfile.Data(appProps.STATUS_START_NEW_REQUEST, {login: uname}))
     }
