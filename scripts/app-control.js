@@ -124,7 +124,7 @@ function prepareErrorNode(errorMessage) {
 }
 
 function prepareSuccessNodes(rezponseObj) {
-    toggleControlVisibility()
+    toggleControlsVisibility()
     removeNode(appProps.ID_PARENT_WRAPPER, appProps.ID_NODE_ERROR_NODE)
     h1Heading(appProps.ID_PARENT_WRAPPER, { 'id': appProps.ID_HEADING_USERNAME }, rezponseObj.body.login)
     ulList(rezponseObj.body, { 'id': appProps.ID_UL_USER_DEETS }, appProps.ID_PARENT_WRAPPER)
@@ -137,8 +137,12 @@ export function removeUserDeetsNodes() {
     removeChildNodes(appProps.ID_PARENT_WRAPPER, [appProps.ID_HEADING_USERNAME, appProps.ID_UL_USER_DEETS, appProps.ID_IMAGE_USER])
 }
 
-export function toggleControlVisibility() {
+export function toggleControlsVisibility() {
     toggleViz.toggleDisplayControls([appProps.ID_DIV_INPUT_USERNAME_CONTROLS, appProps.ID_DIV_RESET_USERNAME_CONTROLS])
+}
+
+export function toggleControlVisibility(elementId) {
+    toggleViz.toggleDisplay(elementId);
 }
 
 function checkLocalStorage(uname) {

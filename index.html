@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="app.css">
-    <link rel="modulepreload" href="scripts/github-deets.js">
+    <link rel="modulepreload" href="scripts/app-control.js">
 </head>
 
 <body>
@@ -31,10 +31,9 @@
 
         /** TODO: makeItPretty */
 
-        import { getGithubProfile, toggleControlVisibility, removeUserDeetsNodes } from "./scripts/github-deets.js";
-        import { toggleViz } from "./scripts/toggle-viz.js";
+        import { getGithubProfile, toggleControlsVisibility, toggleControlVisibility, removeUserDeetsNodes } from "./scripts/app-control.js";
 
-        toggleViz.toggleDisplay('input-username-controls')
+        toggleControlVisibility('input-username-controls')
 
         window.addEventListener('keydown', (event) => {
             if (event.keyCode == '13') {
@@ -54,7 +53,7 @@
 
         document.querySelector('.btn-reset').addEventListener('click', (event) => {
             removeUserDeetsNodes()
-            toggleControlVisibility()
+            toggleControlsVisibility()
         });
 
 
