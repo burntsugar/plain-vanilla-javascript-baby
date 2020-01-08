@@ -1,3 +1,10 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
+
 export function removeNode(parentid, childid) {
     if (document.getElementById(parentid) != null) {
         if (document.getElementById(childid) != null) {

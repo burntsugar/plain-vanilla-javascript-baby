@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Produces a Data object, containing given user data.

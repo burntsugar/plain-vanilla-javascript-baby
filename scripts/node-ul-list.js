@@ -1,3 +1,10 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
+
 export function ulList(jsonObj, nodeAttributes, parentNodeID) {
     var ul = document.createElement('ul');
 

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview A collection of string utilities.

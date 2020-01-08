@@ -1,3 +1,4 @@
+'use strict';
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Checks the state of the user agent to determine whether a network connection is available.

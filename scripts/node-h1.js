@@ -1,3 +1,10 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
+
 export function h1Heading(parentNodeID, nodeAttributes, text) {
     var h1 = document.createElement('h1');
 

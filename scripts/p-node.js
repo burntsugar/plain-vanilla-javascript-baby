@@ -1,4 +1,11 @@
 
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
+
 export function pText(parentNodeID, nodeAttributes, text) {
     var p = document.createElement('p');
 

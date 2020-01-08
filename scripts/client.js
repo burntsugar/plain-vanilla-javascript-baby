@@ -1,3 +1,9 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 import { userProfile } from './user-profile.js'
 
 export async function fetchJsonResource(url) {

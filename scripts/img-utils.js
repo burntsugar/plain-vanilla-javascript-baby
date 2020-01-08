@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Provides a utility for encoding image data from a {Document.Element} to a base 64 dataUri which is returned as a {DOMString}. The result may then be persisted.

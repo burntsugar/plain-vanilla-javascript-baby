@@ -1,3 +1,9 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 import { fetchJsonResource } from './client.js'
 import { stringUtils } from './string-utils.js'
 import { ulList } from './node-ul-list.js'

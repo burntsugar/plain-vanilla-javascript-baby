@@ -1,4 +1,10 @@
-/*jslint es6 */
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
+
 const CACHE_DURATION = 1000;
 
 export function retrieveFromLocalStorage(key) {

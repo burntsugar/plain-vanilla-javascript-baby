@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Provides methods for toggling visibility of Document.documentElement.

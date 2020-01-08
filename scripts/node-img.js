@@ -1,3 +1,10 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
+
 export function imgImage(parentNodeID, nodeAttributes, imageURL) {
     var img = document.createElement('img');
 
