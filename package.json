@@ -1,0 +1,22 @@
+{
+  "name": "vanilla",
+  "version": "1.0.0",
+  "description": "## Now * Modular * XMLHttpRequest * DOMException.NetworkError * DOMException.TimeoutError * Caching/Local Storage - user data and image * cache expiration * Async/Await * Promise.then * Dynamic DOM mods * Network status - window.navigator.onLine * Template strings",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burntsugar/plain-vanilla-javascript-baby.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/burntsugar/plain-vanilla-javascript-baby/issues"
+  },
+  "homepage": "https://github.com/burntsugar/plain-vanilla-javascript-baby#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
