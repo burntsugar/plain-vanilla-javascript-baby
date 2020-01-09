@@ -27,19 +27,19 @@ import { commonProps } from './common-props.js';
  * @param {*} username desc
  */
 export function getGithubProfile(username) {
-  const uname = stringUtils.removeIllegalCharacters(username);
-  if (usernameIsEmpty(uname)) {
+  let uname = prepareUsername(username);
+  if (!uname) {
     respond(
       new userProfile.Data(commonProps.appProps.STATUS_USERNAME_IS_EMPTY, null)
     );
   } else if (
-    cachedInLocalStorage(uname).status ==
+    checkLocalStorage(uname).status ==
     commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
   ) {
     respond(
       new userProfile.Data(
         commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
-        cachedInLocalStorage(uname).body
+        checkLocalStorage(uname).body
       )
     );
   } else {
@@ -53,35 +53,27 @@ export function getGithubProfile(username) {
 
 /**
  *
- * @param {*} uname desc
- * @return {object} desc
+ * @param {string} username desc.
+ * @return {boolean} Cleansed username or else false if the string length is 0.
  */
-function cachedInLocalStorage(uname) {
-  return checkLocalStorage(uname);
+function prepareUsername(username) {
+  const uname = stringUtils.removeIllegalCharacters(username);
+  return stringUtils.stringIsEmpty(uname) ? false : uname;
 }
 
 /**
  *
- * @param {string} uname desc.
- * @return {boolean} Whether the string is empty
+ * @param {object} userProfile desc
  */
-function usernameIsEmpty(uname) {
-  return stringUtils.stringIsEmpty(uname);
-}
+function respond(userProfile) {
+  console.log('respond: ' + userProfile.status);
 
-/**
- *
- * @param {object} rezponseObj desc
- */
-function respond(rezponseObj) {
-  console.log('respond: ' + rezponseObj.status);
-
-  switch (rezponseObj.status) {
+  switch (userProfile.status) {
     case commonProps.appProps.STATUS_START_NEW_REQUEST:
-      startNetworkRequest(rezponseObj.body.login);
+      startNetworkRequest(userProfile.body.login);
       break;
     case commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS:
-      prepareSuccessNodes(rezponseObj);
+      prepareSuccessNodes(userProfile);
       break;
     case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
       prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
@@ -96,10 +88,10 @@ function respond(rezponseObj) {
       prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE);
       break;
     case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
-      prepareSuccessNodes(rezponseObj);
+      prepareSuccessNodes(userProfile);
       break;
     case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
-      prepareSuccessNodes(rezponseObj);
+      prepareSuccessNodes(userProfile);
       break;
     case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
       prepareErrorNode(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
@@ -123,12 +115,12 @@ async function startNetworkRequest(uname) {
 
 /**
  *
- * @param {object} rezponseObj desc
+ * @param {object} userProfile desc
  * @param {string} uname desc
  */
-function processNetworkResult(rezponseObj, uname) {
-  console.log('processNetworkResult: ' + rezponseObj.status);
-  respond(rezponseObj);
+function processNetworkResult(userProfile, uname) {
+  console.log('processNetworkResult: ' + userProfile.status);
+  respond(userProfile);
 }
 
 /**
@@ -149,9 +141,9 @@ function prepareErrorNode(errorMessage) {
 
 /**
  *
- * @param {object} rezponseObj
+ * @param {object} userProfile
  */
-function prepareSuccessNodes(rezponseObj) {
+function prepareSuccessNodes(userProfile) {
   toggleControlsVisibility();
   removeNode(
     commonProps.elementIds.ID_PARENT_WRAPPER,
@@ -160,19 +152,19 @@ function prepareSuccessNodes(rezponseObj) {
   h1Heading(
     commonProps.elementIds.ID_PARENT_WRAPPER,
     { id: commonProps.elementIds.ID_HEADING_USERNAME },
-    rezponseObj.body.login
+    userProfile.body.login
   );
   ulList(
-    rezponseObj.body,
+    userProfile.body,
     { id: commonProps.elementIds.ID_UL_USER_DEETS },
     commonProps.elementIds.ID_PARENT_WRAPPER
   );
   imgImage(
     commonProps.elementIds.ID_PARENT_WRAPPER,
     { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
-    rezponseObj.body.avatar_url
+    userProfile.body.avatar_url
   );
-  saveToLocalStorage(rezponseObj);
+  saveToLocalStorage(userProfile);
 }
 
 /** TODO: Smelly. */
@@ -225,16 +217,16 @@ function checkLocalStorage(uname) {
 
 /**
  *
- * @param {object} rezponseObj
+ * @param {object} userProfile
  */
-function saveToLocalStorage(rezponseObj) {
-  persistToLocalStorage(rezponseObj.body.login, rezponseObj.body);
+function saveToLocalStorage(userProfile) {
+  persistToLocalStorage(userProfile.body.login, userProfile.body);
   const userImageNode = document.getElementById(
     commonProps.elementIds.ID_IMAGE_USER
   );
   userImageNode.addEventListener('load', function() {
     persistImageToLocalStorage(
-      `${rezponseObj.body.login}_imageData`,
+      `${userProfile.body.login}_imageData`,
       imgUtils.imageToDataURL(userImageNode)
     );
   });
