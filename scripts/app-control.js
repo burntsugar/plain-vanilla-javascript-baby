@@ -11,7 +11,7 @@ import { h1Heading } from './element-utils/heading-node-utils.js';
 import { imgImage } from './element-utils/image-node-utils.js';
 import { removeNode, removeChildNodes } from './element-utils/remove-node-utils.js';
 import { pText } from './element-utils/p-node-utils.js';
-import { toggleViz } from './toggle-viz.js';
+import { toggleViz } from './element-utils/toggle-viz.js';
 import { userProfile } from './user/user-profile.js';
 import { imgUtils } from './image-utils/image-utils.js';
 import {
