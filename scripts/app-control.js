@@ -5,21 +5,21 @@
  */
 
 import { requestAPI } from './network/network-control.js';
-import { stringUtils } from './string-utils.js';
-import { ulList } from './node-ul-list.js';
-import { h1Heading } from './heading1-utils.js';
-import { imgImage } from './node-img.js';
-import { removeNode, removeChildNodes } from './remove-node.js';
-import { pText } from './p-node.js';
+import { stringUtils } from './utils/string-utils.js';
+import { ulList } from './element-utils/ul-node-utils.js';
+import { h1Heading } from './element-utils/heading-node-utils.js';
+import { imgImage } from './element-utils/image-node-utils.js';
+import { removeNode, removeChildNodes } from './element-utils/remove-node-utils.js';
+import { pText } from './element-utils/p-node-utils.js';
 import { toggleViz } from './toggle-viz.js';
-import { userProfile } from './user-profile.js';
-import { imgUtils } from './image-utils.js';
+import { userProfile } from './user/user-profile.js';
+import { imgUtils } from './image-utils/image-utils.js';
 import {
   retrieveFromLocalStorage,
   persistToLocalStorage,
   retrieveImageFromLocalStorage,
   persistImageToLocalStorage
-} from './local-storage-utils.js';
+} from './local-storage/local-storage-utils.js';
 import { commonProps } from './common-props.js';
 
 /**
