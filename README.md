@@ -1,23 +1,40 @@
 # Plain Vanilla JavaScript Baby
 
-## Now
-* Modular
-* XMLHttpRequest
-* DOMException.NetworkError
-* DOMException.TimeoutError
-* Caching/Local Storage - user data and image
-* cache expiration
+Proof of concept app using vanilla JavaScript.
+
+## Features:
+
+1. Display Github profile details and avatar from [https://api.github.com/users/v3](https://api.github.com/users/v3).
+
+## ES6
+* Promises
 * Async/Await
-* Promise.then
-* Dynamic DOM mods
-* Network status - window.navigator.onLine
+* import/export
 * Template strings
+
+## Now
+* Revealing Module Pattern RMP
+
+## Network
+* XMLHttpRequest
+
+## Local Storage
+* Data
+* Image
+* Cache expiration
+
+## Dynamic DOM mods
+* Dynamic DOM mods
 
 ## TODO:
 
 * Jest
-* Namespacing
+* Namespacing (in progress)
 * makeItPretty
+
+## Style guide
+
+Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
 
 <hr>
 
