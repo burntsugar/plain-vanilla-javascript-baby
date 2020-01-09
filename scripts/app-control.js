@@ -66,7 +66,7 @@ function respond(userProfile) {
       startNetworkRequest(userProfile.body.login);
       break;
     case commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS:
-      prepareSuccessNodes(userProfile);
+      displayProfile(userProfile);
       break;
     case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
       prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
@@ -85,10 +85,10 @@ function respond(userProfile) {
       );
       break;
     case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
-      prepareSuccessNodes(userProfile);
+      displayProfile(userProfile);
       break;
     case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
-      prepareSuccessNodes(userProfile);
+      displayProfile(userProfile);
       break;
     case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
       prepareErrorNode(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
@@ -139,13 +139,13 @@ function prepareErrorNode(errorMessage) {
  *
  * @param {object} userProfile
  */
-function prepareSuccessNodes(userProfile) {
+function displayProfile(userProfile) {
   toggleControlsVisibility();
   appUiHelper.prepareSuccessNodes(userProfile);
   saveToLocalStorage(userProfile);
 }
 
-export function removeUserDeetsNodes() {
+export function removeProfile() {
   appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
     commonProps.elementIds.ID_HEADING_USERNAME,
     commonProps.elementIds.ID_UL_USER_DEETS,

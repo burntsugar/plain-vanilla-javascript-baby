@@ -31,7 +31,7 @@
 
         /** TODO: makeItPretty */
 
-        import { getGithubProfile, toggleControlsVisibility, toggleControlVisibility, removeUserDeetsNodes } from "./scripts/app-control.js";
+        import { getGithubProfile, toggleControlsVisibility, toggleControlVisibility, removeProfile } from "./scripts/app-control.js";
 
         toggleControlVisibility('input-username-controls')
 
@@ -52,7 +52,7 @@
         });
 
         document.querySelector('.btn-reset').addEventListener('click', (event) => {
-            removeUserDeetsNodes()
+            removeProfile()
             toggleControlsVisibility()
         });
 
