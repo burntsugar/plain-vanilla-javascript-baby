@@ -6,6 +6,7 @@
 
 import { fetchJsonResource } from './client.js';
 import { checkNetwork } from './check-network.js';
+import { commonProps } from '../common-props.js';
 
 let theData;
 
@@ -24,8 +25,8 @@ async function readTheData(url) {
 export async function apiRequest(url) {
   if (checkNetwork.hasNoConnection()) {
     return buildResponse({
-      status: requestStatusId.NETWORK_ERROR,
-      body: requestStatusId.MESSAGE_ERROR_NO_NETWORK
+      status: commonProps.appProps.NETWORK_ERROR,
+      body: commonProps.appProps.MESSAGE_ERROR_NO_NETWORK
     });
   }
   if (theData === undefined) {
@@ -34,21 +35,6 @@ export async function apiRequest(url) {
   return buildResponse(theData);
 }
 
-const requestStatusId = {
-  MESSAGE_ERROR_FAILED: 'Operation failed!',
-  MESSAGE_ERROR_NO_NETWORK: 'No network!',
-  STATUS_CANT_COMPLETE_OPERATION: -7000,
-  MESSAGE_OPERATION_CANT_COMPLETE:
-    'Operation could not be completed at this time!',
-  SUCCESS: 200,
-  NOT_FOUND: 404,
-  NETWORK_ERROR: -8000,
-  ERROR_NAME_NO_NETWORK: 'NetworkError',
-  TIME_OUT_ERROR: 'TimeoutError',
-  MESSAGE_TIME_OUT: 'Timeout!',
-  STATUS_TIMEOUT: -9000
-};
-
 function Response(status, body) {
   this.status = status;
   this.body = body;
@@ -56,23 +42,23 @@ function Response(status, body) {
 
 function buildResponse(data) {
   switch (data.status) {
-    case requestStatusId.SUCCESS:
+    case commonProps.appProps.SUCCESS:
       console.log(
         'requestStatusId.SUCCESS: ' +
-          requestStatusId.SUCCESS +
+          commonProps.appProps.SUCCESS +
           '  ' +
           data.status +
           ' ' +
           data.body.node_id
       );
-      return new Response(requestStatusId.SUCCESS, data.body);
-    case requestStatusId.NOT_FOUND:
-      return new Response(requestStatusId.NOT_FOUND, data.body);
-    case requestStatusId.NETWORK_ERROR:
-      return new Response(requestStatusId.NETWORK_ERROR, data.body);
+      return new Response(commonProps.appProps.SUCCESS, data.body);
+    case commonProps.appProps.NOT_FOUND:
+      return new Response(commonProps.appProps.NOT_FOUND, data.body);
+    case commonProps.appProps.NETWORK_ERROR:
+      return new Response(commonProps.appProps.NETWORK_ERROR, data.body);
     default:
       return new Response(
-        requestStatusId.STATUS_CANT_COMPLETE_OPERATION,
+        commonProps.appProps.STATUS_CANT_COMPLETE_OPERATION,
         data.body
       );
   }
