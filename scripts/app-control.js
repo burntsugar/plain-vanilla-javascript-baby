@@ -7,7 +7,7 @@
 import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './string-utils.js';
 import { ulList } from './node-ul-list.js';
-import { h1Heading } from './node-h1.js';
+import { h1Heading } from './heading1-utils.js';
 import { imgImage } from './node-img.js';
 import { removeNode, removeChildNodes } from './remove-node.js';
 import { pText } from './p-node.js';
