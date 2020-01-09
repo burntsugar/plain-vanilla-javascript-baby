@@ -14,21 +14,30 @@ import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
 const appControl = (function() {
 
+  /**
+   * @public
+   * @param {*} username 
+   */
   function getProfileEvent(username){
     let uname = prepareUsername(username);
     getGithubProfile(uname);
   }
 
+  /**
+   * @public
+   */
   function removeProfileEvent(){
     removeProfile();
     toggleControlsVisibility([commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS, commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS]);
   }
 
+  /**
+   * @public
+   */
   function initUiEvent(){
     toggleControlsVisibility([commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS]);
   }
   /**
-   * @public
    * Retrieves the Github user profile for the given username.
    * The username is initial cleansed and then if the profile does not exist in the cache, a network request is initiated.
    * @param {string} username Github username of the profile to retrieve.
