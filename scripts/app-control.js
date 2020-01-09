@@ -8,7 +8,7 @@ import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './utils/string-utils.js';
 import { ulList } from './element-utils/ul-node-utils.js';
 import { headingNodeUtils } from './element-utils/heading-node-utils.js';
-import { imgImage } from './element-utils/image-node-utils.js';
+import { imageNodeUtils } from './element-utils/image-node-utils.js';
 import { removeNode, removeChildNodes } from './element-utils/remove-node-utils.js';
 import { pText } from './element-utils/p-node-utils.js';
 import { toggleViz } from './element-utils/toggle-viz.js';
@@ -159,7 +159,7 @@ function prepareSuccessNodes(userProfile) {
     { id: commonProps.elementIds.ID_UL_USER_DEETS },
     commonProps.elementIds.ID_PARENT_WRAPPER
   );
-  imgImage(
+  imageNodeUtils.imgImage(
     commonProps.elementIds.ID_PARENT_WRAPPER,
     { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
     userProfile.body.avatar_url
