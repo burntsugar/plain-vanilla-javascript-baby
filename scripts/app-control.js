@@ -86,13 +86,13 @@ function respond(rezponseObj) {
     case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
       prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
       break;
-    case commonProps.domExceptionIds.NETWORK_ERROR:
+    case commonProps.domExceptionIds.NETWORK_EXC_ID:
       prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK);
       break;
-      case commonProps.domExceptionIds.STATUS_TIMEOUT:
+      case commonProps.domExceptionIds.TIMEOUT_EXC_ID:
       prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
       break;
-    case commonProps.domExceptionIds.STATUS_CANT_COMPLETE_OPERATION:
+    case commonProps.domExceptionIds.CANT_COMPLETE_EXC_ID:
       prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE);
       break;
     case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:

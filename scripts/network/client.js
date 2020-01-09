@@ -26,7 +26,7 @@ export async function fetchJsonResource(url) {
       reject(
         new DOMException(
           commonProps.domExceptionNames.ERROR_NAME_TIME_OUT_ERROR,
-          commonProps.domExceptionIds.STATUS_TIMEOUT
+          commonProps.domExceptionIds.TIMEOUT_EXC_ID
         )
       );
     };
@@ -38,7 +38,7 @@ export async function fetchJsonResource(url) {
       reject(
         new DOMException(
           commonProps.domExceptionNames.ERROR_NAME_NO_NETWORK_ERROR,
-          commonProps.domExceptionIds.NETWORK_ERROR
+          commonProps.domExceptionIds.NETWORK_EXC_ID
         )
       );
     };

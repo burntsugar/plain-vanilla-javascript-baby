@@ -23,9 +23,9 @@ const commonProps = (function() {
   }
 
   const domExceptionIds = {
-    NETWORK_ERROR: -8000,
-    STATUS_TIMEOUT: -9000,
-    STATUS_CANT_COMPLETE_OPERATION: -7000,
+    NETWORK_EXC_ID: 1007,
+    TIMEOUT_EXC_ID: 1006,
+    CANT_COMPLETE_EXC_ID: 1005,
   }
 
   const domExceptionMessages = {
@@ -36,15 +36,15 @@ const commonProps = (function() {
   }
 
   const localStorageStatus = {
-    STATUS_LOCAL_STORAGE_OBJECT_FOUND: 2000,
-    STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND: -1000,
+    STATUS_LOCAL_STORAGE_OBJECT_FOUND: 1004,
+    STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND: 1003,
   }
 
   const appProps = {
     MESSAGE_USERNAME_CANNOT_BE_EMPTY: 'Github username cannot be empty!',
     URL_GITHUB_USER_API: 'https://api.github.com/users/',
-    STATUS_USERNAME_IS_EMPTY: -4000,
-    STATUS_START_NEW_REQUEST: 7000,
+    STATUS_USERNAME_IS_EMPTY: 1002,
+    STATUS_START_NEW_REQUEST: 1001,
   };
 
   return {
