@@ -2,39 +2,45 @@
 
 Proof of concept app using vanilla JavaScript.
 
+## Status
+
+Development.
+
+## Goals
+* Use modern JavaScript features, style and convention.
+* Minimise use of global namespace.
+* Implementation comments JSDoc.
+
 ## Features:
 
 1. Display Github profile details and avatar from [https://api.github.com/users/v3](https://api.github.com/users/v3).
+2. Cache data.
 
 ## ES6
 * Promises
 * Async/Await
-* import/export
-* Template strings
+* ESM import/export
 
-## Now
+## Design patterns
 * Revealing Module Pattern RMP
+* Constructor Function
 
-## Network
-* XMLHttpRequest
+## Browser apis
 
-## Local Storage
-* Data
-* Image
-* Cache expiration
+* [Document Object Model (DOM)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
+* [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
+* [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+* [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) - [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 
-## Dynamic DOM mods
-* Dynamic DOM mods
+## Style guide
+
+Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
 
 ## TODO:
 
 * Jest
 * Namespacing (in progress)
 * makeItPretty
-
-## Style guide
-
-Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
 
 <hr>
 
