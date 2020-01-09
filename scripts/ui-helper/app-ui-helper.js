@@ -9,7 +9,7 @@
 import { removeNodeUtils } from '../element-utils/remove-node-utils.js';
 import { commonProps } from '../common-props.js';
 import { headingNodeUtils } from '../element-utils/heading-node-utils.js';
-import { ulList } from '../element-utils/ul-node-utils.js';
+import { ulNodeUtils } from '../element-utils/ul-node-utils.js';
 import { imageNodeUtils } from '../element-utils/image-node-utils.js';
 import { toggleViz } from './toggle-viz.js';
 import { pNodeUtils } from '../element-utils/p-node-utils.js';
@@ -33,7 +33,7 @@ const appUiHelper = (function() {
           { id: commonProps.elementIds.ID_HEADING_USERNAME },
           userProfile.body.login
         );
-        ulList(
+        ulNodeUtils.ulList(
           userProfile.body,
           { id: commonProps.elementIds.ID_UL_USER_DEETS },
           commonProps.elementIds.ID_PARENT_WRAPPER
@@ -72,7 +72,7 @@ const appUiHelper = (function() {
        * @param {string[]} childElementIds ids of the child nodes.
        */
       function removeUserDeetsNodes(parentElementId, childElementIds) {
-        removeChildNodes(parentElementId, childElementIds);
+        removeNodeUtils.removeChildNodes(parentElementId, childElementIds);
       }
 
       /**
