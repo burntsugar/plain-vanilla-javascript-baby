@@ -8,12 +8,7 @@ import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './utils/string-utils.js';
 import { userProfile } from './user/user-profile.js';
 import { imgUtils } from './image-utils/image-utils.js';
-import {
-  retrieveFromLocalStorage,
-  persistToLocalStorage,
-  retrieveImageFromLocalStorage,
-  persistImageToLocalStorage
-} from './local-storage/local-storage-utils.js';
+import {localStorageUtils} from './local-storage/local-storage-utils.js';
 import { commonProps } from './common-props.js';
 import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
@@ -169,9 +164,9 @@ export function toggleControlVisibility(elementId) {
  * @return {object}
  */
 function checkLocalStorage(uname) {
-  const val = retrieveFromLocalStorage(uname);
+  const val = localStorageUtils.retrieveFromLocalStorage(uname);
   if (val != null) {
-    val.avatar_url = retrieveImageFromLocalStorage(`${val.login}_imageData`);
+    val.avatar_url = localStorageUtils.retrieveImageFromLocalStorage(`${val.login}_imageData`);
     return new userProfile.Data(
       commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
       val
@@ -189,12 +184,12 @@ function checkLocalStorage(uname) {
  * @param {object} userProfile
  */
 function saveToLocalStorage(userProfile) {
-  persistToLocalStorage(userProfile.body.login, userProfile.body);
+  localStorageUtils.persistToLocalStorage(userProfile.body.login, userProfile.body);
   const userImageNode = document.getElementById(
     commonProps.elementIds.ID_IMAGE_USER
   );
   userImageNode.addEventListener('load', function() {
-    persistImageToLocalStorage(
+    localStorageUtils.persistImageToLocalStorage(
       `${userProfile.body.login}_imageData`,
       imgUtils.imageToDataURL(userImageNode)
     );
