@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="app.css">
-    <link rel="modulepreload" href="scripts/app-control.js">
-</head>
+    <link rel="stylesheet" type="text/css" href="app.css" />
+    <link rel="modulepreload" href="scripts/app-control.js" />
+  </head>
 
-<body>
-
-    <div id="github-user-wrapper">
-
-    </div>
+  <body>
+    <div id="github-user-wrapper"></div>
 
     <div id="input-username-controls" class="hidden">
-        <h1>Wanna see your Github deets? You know you do...</h1>
-        <label for="input-githubusername">username: </label>
-        <input type="text" id="input-githubusername" name="input-githubusername" value="burntsugar"/>
-        <input class="btn-get" type="button" value="Find me on Github!">
-        <input class="btn-clear" type="button" value="Clear">
+      <h1>Wanna see your Github deets? You know you do...</h1>
+      <label for="input-githubusername">username: </label>
+      <input
+        type="text"
+        id="input-githubusername"
+        name="input-githubusername"
+        value="burntsugar"
+      />
+      <input class="btn-get" type="button" value="Find me on Github!" />
+      <input class="btn-clear" type="button" value="Clear" />
     </div>
 
     <div id="reset-username-controls" class="hidden">
-        <input class="btn-reset" type="button" value="Reset">
+      <input class="btn-reset" type="button" value="Reset" />
     </div>
 
     <script type="module">
+      /** TODO: makeItPretty */
 
-        /** TODO: makeItPretty */
+      import { appControl } from './scripts/app-control.js';
 
-        import { getGithubProfile, toggleControlsVisibility, removeProfile } from "./scripts/app-control.js";
+      appControl.toggleControlsVisibility(['input-username-controls']);
 
-        toggleControlsVisibility(['input-username-controls']);
+      window.addEventListener('keydown', event => {
+        if (event.keyCode == '13') {
+          const username = document.getElementById('input-githubusername').value;
+          appControl.getGithubProfile(username);
+        }
+      });
 
-        window.addEventListener('keydown', (event) => {
-            if (event.keyCode == '13') {
-                var username = document.getElementById('input-githubusername').value;
-                getGithubProfile(username);
-            }
-        });
+      document.querySelector('.btn-get').addEventListener('click', event => {
+        const username = document.getElementById('input-githubusername').value;
+        appControl.getGithubProfile(username);
+      });
 
-        document.querySelector('.btn-get').addEventListener('click', (event) => {
-            var username = document.getElementById('input-githubusername').value;
-            getGithubProfile(username)
-        });
+      document.querySelector('.btn-clear').addEventListener('click', event => {
+        const username = (document.getElementById('input-githubusername').value =
+          '');
+      });
 
-        document.querySelector('.btn-clear').addEventListener('click', (event) => {
-            var username = document.getElementById('input-githubusername').value = "";
-        });
-
-        document.querySelector('.btn-reset').addEventListener('click', (event) => {
-            removeProfile()
-            toggleControlsVisibility(['input-username-controls','reset-username-controls'])
-        });
-
-
+      document.querySelector('.btn-reset').addEventListener('click', event => {
+        appControl.removeProfile();
+        appControl.toggleControlsVisibility([
+          'input-username-controls',
+          'reset-username-controls'
+        ]);
+      });
     </script>
-
-</body>
-
+  </body>
 </html>
