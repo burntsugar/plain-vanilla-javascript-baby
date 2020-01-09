@@ -7,7 +7,7 @@
 import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './utils/string-utils.js';
 import { ulList } from './element-utils/ul-node-utils.js';
-import { h1Heading } from './element-utils/heading-node-utils.js';
+import { headingNodeUtils } from './element-utils/heading-node-utils.js';
 import { imgImage } from './element-utils/image-node-utils.js';
 import { removeNode, removeChildNodes } from './element-utils/remove-node-utils.js';
 import { pText } from './element-utils/p-node-utils.js';
@@ -149,7 +149,7 @@ function prepareSuccessNodes(userProfile) {
     commonProps.elementIds.ID_PARENT_WRAPPER,
     commonProps.elementIds.ID_NODE_ERROR_NODE
   );
-  h1Heading(
+  headingNodeUtils.h1Heading(
     commonProps.elementIds.ID_PARENT_WRAPPER,
     { id: commonProps.elementIds.ID_HEADING_USERNAME },
     userProfile.body.login
