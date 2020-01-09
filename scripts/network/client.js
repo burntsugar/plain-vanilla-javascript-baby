@@ -18,15 +18,15 @@ export async function fetchJsonResource(url) {
     xhr.responseType = 'json';
     // callback
     xhr.onload = function() {
-      console.log(commonProps.appProps.FOUND);
+      console.log('fetchJsonResource: ' + this.response);
       resolve({ status: this.status, body: this.response });
     };
     xhr.ontimeout = e => {
       console.error('Timeout!!');
       reject(
         new DOMException(
-          commonProps.appProps.TIME_OUT_ERROR,
-          commonProps.appProps.STATUS_TIMEOUT
+          commonProps.domExceptionNames.ERROR_NAME_TIME_OUT_ERROR,
+          commonProps.domExceptionIds.STATUS_TIMEOUT
         )
       );
     };
@@ -37,8 +37,8 @@ export async function fetchJsonResource(url) {
       console.error('Request failed: Network error');
       reject(
         new DOMException(
-          commonProps.appProps.ERROR_NAME_NO_NETWORK,
-          commonProps.appProps.NETWORK_ERROR
+          commonProps.domExceptionNames.ERROR_NAME_NO_NETWORK_ERROR,
+          commonProps.domExceptionIds.NETWORK_ERROR
         )
       );
     };

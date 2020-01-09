@@ -34,11 +34,11 @@ export function getGithubProfile(username) {
     );
   } else if (
     cachedInLocalStorage(uname).status ==
-    commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND
+    commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
   ) {
     respond(
       new userProfile.Data(
-        commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
+        commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
         cachedInLocalStorage(uname).body
       )
     );
@@ -80,38 +80,32 @@ function respond(rezponseObj) {
     case commonProps.appProps.STATUS_START_NEW_REQUEST:
       startNetworkRequest(rezponseObj.body.login);
       break;
-    case commonProps.appProps.SUCCESS:
+    case commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS:
       prepareSuccessNodes(rezponseObj);
       break;
-    case commonProps.appProps.STATUS_GITHUB_USER_FOUND:
+    case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
+      prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
+      break;
+    case commonProps.domExceptionIds.NETWORK_ERROR:
+      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK);
+      break;
+      case commonProps.domExceptionIds.STATUS_TIMEOUT:
+      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
+      break;
+    case commonProps.domExceptionIds.STATUS_CANT_COMPLETE_OPERATION:
+      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE);
+      break;
+    case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
       prepareSuccessNodes(rezponseObj);
       break;
-    case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
+    case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
       prepareSuccessNodes(rezponseObj);
       break;
     case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
       prepareErrorNode(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
       break;
-    case commonProps.appProps.NOT_FOUND:
-      prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
-      break;
-    case commonProps.appProps.STATUS_GITHUB_USER_NOT_FOUND:
-      prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
-      break;
-    case commonProps.appProps.STATUS_NETWORK_NOT_AVAILABLE:
-      prepareErrorNode(commonProps.appProps.MESSAGE_ERROR_NO_NETWORK);
-      break;
-    case commonProps.appProps.NETWORK_ERROR:
-      prepareErrorNode(commonProps.appProps.MESSAGE_ERROR_NO_NETWORK);
-      break;
-    case commonProps.appProps.STATUS_CANT_COMPLETE_OPERATION:
-      prepareErrorNode(commonProps.appProps.MESSAGE_OPERATION_CANT_COMPLETE);
-      break;
-    case commonProps.appProps.TIME_OUT_ERROR:
-      prepareErrorNode(commonProps.appProps.MESSAGE_TIME_OUT);
-      break;
     default:
-      prepareErrorNode(commonProps.appProps.MESSAGE_OPERATION_CANT_COMPLETE);
+      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE);
       break;
   }
 }
@@ -143,12 +137,12 @@ function processNetworkResult(rezponseObj, uname) {
  */
 function prepareErrorNode(errorMessage) {
   removeNode(
-    commonProps.appProps.ID_PARENT_WRAPPER,
-    commonProps.appProps.ID_NODE_ERROR_NODE
+    commonProps.elementIds.ID_PARENT_WRAPPER,
+    commonProps.elementIds.ID_NODE_ERROR_NODE
   );
   pText(
-    commonProps.appProps.ID_PARENT_WRAPPER,
-    { id: commonProps.appProps.ID_NODE_ERROR_NODE },
+    commonProps.elementIds.ID_PARENT_WRAPPER,
+    { id: commonProps.elementIds.ID_NODE_ERROR_NODE },
     errorMessage
   );
 }
@@ -160,22 +154,22 @@ function prepareErrorNode(errorMessage) {
 function prepareSuccessNodes(rezponseObj) {
   toggleControlsVisibility();
   removeNode(
-    commonProps.appProps.ID_PARENT_WRAPPER,
-    commonProps.appProps.ID_NODE_ERROR_NODE
+    commonProps.elementIds.ID_PARENT_WRAPPER,
+    commonProps.elementIds.ID_NODE_ERROR_NODE
   );
   h1Heading(
-    commonProps.appProps.ID_PARENT_WRAPPER,
-    { id: commonProps.appProps.ID_HEADING_USERNAME },
+    commonProps.elementIds.ID_PARENT_WRAPPER,
+    { id: commonProps.elementIds.ID_HEADING_USERNAME },
     rezponseObj.body.login
   );
   ulList(
     rezponseObj.body,
-    { id: commonProps.appProps.ID_UL_USER_DEETS },
-    commonProps.appProps.ID_PARENT_WRAPPER
+    { id: commonProps.elementIds.ID_UL_USER_DEETS },
+    commonProps.elementIds.ID_PARENT_WRAPPER
   );
   imgImage(
-    commonProps.appProps.ID_PARENT_WRAPPER,
-    { id: commonProps.appProps.ID_IMAGE_USER, crossorigin: 'anonymous' },
+    commonProps.elementIds.ID_PARENT_WRAPPER,
+    { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
     rezponseObj.body.avatar_url
   );
   saveToLocalStorage(rezponseObj);
@@ -183,10 +177,10 @@ function prepareSuccessNodes(rezponseObj) {
 
 /** TODO: Smelly. */
 export function removeUserDeetsNodes() {
-  removeChildNodes(commonProps.appProps.ID_PARENT_WRAPPER, [
-    commonProps.appProps.ID_HEADING_USERNAME,
-    commonProps.appProps.ID_UL_USER_DEETS,
-    commonProps.appProps.ID_IMAGE_USER
+  removeChildNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
+    commonProps.elementIds.ID_HEADING_USERNAME,
+    commonProps.elementIds.ID_UL_USER_DEETS,
+    commonProps.elementIds.ID_IMAGE_USER
   ]);
 }
 
@@ -195,8 +189,8 @@ export function removeUserDeetsNodes() {
  */
 export function toggleControlsVisibility() {
   toggleViz.toggleDisplayControls([
-    commonProps.appProps.ID_DIV_INPUT_USERNAME_CONTROLS,
-    commonProps.appProps.ID_DIV_RESET_USERNAME_CONTROLS
+    commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+    commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
   ]);
 }
 
@@ -218,7 +212,7 @@ function checkLocalStorage(uname) {
   if (val != null) {
     val.avatar_url = retrieveImageFromLocalStorage(`${val.login}_imageData`);
     return new userProfile.Data(
-      commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
+      commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
       val
     );
   } else {
@@ -236,7 +230,7 @@ function checkLocalStorage(uname) {
 function saveToLocalStorage(rezponseObj) {
   persistToLocalStorage(rezponseObj.body.login, rezponseObj.body);
   const userImageNode = document.getElementById(
-    commonProps.appProps.ID_IMAGE_USER
+    commonProps.elementIds.ID_IMAGE_USER
   );
   userImageNode.addEventListener('load', function() {
     persistImageToLocalStorage(

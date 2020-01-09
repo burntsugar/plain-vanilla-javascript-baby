@@ -25,8 +25,8 @@ async function startRequest(url) {
 export async function requestAPI(url) {
   if (checkNetwork.hasNoConnection()) {
     return buildResponse({
-      status: commonProps.appProps.NETWORK_ERROR,
-      body: commonProps.appProps.MESSAGE_ERROR_NO_NETWORK
+      status: commonProps.domExceptionIds.NETWORK_ERROR,
+      body: commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK
     });
   }
   if (responseData === undefined) {
@@ -42,15 +42,17 @@ function Response(status, body) {
 
 function buildResponse(data) {
   switch (data.status) {
-    case commonProps.appProps.SUCCESS:
-      return new Response(commonProps.appProps.SUCCESS, data.body);
-    case commonProps.appProps.NOT_FOUND:
-      return new Response(commonProps.appProps.NOT_FOUND, data.body);
-    case commonProps.appProps.NETWORK_ERROR:
-      return new Response(commonProps.appProps.NETWORK_ERROR, data.body);
+    case commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS:
+      return new Response(commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS, data.body);
+    case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
+      return new Response(commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND, data.body);
+    case commonProps.domExceptionIds.NETWORK_ERROR:
+      return new Response(commonProps.domExceptionIds.NETWORK_ERROR, data.body);
+    case commonProps.domExceptionIds.STATUS_TIMEOUT:
+      return new Response(commonProps.domExceptionIds.STATUS_TIMEOUT, data.body);
     default:
       return new Response(
-        commonProps.appProps.STATUS_CANT_COMPLETE_OPERATION,
+        commonProps.domExceptionIds.STATUS_CANT_COMPLETE_OPERATION,
         data.body
       );
   }
