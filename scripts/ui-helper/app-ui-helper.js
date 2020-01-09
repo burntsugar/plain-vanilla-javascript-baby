@@ -6,7 +6,7 @@
  * @fileoverview Provides methods for adding and removing DOM elements to the app document.
  */
 
-import { removeNode, removeChildNodes } from '../element-utils/remove-node-utils.js';
+import { removeNodeUtils } from '../element-utils/remove-node-utils.js';
 import { commonProps } from '../common-props.js';
 import { headingNodeUtils } from '../element-utils/heading-node-utils.js';
 import { ulList } from '../element-utils/ul-node-utils.js';
@@ -24,7 +24,7 @@ const appUiHelper = (function() {
      * @param {object} userProfile the UserProfile object.
      */
     function prepareSuccessNodes(userProfile) {
-        removeNode(
+        removeNodeUtils.removeNode(
           commonProps.elementIds.ID_PARENT_WRAPPER,
           commonProps.elementIds.ID_NODE_ERROR_NODE
         );
@@ -54,7 +54,7 @@ const appUiHelper = (function() {
        * @param {string} errorMessage error message text
        */
       function prepareErrorNode(parentElementId, errorNodeId, errorMessage) {
-        removeNode(
+        removeNodeUtils.removeNode(
             parentElementId,
             errorNodeId
         );
