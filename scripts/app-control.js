@@ -6,12 +6,6 @@
 
 import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './utils/string-utils.js';
-import { ulList } from './element-utils/ul-node-utils.js';
-import { headingNodeUtils } from './element-utils/heading-node-utils.js';
-import { imageNodeUtils } from './element-utils/image-node-utils.js';
-import { removeNode, removeChildNodes } from './element-utils/remove-node-utils.js';
-import { pText } from './element-utils/p-node-utils.js';
-import { toggleViz } from './ui-helper/toggle-viz.js';
 import { userProfile } from './user/user-profile.js';
 import { imgUtils } from './image-utils/image-utils.js';
 import {
@@ -21,6 +15,7 @@ import {
   persistImageToLocalStorage
 } from './local-storage/local-storage-utils.js';
 import { commonProps } from './common-props.js';
+import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
 /**
  *
@@ -128,15 +123,8 @@ function processNetworkResult(userProfile, uname) {
  * @param {string} errorMessage desc
  */
 function prepareErrorNode(errorMessage) {
-  removeNode(
-    commonProps.elementIds.ID_PARENT_WRAPPER,
-    commonProps.elementIds.ID_NODE_ERROR_NODE
-  );
-  pText(
-    commonProps.elementIds.ID_PARENT_WRAPPER,
-    { id: commonProps.elementIds.ID_NODE_ERROR_NODE },
-    errorMessage
-  );
+  console.log('prepareErrorNode: ' + errorMessage);
+  appUiHelper.prepareErrorNode(commonProps.elementIds.ID_PARENT_WRAPPER,commonProps.elementIds.ID_NODE_ERROR_NODE, errorMessage);
 }
 
 /**
@@ -145,31 +133,12 @@ function prepareErrorNode(errorMessage) {
  */
 function prepareSuccessNodes(userProfile) {
   toggleControlsVisibility();
-  removeNode(
-    commonProps.elementIds.ID_PARENT_WRAPPER,
-    commonProps.elementIds.ID_NODE_ERROR_NODE
-  );
-  headingNodeUtils.h1Heading(
-    commonProps.elementIds.ID_PARENT_WRAPPER,
-    { id: commonProps.elementIds.ID_HEADING_USERNAME },
-    userProfile.body.login
-  );
-  ulList(
-    userProfile.body,
-    { id: commonProps.elementIds.ID_UL_USER_DEETS },
-    commonProps.elementIds.ID_PARENT_WRAPPER
-  );
-  imageNodeUtils.imgImage(
-    commonProps.elementIds.ID_PARENT_WRAPPER,
-    { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
-    userProfile.body.avatar_url
-  );
+  appUiHelper.prepareSuccessNodes(userProfile);
   saveToLocalStorage(userProfile);
 }
 
-/** TODO: Smelly. */
 export function removeUserDeetsNodes() {
-  removeChildNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
+  appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
     commonProps.elementIds.ID_HEADING_USERNAME,
     commonProps.elementIds.ID_UL_USER_DEETS,
     commonProps.elementIds.ID_IMAGE_USER
@@ -180,10 +149,10 @@ export function removeUserDeetsNodes() {
  *
  */
 export function toggleControlsVisibility() {
-  toggleViz.toggleDisplayControls([
-    commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
-    commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
-  ]);
+  appUiHelper.toggleControlsVisibility([
+      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+      commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
+    ])
 }
 
 /**
@@ -191,7 +160,7 @@ export function toggleControlsVisibility() {
  * @param {string} elementId
  */
 export function toggleControlVisibility(elementId) {
-  toggleViz.toggleDisplay(elementId);
+  appUiHelper.toggleControlVisibility(elementId);
 }
 
 /**

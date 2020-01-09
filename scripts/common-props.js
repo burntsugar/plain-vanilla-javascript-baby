@@ -42,6 +42,7 @@ const commonProps = (function() {
 
   const appProps = {
     MESSAGE_USERNAME_CANNOT_BE_EMPTY: 'Github username cannot be empty!',
+    MESSAGE_USER_NOT_FOUND: 'User not found!',
     URL_GITHUB_USER_API: 'https://api.github.com/users/',
     STATUS_USERNAME_IS_EMPTY: 1002,
     STATUS_START_NEW_REQUEST: 1001,
