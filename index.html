@@ -33,18 +33,18 @@
 
       import { appControl } from './scripts/app-control.js';
 
-      appControl.toggleControlsVisibility(['input-username-controls']);
+      appControl.initUiEvent();
 
       window.addEventListener('keydown', event => {
         if (event.keyCode == '13') {
           const username = document.getElementById('input-githubusername').value;
-          appControl.getGithubProfile(username);
+          appControl.getProfileEvent(username);
         }
       });
 
       document.querySelector('.btn-get').addEventListener('click', event => {
         const username = document.getElementById('input-githubusername').value;
-        appControl.getGithubProfile(username);
+        appControl.getProfileEvent(username);
       });
 
       document.querySelector('.btn-clear').addEventListener('click', event => {
@@ -53,11 +53,7 @@
       });
 
       document.querySelector('.btn-reset').addEventListener('click', event => {
-        appControl.removeProfile();
-        appControl.toggleControlsVisibility([
-          'input-username-controls',
-          'reset-username-controls'
-        ]);
+        appControl.removeProfileEvent();
       });
     </script>
   </body>

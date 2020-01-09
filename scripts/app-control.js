@@ -13,6 +13,20 @@ import { commonProps } from './common-props.js';
 import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
 const appControl = (function() {
+
+  function getProfileEvent(username){
+    let uname = prepareUsername(username);
+    getGithubProfile(uname);
+  }
+
+  function removeProfileEvent(){
+    removeProfile();
+    toggleControlsVisibility([commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS, commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS]);
+  }
+
+  function initUiEvent(){
+    toggleControlsVisibility([commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS]);
+  }
   /**
    * @public
    * Retrieves the Github user profile for the given username.
@@ -20,8 +34,7 @@ const appControl = (function() {
    * @param {string} username Github username of the profile to retrieve.
    * @return {undefined}
    */
-  function getGithubProfile(username) {
-    let uname = prepareUsername(username);
+  function getGithubProfile(uname) {
     if (!uname) {
       respond(
         new userProfile.Data(
@@ -204,9 +217,9 @@ const appControl = (function() {
   }
 
   return {
-    getGithubProfile: getGithubProfile,
-    removeProfile: removeProfile,
-    toggleControlsVisibility: toggleControlsVisibility
+    initUiEvent: initUiEvent,
+    getProfileEvent: getProfileEvent,
+    removeProfileEvent: removeProfileEvent,
   };
 })();
 
