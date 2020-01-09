@@ -12,7 +12,7 @@ import { headingNodeUtils } from '../element-utils/heading-node-utils.js';
 import { ulList } from '../element-utils/ul-node-utils.js';
 import { imageNodeUtils } from '../element-utils/image-node-utils.js';
 import { toggleViz } from './toggle-viz.js';
-import { pText } from '../element-utils/p-node-utils.js';
+import { pNodeUtils } from '../element-utils/p-node-utils.js';
 
 
 /** RMP */
@@ -58,7 +58,7 @@ const appUiHelper = (function() {
             parentElementId,
             errorNodeId
         );
-        pText(
+        pNodeUtils.pText(
             parentElementId,
           { id: errorNodeId },
           errorMessage
