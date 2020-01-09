@@ -4,7 +4,7 @@
  * @fileoverview does stuff.
  */
 
-import { apiRequest } from './network/network-control.js';
+import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './string-utils.js';
 import { ulList } from './node-ul-list.js';
 import { h1Heading } from './node-h1.js';
@@ -122,7 +122,7 @@ function respond(rezponseObj) {
  */
 async function startNetworkRequest(uname) {
   const queryURL = commonProps.appProps.URL_GITHUB_USER_API + uname;
-  const result = await apiRequest(queryURL);
+  const result = await requestAPI(queryURL);
   console.log('startNetworkRequest: ' + result.status);
   processNetworkResult(result, uname);
 }
