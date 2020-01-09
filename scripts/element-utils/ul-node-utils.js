@@ -1,12 +1,21 @@
 'use strict';
 /**
  * @author Rachael Colley <rcolley@rcolley>
- * @fileoverview does stuff.
+ * @fileoverview Provides methods to append ul element node to the document.
  */
 
+ /**
+  * RMP
+  */
  const ulNodeUtils = (function() {
 
-    function ulList(jsonObj, nodeAttributes, parentNodeID) {
+    /**
+     * Appends a ul element node, containing the given data as list items, to the given parent element node.
+     * @param {object} dataObject the data to be displayed as list items
+     * @param {string[]} nodeAttributes attributes belonging to the list
+     * @param {string} parentNodeID id of the parent node to append the ul to.
+     */
+    function ulList(dataObject, nodeAttributes, parentNodeID) {
         var ul = document.createElement('ul');
     
         Object.keys(nodeAttributes).forEach(element => {
@@ -14,11 +23,11 @@
         });
     
         document.getElementById(parentNodeID).appendChild(ul);
-        Object.keys(jsonObj).forEach(element => {
+        Object.keys(dataObject).forEach(element => {
             var li = document.createElement('li');
             li.setAttribute('class', 'item');
             ul.appendChild(li);
-            li.innerHTML = li.innerHTML + element + ": " + jsonObj[element];
+            li.innerHTML = li.innerHTML + element + ": " + dataObject[element];
         });
     }
 
