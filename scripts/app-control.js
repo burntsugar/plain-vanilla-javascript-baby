@@ -13,7 +13,7 @@ import { removeNode, removeChildNodes } from './remove-node.js';
 import { pText } from './p-node.js';
 import { toggleViz } from './toggle-viz.js';
 import { userProfile } from './user-profile.js';
-import { imgUtils } from './img-utils.js';
+import { imgUtils } from './image-utils.js';
 import {
   retrieveFromLocalStorage,
   persistToLocalStorage,
