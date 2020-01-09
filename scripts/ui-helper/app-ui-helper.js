@@ -102,7 +102,6 @@ const appUiHelper = (function() {
         prepareErrorNode: prepareErrorNode,
         removeUserDeetsNodes: removeUserDeetsNodes,
         toggleControlsVisibility: toggleControlsVisibility,
-        toggleControlVisibility: toggleControlVisibility,
       };
 
 }());

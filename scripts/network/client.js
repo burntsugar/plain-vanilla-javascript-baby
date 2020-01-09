@@ -18,7 +18,6 @@ export async function fetchJsonResource(url) {
     xhr.responseType = 'json';
     // callback
     xhr.onload = function() {
-      console.log('fetchJsonResource: ' + this.response);
       resolve({ status: this.status, body: this.response });
     };
     xhr.ontimeout = e => {

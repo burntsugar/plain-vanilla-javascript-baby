@@ -59,8 +59,6 @@ function prepareUsername(username) {
  * @param {object} userProfile desc
  */
 function respond(userProfile) {
-  console.log('respond: ' + userProfile.status);
-
   switch (userProfile.status) {
     case commonProps.appProps.STATUS_START_NEW_REQUEST:
       startNetworkRequest(userProfile.body.login);
@@ -69,18 +67,18 @@ function respond(userProfile) {
       displayProfile(userProfile);
       break;
     case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
-      prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
+      displayError(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
       break;
     case commonProps.domExceptionIds.NETWORK_EXC_ID:
-      prepareErrorNode(
+      displayError(
         commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK
       );
       break;
     case commonProps.domExceptionIds.TIMEOUT_EXC_ID:
-      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
+      displayError(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
       break;
     case commonProps.domExceptionIds.CANT_COMPLETE_EXC_ID:
-      prepareErrorNode(
+      displayError(
         commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
       );
       break;
@@ -91,10 +89,10 @@ function respond(userProfile) {
       displayProfile(userProfile);
       break;
     case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
-      prepareErrorNode(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
+      displayError(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
       break;
     default:
-      prepareErrorNode(
+      displayError(
         commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
       );
       break;
@@ -108,7 +106,6 @@ function respond(userProfile) {
 async function startNetworkRequest(uname) {
   const queryURL = commonProps.appProps.URL_GITHUB_USER_API + uname;
   const result = await requestAPI(queryURL);
-  console.log('startNetworkRequest: ' + result.status);
   processNetworkResult(result, uname);
 }
 
@@ -118,7 +115,6 @@ async function startNetworkRequest(uname) {
  * @param {string} uname desc
  */
 function processNetworkResult(userProfile, uname) {
-  console.log('processNetworkResult: ' + userProfile.status);
   respond(userProfile);
 }
 
@@ -126,8 +122,7 @@ function processNetworkResult(userProfile, uname) {
  *
  * @param {string} errorMessage desc
  */
-function prepareErrorNode(errorMessage) {
-  console.log('prepareErrorNode: ' + errorMessage);
+function displayError(errorMessage) {
   appUiHelper.prepareErrorNode(
     commonProps.elementIds.ID_PARENT_WRAPPER,
     commonProps.elementIds.ID_NODE_ERROR_NODE,
@@ -140,7 +135,10 @@ function prepareErrorNode(errorMessage) {
  * @param {object} userProfile
  */
 function displayProfile(userProfile) {
-  toggleControlsVisibility();
+  toggleControlsVisibility([
+      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+      commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
+    ]);
   appUiHelper.prepareSuccessNodes(userProfile);
   saveToLocalStorage(userProfile);
 }
@@ -156,19 +154,8 @@ export function removeProfile() {
 /**
  *
  */
-export function toggleControlsVisibility() {
-  appUiHelper.toggleControlsVisibility([
-    commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
-    commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
-  ]);
-}
-
-/**
- *
- * @param {string} elementId
- */
-export function toggleControlVisibility(elementId) {
-  appUiHelper.toggleControlVisibility(elementId);
+export function toggleControlsVisibility(controls) {
+  appUiHelper.toggleControlsVisibility(controls);
 }
 
 /**

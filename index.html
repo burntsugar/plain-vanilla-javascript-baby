@@ -31,14 +31,14 @@
 
         /** TODO: makeItPretty */
 
-        import { getGithubProfile, toggleControlsVisibility, toggleControlVisibility, removeProfile } from "./scripts/app-control.js";
+        import { getGithubProfile, toggleControlsVisibility, removeProfile } from "./scripts/app-control.js";
 
-        toggleControlVisibility('input-username-controls')
+        toggleControlsVisibility(['input-username-controls']);
 
         window.addEventListener('keydown', (event) => {
             if (event.keyCode == '13') {
                 var username = document.getElementById('input-githubusername').value;
-                getGithubProfile(username)
+                getGithubProfile(username);
             }
         });
 
@@ -53,7 +53,7 @@
 
         document.querySelector('.btn-reset').addEventListener('click', (event) => {
             removeProfile()
-            toggleControlsVisibility()
+            toggleControlsVisibility(['input-username-controls','reset-username-controls'])
         });
 
 
