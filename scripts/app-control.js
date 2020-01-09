@@ -8,13 +8,16 @@ import { requestAPI } from './network/network-control.js';
 import { stringUtils } from './utils/string-utils.js';
 import { userProfile } from './user/user-profile.js';
 import { imgUtils } from './image-utils/image-utils.js';
-import {localStorageUtils} from './local-storage/local-storage-utils.js';
+import { localStorageUtils } from './local-storage/local-storage-utils.js';
 import { commonProps } from './common-props.js';
 import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
 /**
- *
- * @param {*} username desc
+ * @public
+ * Retrieves the Github user profile for the given username.
+ * The username is initial cleansed and then if the profile does not exist in the cache, a network request is initiated.
+ * @param {string} username Github username of the profile to retrieve.
+ * @return {undefined}
  */
 export function getGithubProfile(username) {
   let uname = prepareUsername(username);
@@ -42,7 +45,7 @@ export function getGithubProfile(username) {
 }
 
 /**
- *
+ * The given username has all illegal characters removed. The username is returned, or false if it is empty,
  * @param {string} username desc.
  * @return {boolean} Cleansed username or else false if the string length is 0.
  */
@@ -69,13 +72,17 @@ function respond(userProfile) {
       prepareErrorNode(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
       break;
     case commonProps.domExceptionIds.NETWORK_EXC_ID:
-      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK);
+      prepareErrorNode(
+        commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK
+      );
       break;
-      case commonProps.domExceptionIds.TIMEOUT_EXC_ID:
+    case commonProps.domExceptionIds.TIMEOUT_EXC_ID:
       prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
       break;
     case commonProps.domExceptionIds.CANT_COMPLETE_EXC_ID:
-      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE);
+      prepareErrorNode(
+        commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
+      );
       break;
     case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
       prepareSuccessNodes(userProfile);
@@ -87,7 +94,9 @@ function respond(userProfile) {
       prepareErrorNode(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
       break;
     default:
-      prepareErrorNode(commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE);
+      prepareErrorNode(
+        commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
+      );
       break;
   }
 }
@@ -119,7 +128,11 @@ function processNetworkResult(userProfile, uname) {
  */
 function prepareErrorNode(errorMessage) {
   console.log('prepareErrorNode: ' + errorMessage);
-  appUiHelper.prepareErrorNode(commonProps.elementIds.ID_PARENT_WRAPPER,commonProps.elementIds.ID_NODE_ERROR_NODE, errorMessage);
+  appUiHelper.prepareErrorNode(
+    commonProps.elementIds.ID_PARENT_WRAPPER,
+    commonProps.elementIds.ID_NODE_ERROR_NODE,
+    errorMessage
+  );
 }
 
 /**
@@ -145,9 +158,9 @@ export function removeUserDeetsNodes() {
  */
 export function toggleControlsVisibility() {
   appUiHelper.toggleControlsVisibility([
-      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
-      commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
-    ])
+    commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+    commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
+  ]);
 }
 
 /**
@@ -166,7 +179,9 @@ export function toggleControlVisibility(elementId) {
 function checkLocalStorage(uname) {
   const val = localStorageUtils.retrieveFromLocalStorage(uname);
   if (val != null) {
-    val.avatar_url = localStorageUtils.retrieveImageFromLocalStorage(`${val.login}_imageData`);
+    val.avatar_url = localStorageUtils.retrieveImageFromLocalStorage(
+      `${val.login}_imageData`
+    );
     return new userProfile.Data(
       commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
       val
@@ -184,7 +199,10 @@ function checkLocalStorage(uname) {
  * @param {object} userProfile
  */
 function saveToLocalStorage(userProfile) {
-  localStorageUtils.persistToLocalStorage(userProfile.body.login, userProfile.body);
+  localStorageUtils.persistToLocalStorage(
+    userProfile.body.login,
+    userProfile.body
+  );
   const userImageNode = document.getElementById(
     commonProps.elementIds.ID_IMAGE_USER
   );
