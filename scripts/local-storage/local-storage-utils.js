@@ -25,6 +25,7 @@ const localStorageUtils = (function() {
     }
   }
 
+  /** TODO: Implement timestamp for image */
   /**
    * @public
    * Adds an entry to LocalStorage. A timestamp is appended to the entry.
@@ -32,7 +33,9 @@ const localStorageUtils = (function() {
    * @param {object} valueObject value for the new entry
    */
   function persistToLocalStorage(keyString, valueObject) {
+    console.log('localStorageUtils.persistToLocalStorage: ' + valueObject.login)
     if (getFromLocalStorage(keyString) == null) {
+      console.log('localStorageUtils.persistToLocalStorage SAVING: ' + valueObject.status)
       valueObject.timestamp = new Date().getTime();
       window.localStorage.setItem(keyString, JSON.stringify(valueObject));
     }
@@ -108,10 +111,15 @@ const localStorageUtils = (function() {
     return nowDate > timestampDate ? true : false;
   }
 
+  function retrieveImageFromLocalStorage(key) {
+    return window.localStorage.getItem(key)
+}
+
   return {
     retrieveFromLocalStorage: retrieveFromLocalStorage,
     persistToLocalStorage: persistToLocalStorage,
-    persistImageToLocalStorage: persistImageToLocalStorage
+    persistImageToLocalStorage: persistImageToLocalStorage,
+    retrieveImageFromLocalStorage: retrieveImageFromLocalStorage,
   };
 })();
 

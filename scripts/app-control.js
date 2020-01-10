@@ -13,12 +13,11 @@ import { commonProps } from './common-props.js';
 import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
 const appControl = (function() {
-
   /**
    * @public
-   * @param {*} username 
+   * @param {*} username
    */
-  function getProfileEvent(username){
+  function getProfileUiEvent(username) {
     let uname = prepareUsername(username);
     getGithubProfile(uname);
   }
@@ -26,16 +25,21 @@ const appControl = (function() {
   /**
    * @public
    */
-  function removeProfileEvent(){
+  function removeProfileUiEvent() {
     removeProfile();
-    toggleControlsVisibility([commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS, commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS]);
+    toggleControlsVisibility([
+      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+      commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
+    ]);
   }
 
   /**
    * @public
    */
-  function initUiEvent(){
-    toggleControlsVisibility([commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS]);
+  function initUiEvent() {
+    toggleControlsVisibility([
+      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS
+    ]);
   }
   /**
    * Retrieves the Github user profile for the given username.
@@ -51,24 +55,37 @@ const appControl = (function() {
           null
         )
       );
-    } else if (
-      checkLocalStorage(uname).status ==
-      commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
-    ) {
-      respond(
-        new userProfile.Data(
-          commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
-          checkLocalStorage(uname).body
-        )
-      );
     } else {
-      respond(
-        new userProfile.Data(commonProps.appProps.STATUS_START_NEW_REQUEST, {
-          login: uname
-        })
-      );
+      console.log('getGithubProfile.cachedInLocalStorage.status: ' + cachedInLocalStorage(uname).status);
+      respond(cachedInLocalStorage(uname));
     }
   }
+  // function getGithubProfile(uname) {
+  //   if (!uname) {
+  //     respond(
+  //       new userProfile.Data(
+  //         commonProps.appProps.STATUS_USERNAME_IS_EMPTY,
+  //         null
+  //       )
+  //     );
+  //   } else if (
+  //     retrieveFromLocalStorage(uname).status ==
+  //     commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
+  //   ) {
+  //     respond(
+  //       new userProfile.Data(
+  //         commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
+  //         retrieveFromLocalStorage(uname).body
+  //       )
+  //     );
+  //   } else {
+  //     respond(
+  //       new userProfile.Data(commonProps.appProps.STATUS_START_NEW_REQUEST, {
+  //         login: uname
+  //       })
+  //     );
+  //   }
+  // }
 
   /**
    * The given username has all illegal characters removed. The username is returned, or false if it is empty,
@@ -109,8 +126,9 @@ const appControl = (function() {
       case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
         displayProfile(userProfile);
         break;
-      case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
-        displayProfile(userProfile);
+      case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
+        //displayProfile(userProfile);
+        startNetworkRequest(userProfile.body.login);
         break;
       case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
         displayError(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
@@ -122,6 +140,44 @@ const appControl = (function() {
         break;
     }
   }
+  // function respond(userProfile) {
+  //   switch (userProfile.status) {
+  //     case commonProps.appProps.STATUS_START_NEW_REQUEST:
+  //       startNetworkRequest(userProfile.body.login);
+  //       break;
+  //     case commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS:
+  //       displayProfile(userProfile);
+  //       break;
+  //     case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
+  //       displayError(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
+  //       break;
+  //     case commonProps.domExceptionIds.NETWORK_EXC_ID:
+  //       displayError(commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK);
+  //       break;
+  //     case commonProps.domExceptionIds.TIMEOUT_EXC_ID:
+  //       displayError(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
+  //       break;
+  //     case commonProps.domExceptionIds.CANT_COMPLETE_EXC_ID:
+  //       displayError(
+  //         commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
+  //       );
+  //       break;
+  //     case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
+  //       displayProfile(userProfile);
+  //       break;
+  //     case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
+  //       displayProfile(userProfile);
+  //       break;
+  //     case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
+  //       displayError(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
+  //       break;
+  //     default:
+  //       displayError(
+  //         commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
+  //       );
+  //       break;
+  //   }
+  // }
 
   /**
    *
@@ -164,6 +220,7 @@ const appControl = (function() {
       commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
     ]);
     appUiHelper.prepareSuccessNodes(userProfile);
+    console.log('displayProfile userProfile: ' + userProfile.body.node_id);
     saveToLocalStorage(userProfile);
   }
 
@@ -182,17 +239,41 @@ const appControl = (function() {
     appUiHelper.toggleControlsVisibility(controls);
   }
 
+  function cachedInLocalStorage(uname) {
+    let cached = retrieveFromLocalStorage(uname);
+    console.log('cachedInLocalStorage: ' + cachedInLocalStorage.status);
+    if (
+      cached.status ==
+      commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
+    ) {
+      return new userProfile.Data(
+        commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
+        cached.body
+      );
+    } else {
+      console.log('cachedInLocalStorage: NOT FOUND');
+      return new userProfile.Data(
+        commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND,
+        {
+          login: uname
+        }
+      );
+    }
+  }
+
   /**
    *
    * @param {string} uname
    * @return {object}
    */
-  function checkLocalStorage(uname) {
+  function retrieveFromLocalStorage(uname) {
     const val = localStorageUtils.retrieveFromLocalStorage(uname);
+    console.log('retrieveFromLocalStorage: ' + val);
     if (val != null) {
       val.avatar_url = localStorageUtils.retrieveImageFromLocalStorage(
         `${val.login}_imageData`
       );
+
       return new userProfile.Data(
         commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
         val
@@ -210,6 +291,7 @@ const appControl = (function() {
    * @param {object} userProfile
    */
   function saveToLocalStorage(userProfile) {
+    console.log('saveToLocalStorage userProfile.login + : ' + userProfile.body.login + ' ' + userProfile.body.node_id + ' ');
     localStorageUtils.persistToLocalStorage(
       userProfile.body.login,
       userProfile.body
@@ -227,8 +309,8 @@ const appControl = (function() {
 
   return {
     initUiEvent: initUiEvent,
-    getProfileEvent: getProfileEvent,
-    removeProfileEvent: removeProfileEvent,
+    getProfileUiEvent: getProfileUiEvent,
+    removeProfileUiEvent: removeProfileUiEvent
   };
 })();
 
