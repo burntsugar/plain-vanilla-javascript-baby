@@ -49,4 +49,4 @@ Working toward [Google JavaScript Style Guide](https://google.github.io/stylegui
 
 **Dance**
 
-![Vanilla Ice - To The Extreme album cover](vi.jpg)
+![Vanilla Ice - To The Extreme album cover](readme.jpg)
