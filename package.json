@@ -4,7 +4,8 @@
   "description": "## Now * Modular * XMLHttpRequest * DOMException.NetworkError * DOMException.TimeoutError * Caching/Local Storage - user data and image * cache expiration * Async/Await * Promise.then * Dynamic DOM mods * Network status - window.navigator.onLine * Template strings",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "lite-server"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.7.7",
     "jest": "^24.9.0",
-    "jest-extended": "^0.11.2"
+    "jest-extended": "^0.11.2",
+    "lite-server": "^2.5.4"
   }
 }
