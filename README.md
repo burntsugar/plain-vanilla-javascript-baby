@@ -2,7 +2,31 @@
 
 Proof of concept app using vanilla JavaScript.
 
-## Status 👷‍♀️ Development.
+## Status 👷‍♀️ Development
+
+## Installation
+
+1. `git clone <this_url>`
+1. `cd <repo_name>`
+1. `npm install`
+1. `npm install lite-server --save-dev`
+1. `npm install jest --save-dev`
+1. `npm install jest-extended --save-dev`
+1. `npm install @babel/preset-env`
+
+## Dependencies
+
+* Node.js 13.5.0
+
+## Dev dependencies
+* @babel/preset-env 7.7.7
+* jest 24.9.0
+* jest-extended 0.11.2
+* lite-server 2.5.4
+
+## Run
+
+`npm run dev` will launch app on `http://localhost:3000`
 
 ## Goals
 * Use modern JavaScript features, style and convention.
@@ -34,13 +58,6 @@ Proof of concept app using vanilla JavaScript.
 ## Style guide
 
 Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
-
-## TODO:
-
-* Jest (in progress)
-* Namespacing (in progress)
-* cache space checking
-* makeItPretty
 
 <hr>
 
