@@ -8,8 +8,11 @@ Proof of concept app using vanilla JavaScript.
 
 1. `git clone <this_url>`
 1. `cd <repo_name>`
-1. `npm install`
-1. `npm install lite-server --save-dev`
+1. `npm install` (node)
+1. `npm install lite-server --save-dev` (small dev-only server)
+
+Additionally, if you wish to run the Jest tests, you will require Jest libs and @babel/preset-env (for testing ES6 modules)...
+
 1. `npm install jest --save-dev`
 1. `npm install jest-extended --save-dev`
 1. `npm install @babel/preset-env`
@@ -19,10 +22,10 @@ Proof of concept app using vanilla JavaScript.
 * Node.js 13.5.0
 
 ## Dev dependencies
+* lite-server 2.5.4
 * @babel/preset-env 7.7.7
 * jest 24.9.0
 * jest-extended 0.11.2
-* lite-server 2.5.4
 
 ## Run
 
