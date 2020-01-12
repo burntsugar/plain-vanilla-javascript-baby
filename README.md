@@ -2,13 +2,12 @@
 
 Proof of concept app using vanilla JavaScript.
 
-## Status
-
-Development.
+## Status 👷‍♀️ Development.
 
 ## Goals
 * Use modern JavaScript features, style and convention.
 * Minimise use of global namespace.
+* Caching policy.
 * Implementation comments JSDoc.
 
 ## Features:
@@ -38,8 +37,10 @@ Working toward [Google JavaScript Style Guide](https://google.github.io/stylegui
 
 ## TODO:
 
-* Jest
+* Jest (in progress)
 * Namespacing (in progress)
+* /src
+* cache space checking
 * makeItPretty
 
 <hr>
