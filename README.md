@@ -39,7 +39,6 @@ Working toward [Google JavaScript Style Guide](https://google.github.io/stylegui
 
 * Jest (in progress)
 * Namespacing (in progress)
-* /src
 * cache space checking
 * makeItPretty
 
