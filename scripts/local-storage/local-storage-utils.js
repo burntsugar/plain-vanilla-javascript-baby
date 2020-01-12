@@ -1,16 +1,30 @@
 'use strict';
 
-import { commonProps } from "../common-props.js";
+import { commonProps } from '../common-props.js';
 
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Provides methods for working with local storage.
+ * Cache expiration policy is configured in commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS.
  */
 
 /**
  * RMP
  */
 const localStorageUtils = (function() {
+  /**
+   * @public
+   * @param {*} key
+   * @param {*} appendKey
+   * @param {*} appendValue
+   */
+  function appendToEntry(key, appendKey, appendValue) {
+    var entry = retrieveEntry(key);
+    if (entry != null) {
+      entry[appendKey] = appendValue;
+      setLocalStorageItem(key, entry);
+    }
+  }
 
   /**
    * @public
@@ -18,112 +32,46 @@ const localStorageUtils = (function() {
    * @param {string} key belonging to the value
    * @return {object} if found or null if not found.
    */
-  function retrieveFromLocalStorage(key) {
-    console.log('#LS localStorageUtils.retrieveFromLocalStorage: ' + key);
-
-    var entry = JSON.parse(window.localStorage.getItem(key));
-
-    if (getValidItemFromStorage(key) == null) {
-      console.log('#LS localStorageUtils.retrieveFromLocalStorage: NULL');
-
-      return null;
-    } else {
-      console.log('#LS localStorageUtils.retrieveFromLocalStorage: NOT NULL');
-
-      return entry;
-    }
+  function retrieveEntry(key) {
+    return getValidStorageItem(key);
   }
 
-  function retrieveImageFromLocalStorage(key) {
-    return window.localStorage.getItem(key);
-  }
-
-  /** TODO: Implement timestamp for image */
   /**
    * @public
    * Adds an entry to LocalStorage. A timestamp is appended to the entry.
    * @param {string} keyString key for the new entry
    * @param {object} valueObject value for the new entry
    */
-  function persistToLocalStorage(keyString, valueObject) {
-    console.log(
-      '#LS localStorageUtils.persistToLocalStorage: ' + valueObject.login
-    );
-
-    if (getValidItemFromStorage(keyString) == null) {
+  function persistEntry(keyString, valueObject) {
+    if (getValidStorageItem(keyString) == null) {
       valueObject.timestamp = new Date().getTime();
-      saveToLocalStorageNow(keyString, JSON.stringify(valueObject));
+      setLocalStorageItem(keyString, valueObject);
     }
   }
 
   /**
-   * @public
-   * Persist a relative url or dataUri for an image.
-   * @param {string} keyString key for the new entry
-   * @param {*} dataURL image url or uri
-   * @return {undefined}
-   */
-  function persistImageToLocalStorage(keyString, dataURL) {
-    console.log(
-      '#LS localStorageUtils.persistImageToLocalStorage: ' + keyString
-    );
-    saveToLocalStorageNow(keyString, dataURL);
-  }
-
-  /**
    *
-   * @param {*} keyString
-   * @param {*} valueString
+   * @param {*} key
    */
-  function saveToLocalStorageNow(keyString, valueString) {
-    console.log('#LS localStorageUtils.saveToLocalStorageNow: ' + keyString);
-    window.localStorage.setItem(keyString, valueString);
-  }
-
-  /**
-   * Returns a value for a given key, if it exists.
-   * @param {string} key value key
-   * @return {object} if found or null if not found.
-   */
-  function getFromLocalStorage(key) {
-    console.log(
-      '#LS localStorageUtils.getFromLocalStorage: ' +
-        window.localStorage.getItem(
-          'localStorageUtils.getFromLocalStorage: ' + key
-        )
-    );
-    return window.localStorage.getItem(key);
-  }
-
-  function getValidItemFromStorage(key) {
-    console.log('#LS localStorageUtils.getValidItemFromStorage');
-    let entry = window.localStorage.getItem(key);
+  function getValidStorageItem(key) {
+    let entry = JSON.parse(getLocalStorageItem(key));
     if (entry != null) {
-      let e = JSON.parse(entry);
-      console.log(
-        '#LS localStorageUtils.getValidItemFromStorage: entry NOT NULL ' +
-          e.login +
-          ' ' +
-          e.timestamp +
-          ' ' +
-          typeof e
-      );
-      return cacheExpired(e.timestamp) ? null : e;
+      return cacheExpired(entry.timestamp) ? null : entry;
     }
     return null;
   }
 
   /**
-   * Compares a given date with the current data. If more that 1 minute has passed since the given date, true is returned.
+   * Checks local storage entry for cache expiration. Compares a given date with the current data. If more than CACHE_EXPIRY_SECONDS has passed since the given date, true is returned.
    * @param {string} timestamp date of stored object
-   * @return {boolean} true is returned if more that 1 minute has passed since the given date, or else false
+   * @return {boolean} true is returned if more than CACHE_EXPIRY_SECONDS has passed since the given date, or else false
    */
   function cacheExpired(timestamp) {
-    console.log('#LS localStorageUtils.cacheExpired: ' + timestamp);
     var timestampDate = new Date(timestamp);
     var nowDate = new Date();
     timestampDate.setMinutes(
-      timestampDate.getMinutes() + commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS
+      timestampDate.getMinutes() +
+        commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS
     );
     return nowDate > timestampDate ? true : false;
   }
@@ -165,11 +113,45 @@ const localStorageUtils = (function() {
     }
   }
 
+  /**
+   *
+   * @param {*} key
+   * @return {DOMString}
+   */
+  function getLocalStorageItem(key) {
+    return window.localStorage.getItem(key);
+  }
+
+  /**
+   *
+   * @param {*} key
+   * @param {*} valueObject
+   * @return {undefined}
+   */
+  function setLocalStorageItem(key, valueObject) {
+    window.localStorage.setItem(key, JSON.stringify(valueObject));
+  }
+
+  /**
+   *
+   * @param {*} key
+   * @return {undefined}
+   */
+  function removeLocalStorageItem(key) {
+    window.localStorage.removeItem(key);
+  }
+
+  /**
+   * @return {undefined}
+   */
+  function clearLocalStorage() {
+    window.localStorage.clear();
+  }
+
   return {
-    retrieveFromLocalStorage: retrieveFromLocalStorage,
-    retrieveImageFromLocalStorage: retrieveImageFromLocalStorage,
-    persistToLocalStorage: persistToLocalStorage,
-    persistImageToLocalStorage: persistImageToLocalStorage
+    retrieveEntry: retrieveEntry,
+    persistEntry: persistEntry,
+    appendToEntry: appendToEntry
   };
 })();
 

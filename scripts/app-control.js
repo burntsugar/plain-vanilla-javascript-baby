@@ -43,7 +43,7 @@ const appControl = (function() {
   }
   /**
    * Retrieves the Github user profile for the given username.
-   * The username is initial cleansed and then if the profile does not exist in the cache, a network request is initiated.
+   * If the profile does not exist in the cache, a network request is initiated.
    * @param {string} username Github username of the profile to retrieve.
    * @return {undefined}
    */
@@ -56,7 +56,6 @@ const appControl = (function() {
         )
       );
     } else {
-      console.log('getGithubProfile.cachedInLocalStorage.status: ' + cachedInLocalStorage(uname).status);
       respond(cachedInLocalStorage(uname));
     }
   }
@@ -101,7 +100,6 @@ const appControl = (function() {
         displayProfile(userProfile);
         break;
       case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
-        //displayProfile(userProfile);
         startNetworkRequest(userProfile.body.login);
         break;
       case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
@@ -114,13 +112,12 @@ const appControl = (function() {
         break;
     }
   }
-  
+
   /**
    *
    * @param {string} uname desc
    */
   async function startNetworkRequest(uname) {
-    console.log('START REQUEST FOR: ' + uname);
     const queryURL = commonProps.appProps.URL_GITHUB_USER_API + uname;
     const result = await requestAPI(queryURL);
     processNetworkResult(result, uname);
@@ -157,10 +154,12 @@ const appControl = (function() {
       commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
     ]);
     appUiHelper.prepareSuccessNodes(userProfile);
-    console.log('displayProfile userProfile: ' + userProfile.body.node_id);
     saveToLocalStorage(userProfile);
   }
 
+  /**
+   *
+   */
   function removeProfile() {
     appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
       commonProps.elementIds.ID_HEADING_USERNAME,
@@ -171,14 +170,19 @@ const appControl = (function() {
 
   /**
    *
+   * @param {*} controls
    */
   function toggleControlsVisibility(controls) {
     appUiHelper.toggleControlsVisibility(controls);
   }
 
+  /**
+   *
+   * @param {*} uname
+   * @return {object}
+   */
   function cachedInLocalStorage(uname) {
     let cached = retrieveFromLocalStorage(uname);
-    console.log('cachedInLocalStorage: ' + uname + ' ' + cached.status);
     if (
       cached.status ==
       commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
@@ -188,7 +192,6 @@ const appControl = (function() {
         cached.body
       );
     } else {
-      console.log('cachedInLocalStorage: NOT FOUND');
       return new userProfile.Data(
         commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND,
         {
@@ -204,13 +207,8 @@ const appControl = (function() {
    * @return {object}
    */
   function retrieveFromLocalStorage(uname) {
-    const val = localStorageUtils.retrieveFromLocalStorage(uname);
-    console.log('appControl.retrieveFromLocalStorage: ' + val);
+    const val = localStorageUtils.retrieveEntry(uname);
     if (val != null) {
-      val.avatar_url = localStorageUtils.retrieveImageFromLocalStorage(
-        `${val.login}_imageData`
-      );
-
       return new userProfile.Data(
         commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
         val
@@ -228,17 +226,14 @@ const appControl = (function() {
    * @param {object} userProfile
    */
   function saveToLocalStorage(userProfile) {
-    console.log('saveToLocalStorage userProfile.login + : ' + userProfile.body.login + ' ' + userProfile.body.node_id + ' ');
-    localStorageUtils.persistToLocalStorage(
-      userProfile.body.login,
-      userProfile.body
-    );
+    localStorageUtils.persistEntry(userProfile.body.login, userProfile.body);
     const userImageNode = document.getElementById(
       commonProps.elementIds.ID_IMAGE_USER
     );
     userImageNode.addEventListener('load', function() {
-      localStorageUtils.persistImageToLocalStorage(
-        `${userProfile.body.login}_imageData`,
+      localStorageUtils.appendToEntry(
+        userProfile.body.login,
+        'avatar_url',
         imgUtils.imageToDataURL(userImageNode)
       );
     });
@@ -252,5 +247,3 @@ const appControl = (function() {
 })();
 
 export { appControl };
-
-// TODO: src
