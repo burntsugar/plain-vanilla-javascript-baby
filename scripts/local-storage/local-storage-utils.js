@@ -1,4 +1,7 @@
 'use strict';
+
+import { commonProps } from "../common-props.js";
+
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Provides methods for working with local storage.
@@ -8,7 +11,6 @@
  * RMP
  */
 const localStorageUtils = (function() {
-  const _CACHE_DURATION = 1000;
 
   /**
    * @public
@@ -17,12 +19,23 @@ const localStorageUtils = (function() {
    * @return {object} if found or null if not found.
    */
   function retrieveFromLocalStorage(key) {
+    console.log('#LS localStorageUtils.retrieveFromLocalStorage: ' + key);
+
     var entry = JSON.parse(window.localStorage.getItem(key));
-    if (entry == null) {
+
+    if (getValidItemFromStorage(key) == null) {
+      console.log('#LS localStorageUtils.retrieveFromLocalStorage: NULL');
+
       return null;
     } else {
-      return cacheExpired(entry.timestamp) ? null : entry;
+      console.log('#LS localStorageUtils.retrieveFromLocalStorage: NOT NULL');
+
+      return entry;
     }
+  }
+
+  function retrieveImageFromLocalStorage(key) {
+    return window.localStorage.getItem(key);
   }
 
   /** TODO: Implement timestamp for image */
@@ -33,12 +46,38 @@ const localStorageUtils = (function() {
    * @param {object} valueObject value for the new entry
    */
   function persistToLocalStorage(keyString, valueObject) {
-    console.log('localStorageUtils.persistToLocalStorage: ' + valueObject.login)
-    if (getFromLocalStorage(keyString) == null) {
-      console.log('localStorageUtils.persistToLocalStorage SAVING: ' + valueObject.status)
+    console.log(
+      '#LS localStorageUtils.persistToLocalStorage: ' + valueObject.login
+    );
+
+    if (getValidItemFromStorage(keyString) == null) {
       valueObject.timestamp = new Date().getTime();
-      window.localStorage.setItem(keyString, JSON.stringify(valueObject));
+      saveToLocalStorageNow(keyString, JSON.stringify(valueObject));
     }
+  }
+
+  /**
+   * @public
+   * Persist a relative url or dataUri for an image.
+   * @param {string} keyString key for the new entry
+   * @param {*} dataURL image url or uri
+   * @return {undefined}
+   */
+  function persistImageToLocalStorage(keyString, dataURL) {
+    console.log(
+      '#LS localStorageUtils.persistImageToLocalStorage: ' + keyString
+    );
+    saveToLocalStorageNow(keyString, dataURL);
+  }
+
+  /**
+   *
+   * @param {*} keyString
+   * @param {*} valueString
+   */
+  function saveToLocalStorageNow(keyString, valueString) {
+    console.log('#LS localStorageUtils.saveToLocalStorageNow: ' + keyString);
+    window.localStorage.setItem(keyString, valueString);
   }
 
   /**
@@ -47,7 +86,46 @@ const localStorageUtils = (function() {
    * @return {object} if found or null if not found.
    */
   function getFromLocalStorage(key) {
+    console.log(
+      '#LS localStorageUtils.getFromLocalStorage: ' +
+        window.localStorage.getItem(
+          'localStorageUtils.getFromLocalStorage: ' + key
+        )
+    );
     return window.localStorage.getItem(key);
+  }
+
+  function getValidItemFromStorage(key) {
+    console.log('#LS localStorageUtils.getValidItemFromStorage');
+    let entry = window.localStorage.getItem(key);
+    if (entry != null) {
+      let e = JSON.parse(entry);
+      console.log(
+        '#LS localStorageUtils.getValidItemFromStorage: entry NOT NULL ' +
+          e.login +
+          ' ' +
+          e.timestamp +
+          ' ' +
+          typeof e
+      );
+      return cacheExpired(e.timestamp) ? null : e;
+    }
+    return null;
+  }
+
+  /**
+   * Compares a given date with the current data. If more that 1 minute has passed since the given date, true is returned.
+   * @param {string} timestamp date of stored object
+   * @return {boolean} true is returned if more that 1 minute has passed since the given date, or else false
+   */
+  function cacheExpired(timestamp) {
+    console.log('#LS localStorageUtils.cacheExpired: ' + timestamp);
+    var timestampDate = new Date(timestamp);
+    var nowDate = new Date();
+    timestampDate.setMinutes(
+      timestampDate.getMinutes() + commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS
+    );
+    return nowDate > timestampDate ? true : false;
   }
 
   /**
@@ -81,45 +159,17 @@ const localStorageUtils = (function() {
           // Firefox
           e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
         // acknowledge QuotaExceededError only if there's something already stored
-        storage && storage.length !== 0
+        storage &&
+        storage.length !== 0
       );
     }
   }
 
-  /**
-   * @public
-   * Persist a relative url or dataUri for an image.
-   * @param {string} keyString key for the new entry
-   * @param {*} dataURL image url or uri
-   * @return {undefined}
-   */
-  function persistImageToLocalStorage(keyString, dataURL) {
-    window.localStorage.setItem(keyString, dataURL);
-  }
-
-  /**
-   * Compares a given date with the current data. If more that 1 minute has passed since the given date, true is returned.
-   * @param {string} timestamp date of stored object
-   * @return {boolean} true is returned if more that 1 minute has passed since the given date, or else false
-   */
-  function cacheExpired(timestamp) {
-    var timestampDate = new Date(timestamp);
-    var nowDate = new Date();
-    timestampDate.setMinutes(
-      timestampDate.getMinutes() + _CACHE_DURATION / 1000
-    );
-    return nowDate > timestampDate ? true : false;
-  }
-
-  function retrieveImageFromLocalStorage(key) {
-    return window.localStorage.getItem(key)
-}
-
   return {
     retrieveFromLocalStorage: retrieveFromLocalStorage,
-    persistToLocalStorage: persistToLocalStorage,
-    persistImageToLocalStorage: persistImageToLocalStorage,
     retrieveImageFromLocalStorage: retrieveImageFromLocalStorage,
+    persistToLocalStorage: persistToLocalStorage,
+    persistImageToLocalStorage: persistImageToLocalStorage
   };
 })();
 

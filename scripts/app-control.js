@@ -60,32 +60,6 @@ const appControl = (function() {
       respond(cachedInLocalStorage(uname));
     }
   }
-  // function getGithubProfile(uname) {
-  //   if (!uname) {
-  //     respond(
-  //       new userProfile.Data(
-  //         commonProps.appProps.STATUS_USERNAME_IS_EMPTY,
-  //         null
-  //       )
-  //     );
-  //   } else if (
-  //     retrieveFromLocalStorage(uname).status ==
-  //     commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
-  //   ) {
-  //     respond(
-  //       new userProfile.Data(
-  //         commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND,
-  //         retrieveFromLocalStorage(uname).body
-  //       )
-  //     );
-  //   } else {
-  //     respond(
-  //       new userProfile.Data(commonProps.appProps.STATUS_START_NEW_REQUEST, {
-  //         login: uname
-  //       })
-  //     );
-  //   }
-  // }
 
   /**
    * The given username has all illegal characters removed. The username is returned, or false if it is empty,
@@ -140,50 +114,13 @@ const appControl = (function() {
         break;
     }
   }
-  // function respond(userProfile) {
-  //   switch (userProfile.status) {
-  //     case commonProps.appProps.STATUS_START_NEW_REQUEST:
-  //       startNetworkRequest(userProfile.body.login);
-  //       break;
-  //     case commonProps.httpStatusCodes.HTTP_STATUS_SUCCESS:
-  //       displayProfile(userProfile);
-  //       break;
-  //     case commonProps.httpStatusCodes.HTTP_STATUS_NOT_FOUND:
-  //       displayError(commonProps.appProps.MESSAGE_USER_NOT_FOUND);
-  //       break;
-  //     case commonProps.domExceptionIds.NETWORK_EXC_ID:
-  //       displayError(commonProps.domExceptionMessages.MESSAGE_ERROR_NO_NETWORK);
-  //       break;
-  //     case commonProps.domExceptionIds.TIMEOUT_EXC_ID:
-  //       displayError(commonProps.domExceptionMessages.MESSAGE_ERROR_TIME_OUT);
-  //       break;
-  //     case commonProps.domExceptionIds.CANT_COMPLETE_EXC_ID:
-  //       displayError(
-  //         commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
-  //       );
-  //       break;
-  //     case commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND:
-  //       displayProfile(userProfile);
-  //       break;
-  //     case commonProps.appProps.STATUS_LOCAL_STORAGE_OBJECT_NOT_FOUND:
-  //       displayProfile(userProfile);
-  //       break;
-  //     case commonProps.appProps.STATUS_USERNAME_IS_EMPTY:
-  //       displayError(commonProps.appProps.MESSAGE_USERNAME_CANNOT_BE_EMPTY);
-  //       break;
-  //     default:
-  //       displayError(
-  //         commonProps.domExceptionMessages.MESSAGE_OPERATION_CANT_COMPLETE
-  //       );
-  //       break;
-  //   }
-  // }
-
+  
   /**
    *
    * @param {string} uname desc
    */
   async function startNetworkRequest(uname) {
+    console.log('START REQUEST FOR: ' + uname);
     const queryURL = commonProps.appProps.URL_GITHUB_USER_API + uname;
     const result = await requestAPI(queryURL);
     processNetworkResult(result, uname);
@@ -241,7 +178,7 @@ const appControl = (function() {
 
   function cachedInLocalStorage(uname) {
     let cached = retrieveFromLocalStorage(uname);
-    console.log('cachedInLocalStorage: ' + cachedInLocalStorage.status);
+    console.log('cachedInLocalStorage: ' + uname + ' ' + cached.status);
     if (
       cached.status ==
       commonProps.localStorageStatus.STATUS_LOCAL_STORAGE_OBJECT_FOUND
@@ -268,7 +205,7 @@ const appControl = (function() {
    */
   function retrieveFromLocalStorage(uname) {
     const val = localStorageUtils.retrieveFromLocalStorage(uname);
-    console.log('retrieveFromLocalStorage: ' + val);
+    console.log('appControl.retrieveFromLocalStorage: ' + val);
     if (val != null) {
       val.avatar_url = localStorageUtils.retrieveImageFromLocalStorage(
         `${val.login}_imageData`
@@ -315,3 +252,5 @@ const appControl = (function() {
 })();
 
 export { appControl };
+
+// TODO: src
