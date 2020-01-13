@@ -18,6 +18,14 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 1. `npm install jest-extended --save-dev`
 1. `npm install @babel/preset-env`
 
+## ❄️ Run
+
+`npm run dev` will launch app on `http://localhost:3000`
+
+## ❄️ Test
+
+`npm test`
+
 ## ❄️ Dependencies
 
 * Node.js 13.5.0
@@ -28,9 +36,7 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 * jest 24.9.0
 * jest-extended 0.11.2
 
-## ❄️ Run
 
-`npm run dev` will launch app on `http://localhost:3000`
 
 ## ❄️ Goals
 * modern JavaScript features, style and convention
