@@ -81,6 +81,15 @@ describe('local-storage-utils#persistEntry', () => {
     let result = JSON.parse(MockStorage.getItem('testkey1'));
     expect(result.timestamp).not.toBe(modifiedEntry.timestamp);
   });
+
+  it('should not attempt to persist the entry when storage is not available', () => {
+    MockStorage.setProvokeQuotasExceedEdxception(true);
+
+    localStorageUtils.persistEntry('testkey1', { testvalue: 'test value 1' });
+    
+    let result = JSON.parse(MockStorage.getItem('testkey1'));
+    expect(result).toBe(null);
+  });
 });
 
 describe('local-storage-utils#setStorageObject', () => {
