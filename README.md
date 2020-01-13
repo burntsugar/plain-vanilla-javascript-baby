@@ -2,12 +2,13 @@
 
 Proof of concept app using vanilla JavaScript.
 
-## Status 👷‍♀️ Development
+## ❄️ Status: 👷‍♀️ Development
 
-## Installation
+<br>
 
-1. `git clone <this_url>`
-1. `cd <repo_name>`
+## ❄️ Installation
+
+1. `git clone <this_url> && cd <repo_name>`
 1. `npm install` (node)
 1. `npm install lite-server --save-dev` (small dev-only server)
 
@@ -17,48 +18,51 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 1. `npm install jest-extended --save-dev`
 1. `npm install @babel/preset-env`
 
-## Dependencies
+## ❄️ Dependencies
 
 * Node.js 13.5.0
 
-## Dev dependencies
+## ❄️ Dev dependencies
 * lite-server 2.5.4
 * @babel/preset-env 7.7.7
 * jest 24.9.0
 * jest-extended 0.11.2
 
-## Run
+## ❄️ Run
 
 `npm run dev` will launch app on `http://localhost:3000`
 
-## Goals
+## ❄️ Goals
 * Use modern JavaScript features, style and convention.
 * Minimise use of global namespace.
 * Caching policy.
 * Implementation comments JSDoc.
 
-## Features:
+## ❄️ Features:
 
 1. Display Github profile details and avatar from [https://api.github.com/users/v3](https://api.github.com/users/v3).
 2. Cache data.
 
-## ES6
+## ❄️ ES6
 * Promises
 * Async/Await
 * ESM import/export
 
-## Design patterns
+## ❄️ Design patterns
 * Revealing Module Pattern RMP
 * Constructor Function
 
-## Browser apis
+## ❄️ Test mocking
+* Local Storage
+
+## ❄️ Browser apis
 
 * [Document Object Model (DOM)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
 * [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
 * [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 * [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) - [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 
-## Style guide
+## ❄️ Style guide
 
 Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
 
