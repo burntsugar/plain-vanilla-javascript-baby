@@ -56,6 +56,7 @@ const localStorageUtils = (function() {
    * @param {object} valueObject value for the new entry
    */
   function persistEntry(keyString, valueObject) {
+    if (!localStorageIsAvailable()) return 
     if (getValidStorageItem(keyString) == null) {
       valueObject.timestamp = new Date().getTime();
       setLocalStorageItem(keyString, valueObject);
@@ -93,16 +94,20 @@ const localStorageUtils = (function() {
    * TODO: Implement
    */
   function localStorageIsAvailable() {
-    return storageAvailable('localStorage') ? true : false;
+    // return storageAvailable('localStorage') ? true : false;
+    return storageAvailable() ? true : false;
   }
 
   /**
    * TODO: Implement
    */
-  function storageAvailable(type) {
+  // function storageAvailable(type) {
+  //   var storage;
+  function storageAvailable() {
     var storage;
     try {
-      storage = window[type];
+      // storage = window[type];
+      storage  = appLocalStorage;
       var x = '__storage_test__';
       storage.setItem(x, x);
       storage.removeItem(x);
