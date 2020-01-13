@@ -38,6 +38,8 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 * prefer arrow functions
 * caching policy
 * JSDoc implementation comments
+* use client storage api
+* [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
 
 ## ❄️ Features:
 
@@ -67,6 +69,17 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 ## ❄️ Style guide
 
 Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
+
+<hr>
+
+<br>
+
+### 🍦 about localStorage
+
+justification:
+* sinlge-page app
+* data is publicly available
+* data size does not exceed 1.2MB
 
 <hr>
 
