@@ -33,10 +33,11 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 `npm run dev` will launch app on `http://localhost:3000`
 
 ## ❄️ Goals
-* Use modern JavaScript features, style and convention.
-* Minimise use of global namespace.
-* Caching policy.
-* Implementation comments JSDoc.
+* modern JavaScript features, style and convention
+* minimise use of global namespace
+* prefer arrow functions
+* caching policy
+* JSDoc implementation comments
 
 ## ❄️ Features:
 
@@ -52,8 +53,9 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 * Revealing Module Pattern RMP
 * Constructor Function
 
-## ❄️ Test mocking
-* Local Storage
+## ❄️ Test 
+* local storage mocking
+* exported functions and classes
 
 ## ❄️ Browser apis
 
