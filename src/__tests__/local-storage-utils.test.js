@@ -50,6 +50,9 @@ describe('local-storage-utils#persistEntry', () => {
   beforeEach(() => {
     MockStorage.clear();
   });
+  afterEach(() => {
+    MockStorage.setProvokeQuotasExceedEdxception(false);
+  });
 
   it('should set new entry', () => {
     localStorageUtils.persistEntry('testkey1', { testvalue: 'test value 1' });
