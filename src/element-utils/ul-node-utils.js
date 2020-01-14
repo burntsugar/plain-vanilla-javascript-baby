@@ -4,46 +4,48 @@
  * @fileoverview Provides methods to append ul element node to the document.
  */
 
- /**
-  * RMP
-  */
- const ulNodeUtils = (function() {
+/**
+ * RMP
+ */
+const ulNodeUtils = (function() {
+  /**
+   * Appends a ul element node, containing the given data as list items, to the given parent element node.
+   * @param {object} dataObject the data to be displayed as list items
+   * @param {string[]} nodeAttributes attributes belonging to the list
+   * @param {string} parentNodeID id of the parent node to append the ul to.
+   */
+  function ulList(dataObject, nodeAttributes, parentNodeID) {
+    var ul = document.createElement('ul');
 
-    /**
-     * Appends a ul element node, containing the given data as list items, to the given parent element node.
-     * @param {object} dataObject the data to be displayed as list items
-     * @param {string[]} nodeAttributes attributes belonging to the list
-     * @param {string} parentNodeID id of the parent node to append the ul to.
-     */
-    function ulList(dataObject, nodeAttributes, parentNodeID) {
-        var ul = document.createElement('ul');
-    
-        Object.keys(nodeAttributes).forEach(element => {
-            ul.setAttribute(element, nodeAttributes[element]);
-        });
-    
-        document.getElementById(parentNodeID).appendChild(ul);
-        Object.keys(dataObject).forEach(element => {
-            var li = document.createElement('li');
-            li.setAttribute('class', 'item');
-            ul.appendChild(li);
-            li.innerHTML = li.innerHTML + element + ": " + formatText(dataObject[element]);
-        });
+    Object.keys(nodeAttributes).forEach(element => {
+      ul.setAttribute(element, nodeAttributes[element]);
+    });
+
+    document.getElementById(parentNodeID).appendChild(ul);
+    Object.keys(dataObject).forEach(element => {
+      var li = document.createElement('li');
+      li.setAttribute('class', 'item');
+      ul.appendChild(li);
+      li.innerHTML =
+        li.innerHTML + element + ': ' + formatText(dataObject[element]);
+    });
+  }
+
+  /**
+   * 
+   * @param {*} str 
+   */
+  const formatText = str => {
+    if (typeof str == 'string' && str.length > 80) {
+      return str.substring(0, 80) + '...';
+    } else {
+      return str;
     }
+  };
 
-    const formatText = (str) => {
-        if (typeof(str) == 'string' && str.length > 80) {
-            return str.substring(0,80) + '...';
-        } else {
-            return str;
-        }
-    }
+  return {
+    ulList: ulList
+  };
+})();
 
-    return {
-        ulList: ulList,
-    }
- }());
-
- export {ulNodeUtils};
-
-
+export { ulNodeUtils };
