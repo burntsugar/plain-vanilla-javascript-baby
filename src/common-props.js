@@ -1,6 +1,6 @@
 'use strict';
 
-const commonProps = (function() {
+const commonProps = (() => {
   const elementIds = {
     ID_PARENT_WRAPPER: 'github-user-wrapper',
     ID_NODE_ERROR_NODE: 'error-node',
