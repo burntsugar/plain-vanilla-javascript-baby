@@ -12,7 +12,6 @@ import { commonProps } from '../common-props.js';
  * RMP
  */
 const localStorageUtils = (function() {
-
   /**
    * Object in use for local storage.
    */
@@ -21,13 +20,11 @@ const localStorageUtils = (function() {
   /**
    * @public
    * Use to change the default local storage object.
-   * Mocking is a possible use case. 
+   * Mocking is a possible use case.
    * window.localStorage is used by default.
-   * @param {object} storageObject 
+   * @param {object} storageObject
    */
-  function setStorageObject(storageObject){
-      appLocalStorage = storageObject;
-  }
+  const setStorageObject = storageObject => (appLocalStorage = storageObject);
 
   /**
    * @public
@@ -35,13 +32,13 @@ const localStorageUtils = (function() {
    * @param {string} appendKey
    * @param {object} appendValue
    */
-  function appendToEntry(key, appendKey, appendValue) {
+  const appendToEntry = (key, appendKey, appendValue) => {
     var entry = retrieveEntry(key);
     if (entry != null) {
       entry[appendKey] = appendValue;
       setLocalStorageItem(key, entry);
     }
-  }
+  };
 
   /**
    * @public
@@ -49,9 +46,9 @@ const localStorageUtils = (function() {
    * @param {string} key belonging to the value
    * @return {object} true if found or null if not found.
    */
-  function retrieveEntry(key) {
+  const retrieveEntry = key => {
     return getValidStorageItem(key);
-  }
+  };
 
   /**
    * @public
@@ -59,33 +56,33 @@ const localStorageUtils = (function() {
    * @param {string} keyString key for the new entry
    * @param {object} valueObject value for the new entry
    */
-  function persistEntry(keyString, valueObject) {
-    if (!localStorageIsAvailable()) return 
+  const persistEntry = (keyString, valueObject) => {
+    if (!localStorageIsAvailable()) return;
     if (getValidStorageItem(keyString) == null) {
       valueObject.timestamp = new Date().getTime();
       setLocalStorageItem(keyString, valueObject);
     }
-  }
+  };
 
   /**
    * Returns a storage entry if it meets cache policy.
    * @param {string} key
    * @return the storage entry if valid or null if not found.
    */
-  function getValidStorageItem(key) {
+  const getValidStorageItem = key => {
     let entry = JSON.parse(getLocalStorageItem(key));
     if (entry != null) {
       return cacheExpired(entry.timestamp) ? null : entry;
     }
     return null;
-  }
+  };
 
   /**
    * Checks local storage entry for cache expiration. Compares a given date with the current data. If more than CACHE_EXPIRY_SECONDS has passed since the given date, true is returned.
    * @param {string} timestamp date of stored object
    * @return {boolean} true if more than CACHE_EXPIRY_SECONDS has passed since the given date, or else false
    */
-  function cacheExpired(timestamp) {
+  const cacheExpired = timestamp => {
     var timestampDate = new Date(timestamp);
     var nowDate = new Date();
     timestampDate.setMinutes(
@@ -93,24 +90,23 @@ const localStorageUtils = (function() {
         commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS
     );
     return nowDate > timestampDate ? true : false;
-  }
+  };
 
   /**
    * @return true if storage is available.
    */
-  function localStorageIsAvailable() {
+  const localStorageIsAvailable = () => {
     return storageAvailable() ? true : false;
-  }
-
+  };
 
   /**
    * Adapted from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
    * @return true if storage is available or false if not.
    */
-  function storageAvailable() {
+  const storageAvailable = () => {
     var storage;
     try {
-      storage  = appLocalStorage;
+      storage = appLocalStorage;
       var x = '__storage_test__';
       storage.setItem(x, x);
       storage.removeItem(x);
@@ -132,16 +128,16 @@ const localStorageUtils = (function() {
         storage.length !== 0
       );
     }
-  }
+  };
 
   /**
    *
    * @param {*} key
    * @return {DOMString} storage entry or {null} if not found.
    */
-  function getLocalStorageItem(key) {
+  const getLocalStorageItem = key => {
     return appLocalStorage.getItem(key);
-  }
+  };
 
   /**
    *
@@ -149,31 +145,26 @@ const localStorageUtils = (function() {
    * @param {object} valueObject
    * @return {undefined}
    */
-  function setLocalStorageItem(key, valueObject) {
+  const setLocalStorageItem = (key, valueObject) =>
     appLocalStorage.setItem(key, JSON.stringify(valueObject));
-  }
 
   /**
    *
    * @param {string} key
    * @return {undefined}
    */
-  function removeLocalStorageItem(key) {
-    appLocalStorage.removeItem(key);
-  }
+  const removeLocalStorageItem = key => appLocalStorage.removeItem(key);
 
   /**
    * @return {undefined}
    */
-  function clearLocalStorage() {
-    appLocalStorage.clear();
-  }
+  const clearLocalStorage = () => appLocalStorage.clear();
 
   return {
     retrieveEntry: retrieveEntry,
     persistEntry: persistEntry,
     appendToEntry: appendToEntry,
-    setStorageObject: setStorageObject,
+    setStorageObject: setStorageObject
   };
 })();
 

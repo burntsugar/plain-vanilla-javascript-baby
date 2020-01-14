@@ -4,43 +4,42 @@
  * @fileoverview does stuff.
  */
 
-const MockStorage = (function() {
+const MockStorage = (() => {
   let storage = new Map();
   let provokequotasexceededxception = false;
 
-  function setProvokeQuotasExceedEdxception(value) {
-    provokequotasexceededxception = value;
-  }
+  const setProvokeQuotasExceedEdxception = value =>
+    (provokequotasexceededxception = value);
 
-  function setItem(key, value) {
+  const setItem = (key, value) => {
     if (provokequotasexceededxception) {
       return provokeQuotaExceededError();
     } else {
       storage.set(key, value);
     }
-  }
+  };
 
-  function provokeQuotaExceededError() {
+  const provokeQuotaExceededError = () => {
     const e = new DOMException();
     e.code = 22;
     return e;
-  }
+  };
 
-  function getItem(key) {
+  const getItem = key => {
     if (storage.get(key) == undefined) {
       return null;
     }
     return storage.get(key);
-  }
-  function removeItem(key) {
-    storage.delete(key);
-  }
-  function clear() {
-    storage = new Map();
-  }
-  function getSize() {
+  };
+
+  const removeItem = key => storage.delete(key);
+
+  const clear = () => (storage = new Map());
+
+  const getSize = () => {
     return storage.size;
-  }
+  };
+
   return {
     setItem: setItem,
     getItem: getItem,
