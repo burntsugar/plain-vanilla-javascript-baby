@@ -12,35 +12,34 @@ import { localStorageUtils } from './local-storage/local-storage-utils.js';
 import { commonProps } from './common-props.js';
 import { appUiHelper } from './ui-helper/app-ui-helper.js';
 
-const appControl = (function() {
+const appControl = (() => {
   /**
    * @public
    * @param {*} username
    */
-  function getProfileUiEvent(username) {
+  const getProfileUiEvent = username => {
     let uname = prepareUsername(username);
     getGithubProfile(uname);
-  }
+  };
 
   /**
    * @public
    */
-  function removeProfileUiEvent() {
+  const removeProfileUiEvent = () => {
     removeProfile();
     toggleControlsVisibility([
       commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
       commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
     ]);
-  }
+  };
 
   /**
    * @public
    */
-  function initUiEvent() {
+  const initUiEvent = () =>
     toggleControlsVisibility([
-      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS, 
+      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS
     ]);
-  }
 
   /**
    * Retrieves the Github user profile for the given username.
@@ -48,7 +47,7 @@ const appControl = (function() {
    * @param {string} username Github username of the profile to retrieve.
    * @return {undefined}
    */
-  function getGithubProfile(uname) {
+  const getGithubProfile = uname => {
     if (!uname) {
       respond(
         new userProfile.Data(
@@ -59,23 +58,23 @@ const appControl = (function() {
     } else {
       respond(cachedInLocalStorage(uname));
     }
-  }
+  };
 
   /**
    * The given username has all illegal characters removed. The username is returned, or false if it is empty,
    * @param {string} username desc.
    * @return {boolean} Cleansed username or else false if the string length is 0.
    */
-  function prepareUsername(username) {
+  const prepareUsername = username => {
     const uname = stringUtils.removeIllegalCharacters(username);
     return stringUtils.stringIsEmpty(uname) ? false : uname;
-  }
+  };
 
   /**
    *
    * @param {object} userProfile desc
    */
-  function respond(userProfile) {
+  const respond = userProfile => {
     switch (userProfile.status) {
       case commonProps.appProps.STATUS_START_NEW_REQUEST:
         startNetworkRequest(userProfile.body.login);
@@ -112,56 +111,53 @@ const appControl = (function() {
         );
         break;
     }
-  }
+  };
 
   /**
    *
    * @param {string} uname desc
    */
-  async function startNetworkRequest(uname) {
+  const startNetworkRequest = async uname => {
     const queryURL = commonProps.appProps.URL_GITHUB_USER_API + uname;
     const result = await requestAPI(queryURL);
     processNetworkResult(result, uname);
-  }
+  };
 
   /**
    *
    * @param {object} userProfile desc
    * @param {string} uname desc
    */
-  function processNetworkResult(userProfile, uname) {
-    respond(userProfile);
-  }
+  const processNetworkResult = (userProfile, uname) => respond(userProfile);
 
   /**
    *
    * @param {string} errorMessage desc
    */
-  function displayError(errorMessage) {
+  const displayError = errorMessage =>
     appUiHelper.prepareErrorNode(
       commonProps.elementIds.ID_PARENT_WRAPPER,
       commonProps.elementIds.ID_NODE_ERROR_NODE,
       errorMessage
     );
-  }
 
   /**
    *
    * @param {object} userProfile
    */
-  function displayProfile(userProfile) {
+  const displayProfile = userProfile => {
     toggleControlsVisibility([
       commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
       commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
     ]);
     appUiHelper.prepareSuccessNodes(userProfile);
     saveToLocalStorage(userProfile);
-  }
+  };
 
   /**
    *
    */
-  function removeProfile() {
+  const removeProfile = () => {
     appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_IMAGE, [
       commonProps.elementIds.ID_IMAGE_USER
     ]);
@@ -173,22 +169,21 @@ const appControl = (function() {
     appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
       commonProps.elementIds.ID_UL_USER_DEETS
     ]);
-  }
+  };
 
   /**
    *
    * @param {*} controls
    */
-  function toggleControlsVisibility(controls) {
+  const toggleControlsVisibility = controls =>
     appUiHelper.toggleControlsVisibility(controls);
-  }
 
   /**
    *
    * @param {*} uname
    * @return {object}
    */
-  function cachedInLocalStorage(uname) {
+  const cachedInLocalStorage = uname => {
     let cached = retrieveFromLocalStorage(uname);
     if (
       cached.status ==
@@ -206,14 +201,14 @@ const appControl = (function() {
         }
       );
     }
-  }
+  };
 
   /**
    *
    * @param {string} uname
    * @return {object}
    */
-  function retrieveFromLocalStorage(uname) {
+  const retrieveFromLocalStorage = uname => {
     const val = localStorageUtils.retrieveEntry(uname);
     if (val != null) {
       return new userProfile.Data(
@@ -226,13 +221,13 @@ const appControl = (function() {
         null
       );
     }
-  }
+  };
 
   /**
    *
    * @param {object} userProfile
    */
-  function saveToLocalStorage(userProfile) {
+  const saveToLocalStorage = userProfile => {
     localStorageUtils.persistEntry(userProfile.body.login, userProfile.body);
     const userImageNode = document.getElementById(
       commonProps.elementIds.ID_IMAGE_USER
@@ -244,7 +239,7 @@ const appControl = (function() {
         imgUtils.imageToDataURL(userImageNode)
       );
     });
-  }
+  };
 
   return {
     initUiEvent: initUiEvent,
