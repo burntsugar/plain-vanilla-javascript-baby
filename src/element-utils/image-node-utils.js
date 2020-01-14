@@ -7,7 +7,7 @@
 /**
  * RMP
  */
-const imageNodeUtils = (function() {
+const imageNodeUtils = (() => {
   /**
    * @public
    * Prepares an img element node, with the given image source, and appends it to the given parent node.
@@ -24,7 +24,7 @@ const imageNodeUtils = (function() {
     img.width = 300;
     img.src = imageURL;
     document.getElementById(parentNodeID).appendChild(img);
-  }
+  };
 
   return {
     imgImage: imgImage
