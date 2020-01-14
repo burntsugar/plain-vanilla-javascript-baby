@@ -8,18 +8,18 @@
  */
 
 /** RMP */
-const toggleViz = (function() {
+const toggleViz = (() => {
   /**
    * Toggles .hidden class for a given array of Document.documentElement id's.
    * @public
    * @param {string[]} controlz array of Document.documentElement id's of which to toggle .hidden class.
    * @return {undefined}
    */
-  function toggleDisplayControls(controlz) {
+  const toggleDisplayControls = controlz => {
     controlz.forEach(element => {
       toggleDisplay(element);
     });
-  }
+  };
 
   /**
    * Toggles .hidden class for a given Document.documentElement.
@@ -27,9 +27,8 @@ const toggleViz = (function() {
    * @param {string} elementID Document.documentElement id of which to toggle .hidden class.
    * @return {undefined}
    */
-  function toggleDisplay(elementID) {
+  const toggleDisplay = elementID =>
     document.getElementById(elementID).classList.toggle('hidden');
-  }
 
   return {
     toggleDisplayControls: toggleDisplayControls,
