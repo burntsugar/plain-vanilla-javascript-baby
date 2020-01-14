@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "lite-server",
-    "build": "rm -rf dist && mkdir dist && cd dist/ && mkdir src && cd .. && cp ./index.html dist/ && cp -r assets dist/ && cp package.txt dist/package.json && cp -r src/* dist/src/",
+    "build": "rm -rf dist && mkdir dist && cd dist/ && mkdir src && cd .. && cp ./index.html dist/ && cp -r assets dist/ && cp package.json dist/ && cp -r src/* dist/src/",
     "build:fab": "npm run build && npm run fab:compile",
     "fab:compile": "fab-static dist"
   },
@@ -28,5 +28,8 @@
   },
   "dependencies": {
     "@fab/static": "^0.1.8"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": ["dist"]
   }
 }
