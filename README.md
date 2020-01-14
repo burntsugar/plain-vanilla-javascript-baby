@@ -41,16 +41,17 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 ## ❄️ Goals
 * modern JavaScript features, style and convention
 * minimise use of global namespace
+* prefer ES6 modules
 * prefer arrow functions
-* caching policy
-* JSDoc implementation comments
-* use client storage api
-* [IndexedDB API](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
+* client storage apis with caching policy
+* JSDoc implementation comment coverage
+* Jest test coverage
+* Mocking complex objects
 
 ## ❄️ Features:
 
 1. Display Github profile details and avatar from [https://api.github.com/users/v3](https://api.github.com/users/v3).
-2. Cache data.
+2. Cache data to client.
 
 ## ❄️ ES6
 * Promises
