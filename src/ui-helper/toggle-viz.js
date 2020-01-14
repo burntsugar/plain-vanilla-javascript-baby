@@ -28,7 +28,7 @@ const toggleViz = (() => {
    * @return {undefined}
    */
   const toggleDisplay = elementID =>
-    document.getElementById(elementID).classList.toggle('hidden');
+    void document.getElementById(elementID).classList.toggle('hidden');
 
   return {
     toggleDisplayControls: toggleDisplayControls,
