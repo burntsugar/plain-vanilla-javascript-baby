@@ -13,13 +13,17 @@ import { commonProps } from '../common-props.js';
  */
 const localStorageUtils = (function() {
 
+  /**
+   * Object in use for local storage.
+   */
   let appLocalStorage = window.localStorage;
 
   /**
+   * @public
    * Use to change the default local storage object.
    * Mocking is a possible use case. 
    * window.localStorage is used by default.
-   * @param {*} storageObject 
+   * @param {object} storageObject 
    */
   function setStorageObject(storageObject){
       appLocalStorage = storageObject;
@@ -27,9 +31,9 @@ const localStorageUtils = (function() {
 
   /**
    * @public
-   * @param {*} key
-   * @param {*} appendKey
-   * @param {*} appendValue
+   * @param {string} key
+   * @param {string} appendKey
+   * @param {object} appendValue
    */
   function appendToEntry(key, appendKey, appendValue) {
     var entry = retrieveEntry(key);
@@ -43,7 +47,7 @@ const localStorageUtils = (function() {
    * @public
    * Retrieve the value of a given key if the key exists.
    * @param {string} key belonging to the value
-   * @return {object} if found or null if not found.
+   * @return {object} true if found or null if not found.
    */
   function retrieveEntry(key) {
     return getValidStorageItem(key);
@@ -64,8 +68,9 @@ const localStorageUtils = (function() {
   }
 
   /**
-   *
-   * @param {*} key
+   * Returns a storage entry if it meets cache policy.
+   * @param {string} key
+   * @return the storage entry if valid or null if not found.
    */
   function getValidStorageItem(key) {
     let entry = JSON.parse(getLocalStorageItem(key));
@@ -78,7 +83,7 @@ const localStorageUtils = (function() {
   /**
    * Checks local storage entry for cache expiration. Compares a given date with the current data. If more than CACHE_EXPIRY_SECONDS has passed since the given date, true is returned.
    * @param {string} timestamp date of stored object
-   * @return {boolean} true is returned if more than CACHE_EXPIRY_SECONDS has passed since the given date, or else false
+   * @return {boolean} true if more than CACHE_EXPIRY_SECONDS has passed since the given date, or else false
    */
   function cacheExpired(timestamp) {
     var timestampDate = new Date(timestamp);
@@ -91,22 +96,20 @@ const localStorageUtils = (function() {
   }
 
   /**
-   * TODO: Implement
+   * @return true if storage is available.
    */
   function localStorageIsAvailable() {
-    // return storageAvailable('localStorage') ? true : false;
     return storageAvailable() ? true : false;
   }
 
+
   /**
-   * TODO: Implement
+   * Adapted from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+   * @return true if storage is available or false if not.
    */
-  // function storageAvailable(type) {
-  //   var storage;
   function storageAvailable() {
     var storage;
     try {
-      // storage = window[type];
       storage  = appLocalStorage;
       var x = '__storage_test__';
       storage.setItem(x, x);
@@ -134,7 +137,7 @@ const localStorageUtils = (function() {
   /**
    *
    * @param {*} key
-   * @return {DOMString}
+   * @return {DOMString} storage entry or {null} if not found.
    */
   function getLocalStorageItem(key) {
     return appLocalStorage.getItem(key);
@@ -142,8 +145,8 @@ const localStorageUtils = (function() {
 
   /**
    *
-   * @param {*} key
-   * @param {*} valueObject
+   * @param {string} key
+   * @param {object} valueObject
    * @return {undefined}
    */
   function setLocalStorageItem(key, valueObject) {
@@ -152,7 +155,7 @@ const localStorageUtils = (function() {
 
   /**
    *
-   * @param {*} key
+   * @param {string} key
    * @return {undefined}
    */
   function removeLocalStorageItem(key) {
