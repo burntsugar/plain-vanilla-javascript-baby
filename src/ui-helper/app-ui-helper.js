@@ -61,7 +61,7 @@ const appUiHelper = (() => {
    * @param {string[]} childElementIds ids of the child nodes.
    */
   const removeUserDeetsNodes = (parentElementId, childElementIds) =>
-    removeNodeUtils.removeChildNodes(parentElementId, childElementIds);
+    void removeNodeUtils.removeChildNodes(parentElementId, childElementIds);
 
   /**
    * @public
@@ -69,7 +69,7 @@ const appUiHelper = (() => {
    * @param {string[]} elementIds id's of the elements upon which to toggle visibility.
    */
   const toggleControlsVisibility = (elementIds) =>
-    toggleViz.toggleDisplayControls(elementIds);
+    void toggleViz.toggleDisplayControls(elementIds);
 
   /**
    * @public
@@ -77,7 +77,7 @@ const appUiHelper = (() => {
    * @param {string} elementId id of the elements upon which to toggle visibility.
    */
   const toggleControlVisibility = (elementId) =>
-    toggleViz.toggleDisplay(elementId);
+    void toggleViz.toggleDisplay(elementId);
 
   return {
     prepareSuccessNodes: prepareSuccessNodes,
