@@ -10,7 +10,7 @@ import { commonProps } from '../common-props.js';
  *
  * @param {string} url api url.
  */
-export async function fetchJsonResource(url) {
+ const fetchJsonResource = async (url) => {
   return new Promise(function(resolve, reject) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -44,3 +44,5 @@ export async function fetchJsonResource(url) {
     xhr.send();
   });
 }
+
+export {fetchJsonResource};

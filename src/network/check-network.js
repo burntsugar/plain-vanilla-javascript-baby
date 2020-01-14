@@ -7,24 +7,21 @@
  */
 
 /** RMP */
-const checkNetwork = (function() {
+const checkNetwork = (() => {
   /**
    * Returns online state of the user agent
    * @public
-   * @returns {boolean} the online state of the user agent
+   * @returns {boolean} implicit return, the online state of the user agent
    */
-  function hasConnection() {
-    return window.navigator.onLine;
-  }
+  const hasConnection = () => window.navigator.onLine;
 
   /**
    * Returns whether the user agent has no network connection.
    * @public
-   * @returns {boolean} whether the user agent has no internet connection
+   * @returns {boolean} implicit return, whether the user agent has no internet connection
    */
-  function hasNoConnection() {
-    return window.navigator.onLine == false ? true : false;
-  }
+  const hasNoConnection = () =>
+    window.navigator.onLine == false ? true : false;
 
   return {
     hasConnection: hasConnection,
