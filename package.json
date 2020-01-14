@@ -30,6 +30,6 @@
     "@fab/static": "^0.1.8"
   },
   "jest": {
-    "modulePathIgnorePatterns": ["dist",".fab"]
+    "roots": ["<rootDir>/src"]
   }
 }
