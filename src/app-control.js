@@ -38,9 +38,10 @@ const appControl = (function() {
    */
   function initUiEvent() {
     toggleControlsVisibility([
-      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS
+      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS, 
     ]);
   }
+
   /**
    * Retrieves the Github user profile for the given username.
    * If the profile does not exist in the cache, a network request is initiated.
