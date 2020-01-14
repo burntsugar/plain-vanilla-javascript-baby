@@ -37,7 +37,7 @@ const appControl = (() => {
    * @public
    */
   const initUiEvent = () =>
-    toggleControlsVisibility([
+    void toggleControlsVisibility([
       commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS
     ]);
 
@@ -128,7 +128,7 @@ const appControl = (() => {
    * @param {object} userProfile desc
    * @param {string} uname desc
    */
-  const processNetworkResult = (userProfile, uname) => respond(userProfile);
+  const processNetworkResult = (userProfile, uname) => void respond(userProfile);
 
   /**
    *
@@ -176,7 +176,7 @@ const appControl = (() => {
    * @param {*} controls
    */
   const toggleControlsVisibility = controls =>
-    appUiHelper.toggleControlsVisibility(controls);
+    void appUiHelper.toggleControlsVisibility(controls);
 
   /**
    *
