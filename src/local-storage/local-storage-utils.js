@@ -24,7 +24,9 @@ const localStorageUtils = (function() {
    * window.localStorage is used by default.
    * @param {object} storageObject
    */
-  const setStorageObject = storageObject => (appLocalStorage = storageObject);
+  const setStorageObject = storageObject => {
+    appLocalStorage = storageObject;
+  };
 
   /**
    * @public
@@ -44,11 +46,9 @@ const localStorageUtils = (function() {
    * @public
    * Retrieve the value of a given key if the key exists.
    * @param {string} key belonging to the value
-   * @return {object} true if found or null if not found.
+   * @return {object} implicit return, true if found or null if not found.
    */
-  const retrieveEntry = key => {
-    return getValidStorageItem(key);
-  };
+  const retrieveEntry = key => getValidStorageItem(key);
 
   /**
    * @public
@@ -93,11 +93,9 @@ const localStorageUtils = (function() {
   };
 
   /**
-   * @return true if storage is available.
+   * @return implicit return, true if storage is available.
    */
-  const localStorageIsAvailable = () => {
-    return storageAvailable() ? true : false;
-  };
+  const localStorageIsAvailable = () => storageAvailable() ? true : false;
 
   /**
    * Adapted from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
@@ -133,11 +131,9 @@ const localStorageUtils = (function() {
   /**
    *
    * @param {*} key
-   * @return {DOMString} storage entry or {null} if not found.
+   * @return {DOMString} implicit return, storage entry or {null} if not found.
    */
-  const getLocalStorageItem = key => {
-    return appLocalStorage.getItem(key);
-  };
+  const getLocalStorageItem = key => appLocalStorage.getItem(key);
 
   /**
    *
@@ -146,19 +142,19 @@ const localStorageUtils = (function() {
    * @return {undefined}
    */
   const setLocalStorageItem = (key, valueObject) =>
-    appLocalStorage.setItem(key, JSON.stringify(valueObject));
+    void appLocalStorage.setItem(key, JSON.stringify(valueObject));
 
   /**
    *
    * @param {string} key
    * @return {undefined}
    */
-  const removeLocalStorageItem = key => appLocalStorage.removeItem(key);
+  const removeLocalStorageItem = key => void appLocalStorage.removeItem(key);
 
   /**
    * @return {undefined}
    */
-  const clearLocalStorage = () => appLocalStorage.clear();
+  const clearLocalStorage = () => void appLocalStorage.clear();
 
   return {
     retrieveEntry: retrieveEntry,
