@@ -10,7 +10,7 @@ body {
 
 #github-user-wrapper {
     box-sizing: border-box;
-    background-color: #DBDACD;
+    background-color: #DFC7C6;
 }
 
 #user-deets-header {
@@ -22,7 +22,7 @@ body {
     display: flex;
     justify-content: flex-start;
     width: 20%;
-    background-color: aquamarine;
+    background-color: #DFC7C6;
     overflow: hidden;
     filter: opacity(.5);
 }
