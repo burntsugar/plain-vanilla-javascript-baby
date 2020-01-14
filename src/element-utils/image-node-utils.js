@@ -15,7 +15,7 @@ const imageNodeUtils = (function() {
    * @param {string[]} nodeAttributes attributes belonging to the new img node
    * @param {*} imageURL source of the image data. This may be a relative url or data uri.
    */
-  function imgImage(parentNodeID, nodeAttributes, imageURL) {
+  const imgImage = (parentNodeID, nodeAttributes, imageURL) => {
     var img = document.createElement('img');
 
     Object.keys(nodeAttributes).forEach(element => {
