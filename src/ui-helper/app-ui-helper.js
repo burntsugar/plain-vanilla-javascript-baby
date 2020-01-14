@@ -14,13 +14,13 @@ import { toggleViz } from './toggle-viz.js';
 import { pNodeUtils } from '../element-utils/p-node-utils.js';
 
 /** RMP */
-const appUiHelper = (function() {
+const appUiHelper = (() => {
   /**
    * @public
    * Adds nodes to the document which display the user profile, after removing any present error nodes.
    * @param {object} userProfile the UserProfile object.
    */
-  function prepareSuccessNodes(userProfile) {
+  const prepareSuccessNodes = userProfile => {
     removeNodeUtils.removeNode(
       commonProps.elementIds.ID_PARENT_WRAPPER,
       commonProps.elementIds.ID_NODE_ERROR_NODE
@@ -40,7 +40,7 @@ const appUiHelper = (function() {
       { id: commonProps.elementIds.ID_UL_USER_DEETS },
       commonProps.elementIds.ID_PARENT_WRAPPER
     );
-  }
+  };
 
   /**
    * @public
@@ -49,10 +49,10 @@ const appUiHelper = (function() {
    * @param {string} errorNodeId id belonging to the new error node
    * @param {string} errorMessage error message text
    */
-  function prepareErrorNode(parentElementId, errorNodeId, errorMessage) {
+  const prepareErrorNode = (parentElementId, errorNodeId, errorMessage) => {
     removeNodeUtils.removeNode(parentElementId, errorNodeId);
     pNodeUtils.pText(parentElementId, { id: errorNodeId }, errorMessage);
-  }
+  };
 
   /**
    * @public
@@ -60,31 +60,24 @@ const appUiHelper = (function() {
    * @param {string} parentElementId id of the parent node.
    * @param {string[]} childElementIds ids of the child nodes.
    */
-  function removeUserDeetsNodes(parentElementId, childElementIds) {
+  const removeUserDeetsNodes = (parentElementId, childElementIds) =>
     removeNodeUtils.removeChildNodes(parentElementId, childElementIds);
-  }
 
   /**
    * @public
    * For the given elements, makes it visible if it is not, or vice-versa.
    * @param {string[]} elementIds id's of the elements upon which to toggle visibility.
    */
-  function toggleControlsVisibility(elementIds) {
+  const toggleControlsVisibility = (elementIds) =>
     toggleViz.toggleDisplayControls(elementIds);
-  }
 
-  /**
-   *
-   * TODO: can these 2 methods be combined safely?
-   */
   /**
    * @public
    * For the given element, makes it visible if it is not, or vice-versa.
    * @param {string} elementId id of the elements upon which to toggle visibility.
    */
-  function toggleControlVisibility(elementId) {
+  const toggleControlVisibility = (elementId) =>
     toggleViz.toggleDisplay(elementId);
-  }
 
   return {
     prepareSuccessNodes: prepareSuccessNodes,
