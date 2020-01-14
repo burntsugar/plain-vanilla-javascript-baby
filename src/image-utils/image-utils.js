@@ -6,16 +6,15 @@
  */
 
 /** RMP */
-const imgUtils = (function() {
+const imgUtils = (() => {
   /**
    *
    * @public
    * @param {documentElement} imageDocumentElement the image document element containing the image data to be processed.
-   * @return {DOMString} containing base64 dataUri of the image data.
+   * @return {DOMString} implicit return, containing base64 dataUri of the image data.
    */
-  function imageToDataURL(imageDocumentElement) {
-    return getBase64Image(imageDocumentElement);
-  }
+  const imageToDataURL = imageDocumentElement =>
+    getBase64Image(imageDocumentElement);
 
   /**
    * Constructs a Document Canvas element, upon which is drawn the provided Image Element and then encodes the result to a base64 data uri. The image's dimensions are preserved.
@@ -23,19 +22,24 @@ const imgUtils = (function() {
    * @param {Document.Element} imageDocumentElement the document element containing the image data to be processed.
    * @return {DOMString} containing base64 dataUri of the image data.
    */
-  function getBase64Image(imageDocumentElement) {
+  const getBase64Image = imageDocumentElement => {
     const canvas = document.createElement('canvas');
     canvas.width = imageDocumentElement.width;
     canvas.height = imageDocumentElement.height;
     const context = canvas.getContext('2d');
-    context.drawImage(imageDocumentElement, 0, 0, imageDocumentElement.width, imageDocumentElement.height);
-    const dataURL = canvas.toDataURL('image/png');
-    return dataURL;
-  }
+    context.drawImage(
+      imageDocumentElement,
+      0,
+      0,
+      imageDocumentElement.width,
+      imageDocumentElement.height
+    );
+    return canvas.toDataURL('image/png');
+  };
 
   return {
-    imageToDataURL: imageToDataURL,
+    imageToDataURL: imageToDataURL
   };
 })();
 
-export {imgUtils};
+export { imgUtils };
