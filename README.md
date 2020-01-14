@@ -47,6 +47,7 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 * JSDoc implementation comment coverage
 * Jest test coverage
 * Mocking complex objects
+* Integration with CI tool for development feedback => [linc](https://linc.sh/)
 
 ## ❄️ Features:
 
