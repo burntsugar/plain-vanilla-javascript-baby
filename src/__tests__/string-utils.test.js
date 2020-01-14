@@ -1,3 +1,9 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 import { stringUtils } from '../utils/string-utils.js';
 
 describe('stringUtils#stringIsEmpty', () => {

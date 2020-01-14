@@ -1,3 +1,9 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 const MockStorage = (function() {
   let storage = new Map();
   let provokequotasexceededxception = false;

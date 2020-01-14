@@ -1,4 +1,10 @@
 
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 // TODO:
 
 // const users = {

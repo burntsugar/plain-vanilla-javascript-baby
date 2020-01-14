@@ -1,3 +1,9 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 import { commonProps } from '../common-props.js';
 
 // Regular

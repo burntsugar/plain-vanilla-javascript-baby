@@ -1,3 +1,9 @@
+'use strict';
+/**
+ * @author Rachael Colley <rcolley@rcolley>
+ * @fileoverview does stuff.
+ */
+
 import { MockStorage } from '../__mocks__/local-storage-utils-mock.js';
 import { localStorageUtils } from '../local-storage/local-storage-utils.js';
 
