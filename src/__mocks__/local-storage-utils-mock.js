@@ -32,13 +32,22 @@ const MockStorage = (() => {
     return storage.get(key);
   };
 
-  const removeItem = key => storage.delete(key);
+  /**
+   *
+   * @param {string} key
+   * @return {undefined}
+   */
+  const removeItem = key => void storage.delete(key);
 
+  /**
+   *
+   */
   const clear = () => (storage = new Map());
 
-  const getSize = () => {
-    return storage.size;
-  };
+  /**
+   * @return implicit return
+   */
+  const getSize = () => storage.size;
 
   return {
     setItem: setItem,

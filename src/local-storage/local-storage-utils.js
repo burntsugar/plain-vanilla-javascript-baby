@@ -24,9 +24,7 @@ const localStorageUtils = (function() {
    * window.localStorage is used by default.
    * @param {object} storageObject
    */
-  const setStorageObject = storageObject => {
-    appLocalStorage = storageObject;
-  };
+  const setStorageObject = storageObject => (appLocalStorage = storageObject);
 
   /**
    * @public
@@ -95,7 +93,7 @@ const localStorageUtils = (function() {
   /**
    * @return implicit return, true if storage is available.
    */
-  const localStorageIsAvailable = () => storageAvailable() ? true : false;
+  const localStorageIsAvailable = () => (storageAvailable() ? true : false);
 
   /**
    * Adapted from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
