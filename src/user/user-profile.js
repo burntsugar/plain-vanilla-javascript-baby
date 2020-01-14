@@ -6,7 +6,7 @@
  */
 
 /** RMP */
-const userProfile = (function() {
+const userProfile = ( () => {
   /**
    * Constructor function.
    * Returns a Data object which contains given data for a user.
