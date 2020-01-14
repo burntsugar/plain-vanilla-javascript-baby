@@ -7,14 +7,14 @@
 /**
  * RMP
  */
-const ulNodeUtils = (function() {
+const ulNodeUtils = (() => {
   /**
    * Appends a ul element node, containing the given data as list items, to the given parent element node.
    * @param {object} dataObject the data to be displayed as list items
    * @param {string[]} nodeAttributes attributes belonging to the list
    * @param {string} parentNodeID id of the parent node to append the ul to.
    */
-  function ulList(dataObject, nodeAttributes, parentNodeID) {
+  const ulList = (dataObject, nodeAttributes, parentNodeID) => {
     var ul = document.createElement('ul');
 
     Object.keys(nodeAttributes).forEach(element => {
@@ -29,11 +29,11 @@ const ulNodeUtils = (function() {
       li.innerHTML =
         li.innerHTML + element + ': ' + formatText(dataObject[element]);
     });
-  }
+  };
 
   /**
-   * 
-   * @param {*} str 
+   *
+   * @param {*} str
    */
   const formatText = str => {
     if (typeof str == 'string' && str.length > 80) {
