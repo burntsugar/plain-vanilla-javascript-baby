@@ -28,8 +28,18 @@ const appUiHelper = (function() {
           commonProps.elementIds.ID_PARENT_WRAPPER,
           commonProps.elementIds.ID_NODE_ERROR_NODE
         );
+        // headingNodeUtils.h1Heading(
+        //   commonProps.elementIds.ID_PARENT_WRAPPER,
+        //   { id: commonProps.elementIds.ID_HEADING_USERNAME },
+        //   userProfile.body.login
+        // );
+        imageNodeUtils.imgImage(
+          commonProps.elementIds.ID_USER_IMAGE,
+          { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
+          userProfile.body.avatar_url
+        );
         headingNodeUtils.h1Heading(
-          commonProps.elementIds.ID_PARENT_WRAPPER,
+          commonProps.elementIds.ID_USER_NAME,
           { id: commonProps.elementIds.ID_HEADING_USERNAME },
           userProfile.body.login
         );
@@ -38,11 +48,12 @@ const appUiHelper = (function() {
           { id: commonProps.elementIds.ID_UL_USER_DEETS },
           commonProps.elementIds.ID_PARENT_WRAPPER
         );
-        imageNodeUtils.imgImage(
-          commonProps.elementIds.ID_PARENT_WRAPPER,
-          { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
-          userProfile.body.avatar_url
-        );
+        // imageNodeUtils.imgImage(
+        //   commonProps.elementIds.ID_PARENT_WRAPPER,
+        //   { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
+        //   userProfile.body.avatar_url
+        // );
+        
       }
 
 

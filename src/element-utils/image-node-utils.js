@@ -22,7 +22,7 @@
             img.setAttribute(element, nodeAttributes[element]);
            
         });
-    
+        img.width = 300;
         img.src = imageURL;
         document.getElementById(parentNodeID).appendChild(img);
     }

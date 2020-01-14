@@ -150,6 +150,7 @@ const appControl = (function() {
    * @param {object} userProfile
    */
   function displayProfile(userProfile) {
+    //userProfile.body.avatar_url = userProfile.body.avatar_url.substring(0,50);
     toggleControlsVisibility([
       commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
       commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
@@ -157,17 +158,38 @@ const appControl = (function() {
     appUiHelper.prepareSuccessNodes(userProfile);
     saveToLocalStorage(userProfile);
   }
+  // function displayProfile(userProfile) {
+  //   toggleControlsVisibility([
+  //     commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+  //     commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS
+  //   ]);
+  //   appUiHelper.prepareSuccessNodes(userProfile);
+  //   saveToLocalStorage(userProfile);
+  // }
 
   /**
    *
    */
   function removeProfile() {
-    appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
-      commonProps.elementIds.ID_HEADING_USERNAME,
-      commonProps.elementIds.ID_UL_USER_DEETS,
-      commonProps.elementIds.ID_IMAGE_USER
-    ]);
+    appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_IMAGE, [
+      commonProps.elementIds.ID_IMAGE_USER,
+        ]);
+
+        appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_NAME, [
+          commonProps.elementIds.ID_HEADING_USERNAME,
+            ]);
+
+        appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
+          commonProps.elementIds.ID_UL_USER_DEETS,
+            ]);
   }
+  // function removeProfile() {
+  //   appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
+  //     commonProps.elementIds.ID_HEADING_USERNAME,
+  //     commonProps.elementIds.ID_UL_USER_DEETS,
+  //     commonProps.elementIds.ID_IMAGE_USER
+  //   ]);
+  // }
 
   /**
    *

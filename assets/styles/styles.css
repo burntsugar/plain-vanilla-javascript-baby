@@ -9,7 +9,41 @@ body {
 }
 
 #github-user-wrapper {
-    
+    box-sizing: border-box;
+    background-color: #DBDACD;
+}
+
+#user-deets-header {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#user-deets-header #uimg {
+    display: flex;
+    justify-content: flex-start;
+    width: 20%;
+    background-color: aquamarine;
+    overflow: hidden;
+    filter: opacity(.5);
+}
+
+#user-deets-header #uname {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 80%;
+    padding: 20px;
+    background-color: #B47978;
+}
+
+#user-deets-header h1 {
+    color: white;
+}
+
+#ul-user-deets {
+    margin:20px;
+    padding:20px;
 }
 
 .hidden { display: none; }

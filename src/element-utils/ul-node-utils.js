@@ -27,8 +27,16 @@
             var li = document.createElement('li');
             li.setAttribute('class', 'item');
             ul.appendChild(li);
-            li.innerHTML = li.innerHTML + element + ": " + dataObject[element];
+            li.innerHTML = li.innerHTML + element + ": " + formatText(dataObject[element]);
         });
+    }
+
+    const formatText = (str) => {
+        if (typeof(str) == 'string' && str.length > 80) {
+            return str.substring(0,80) + '...';
+        } else {
+            return str;
+        }
     }
 
     return {
