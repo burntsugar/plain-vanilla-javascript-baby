@@ -2,4 +2,14 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#page-wrapper {
+    width: 75vw;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+#github-user-wrapper {
+    
+}
+
 .hidden { display: none; }

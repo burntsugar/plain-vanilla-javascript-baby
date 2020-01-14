@@ -9,52 +9,61 @@
   </head>
 
   <body>
-    <div id="github-user-wrapper"></div>
+    <div id="page-wrapper">
+      <div id="github-user-wrapper"></div>
 
-    <div id="input-username-controls" class="hidden">
-      <h1>Wanna see your Github deets? You know you do...</h1>
-      <label for="input-githubusername">username: </label>
-      <input
-        type="text"
-        id="input-githubusername"
-        name="input-githubusername"
-        value="burntsugar"
-      />
-      <input class="btn-get" type="button" value="Find me on Github!" />
-      <input class="btn-clear" type="button" value="Clear" />
-    </div>
+      <div id="input-username-controls" class="hidden">
+        <h1>Wanna see your Github deets? You know you do...</h1>
+        <label for="input-githubusername">username: </label>
+        <input
+          type="text"
+          id="input-githubusername"
+          name="input-githubusername"
+          value="burntsugar"
+        />
+        <input class="btn-get" type="button" value="Find me on Github!" />
+        <input class="btn-clear" type="button" value="Clear" />
+      </div>
 
-    <div id="reset-username-controls" class="hidden">
-      <input class="btn-reset" type="button" value="Reset" />
-    </div>
+      <div id="reset-username-controls" class="hidden">
+        <input class="btn-reset" type="button" value="Reset" />
+      </div>
 
-    <script type="module">
-      /** TODO: makeItPretty */
+      <script type="module">
+        /** TODO: makeItPretty */
 
-      import { appControl } from './src/app-control.js';
+        import { appControl } from './src/app-control.js';
 
-      appControl.initUiEvent();
+        appControl.initUiEvent();
 
-      window.addEventListener('keydown', event => {
-        if (event.keyCode == '13') {
-          const username = document.getElementById('input-githubusername').value;
+        window.addEventListener('keydown', event => {
+          if (event.keyCode == '13') {
+            const username = document.getElementById('input-githubusername')
+              .value;
+            appControl.getProfileUiEvent(username);
+          }
+        });
+
+        document.querySelector('.btn-get').addEventListener('click', event => {
+          const username = document.getElementById('input-githubusername')
+            .value;
           appControl.getProfileUiEvent(username);
-        }
-      });
+        });
 
-      document.querySelector('.btn-get').addEventListener('click', event => {
-        const username = document.getElementById('input-githubusername').value;
-        appControl.getProfileUiEvent(username);
-      });
+        document
+          .querySelector('.btn-clear')
+          .addEventListener('click', event => {
+            const username = (document.getElementById(
+              'input-githubusername'
+            ).value = '');
+          });
 
-      document.querySelector('.btn-clear').addEventListener('click', event => {
-        const username = (document.getElementById('input-githubusername').value =
-          '');
-      });
-
-      document.querySelector('.btn-reset').addEventListener('click', event => {
-        appControl.removeProfileUiEvent();
-      });
-    </script>
+        document
+          .querySelector('.btn-reset')
+          .addEventListener('click', event => {
+            appControl.removeProfileUiEvent();
+          });
+      </script>
+    </div>
   </body>
 </html>
