@@ -4,7 +4,7 @@
  * @fileoverview does stuff.
  */
 
-import { stringUtils } from '../utils/string-utils.js';
+import {stringUtils} from '../utils/string-utils.js';
 
 describe('stringUtils#stringIsEmpty', () => {
   it('returns true when passed an empty string', () => {
@@ -31,13 +31,13 @@ describe('stringUtils#stringIsEmpty', () => {
 describe('stringUtils#removeIllegalCharacters', () => {
   it('returns a copy of the string which contains only legal characters, when passed a string containing illegal characters', () => {
     expect(
-      stringUtils.removeIllegalCharacters('burnt|&;$%@"<>()+,sugar')
+      stringUtils.removeIllegalCharacters('burnt|&;$%@"<>()+,sugar'),
     ).toMatch('burntsugar');
   });
 
   it('returns a copy of the string, when passed a string containing no illegal characters', () => {
     expect(stringUtils.removeIllegalCharacters('burntsugar')).toMatch(
-      'burntsugar'
+      'burntsugar',
     );
   });
 

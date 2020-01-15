@@ -13,7 +13,7 @@
 //   };
 
 // const rez = {status: 200, body: null};
-  
+
 //   export default function request(url) {
 //     return new Promise((resolve, reject) => {
 //       const userID = parseInt(url.substr('/users/'.length), 10);

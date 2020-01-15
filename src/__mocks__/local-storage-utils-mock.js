@@ -8,7 +8,7 @@ const MockStorage = (() => {
   let storage = new Map();
   let provokequotasexceededxception = false;
 
-  const setProvokeQuotasExceedEdxception = value =>
+  const setProvokeQuotasExceedEdxception = (value) =>
     (provokequotasexceededxception = value);
 
   const setItem = (key, value) => {
@@ -25,7 +25,7 @@ const MockStorage = (() => {
     return e;
   };
 
-  const getItem = key => {
+  const getItem = (key) => {
     if (storage.get(key) == undefined) {
       return null;
     }
@@ -37,15 +37,15 @@ const MockStorage = (() => {
    * @param {string} key
    * @return {undefined}
    */
-  const removeItem = key => void storage.delete(key);
+  const removeItem = (key) => void storage.delete(key);
 
   /**
-   *
+   * @return {undefined}
    */
   const clear = () => (storage = new Map());
 
   /**
-   * @return implicit return
+   * @return {undefined} implicit return
    */
   const getSize = () => storage.size;
 
@@ -55,8 +55,8 @@ const MockStorage = (() => {
     removeItem: removeItem,
     clear: clear,
     getSize: getSize,
-    setProvokeQuotasExceedEdxception: setProvokeQuotasExceedEdxception
+    setProvokeQuotasExceedEdxception: setProvokeQuotasExceedEdxception,
   };
 })();
 
-export { MockStorage };
+export {MockStorage};
