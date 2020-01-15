@@ -1,11 +1,12 @@
 'use strict';
 
-import { commonProps } from '../common-props.js';
+import {commonProps} from '../common-props.js';
 
 /**
  * @author Rachael Colley <rcolley@rcolley>
  * @fileoverview Provides methods for working with local storage.
- * Cache expiration policy is configured in commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS.
+ * Cache expiration policy is configured in
+ * commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS.
  */
 
 /**
@@ -23,8 +24,9 @@ const localStorageUtils = (function() {
    * Mocking is a possible use case.
    * window.localStorage is used by default.
    * @param {object} storageObject
+   * @return {undefined}
    */
-  const setStorageObject = storageObject => (appLocalStorage = storageObject);
+  const setStorageObject = (storageObject) => (appLocalStorage = storageObject);
 
   /**
    * @public
@@ -33,7 +35,7 @@ const localStorageUtils = (function() {
    * @param {object} appendValue
    */
   const appendToEntry = (key, appendKey, appendValue) => {
-    var entry = retrieveEntry(key);
+    const entry = retrieveEntry(key);
     if (entry != null) {
       entry[appendKey] = appendValue;
       setLocalStorageItem(key, entry);
@@ -46,7 +48,7 @@ const localStorageUtils = (function() {
    * @param {string} key belonging to the value
    * @return {object} implicit return, true if found or null if not found.
    */
-  const retrieveEntry = key => getValidStorageItem(key);
+  const retrieveEntry = (key) => getValidStorageItem(key);
 
   /**
    * @public
@@ -65,10 +67,10 @@ const localStorageUtils = (function() {
   /**
    * Returns a storage entry if it meets cache policy.
    * @param {string} key
-   * @return the storage entry if valid or null if not found.
+   * @return {object} the storage entry if valid or null if not found.
    */
-  const getValidStorageItem = key => {
-    let entry = JSON.parse(getLocalStorageItem(key));
+  const getValidStorageItem = (key) => {
+    const entry = JSON.parse(getLocalStorageItem(key));
     if (entry != null) {
       return cacheExpired(entry.timestamp) ? null : entry;
     }
@@ -76,34 +78,37 @@ const localStorageUtils = (function() {
   };
 
   /**
-   * Checks local storage entry for cache expiration. Compares a given date with the current data. If more than CACHE_EXPIRY_SECONDS has passed since the given date, true is returned.
+   * Checks local storage entry for cache expiration. Compares a given date
+   * with the current data. If more than CACHE_EXPIRY_SECONDS has passed since
+   * the given date, true is returned.
    * @param {string} timestamp date of stored object
-   * @return {boolean} true if more than CACHE_EXPIRY_SECONDS has passed since the given date, or else false
+   * @return {boolean} true if more than CACHE_EXPIRY_SECONDS has passed since
+   * the given date, or else false
    */
-  const cacheExpired = timestamp => {
-    var timestampDate = new Date(timestamp);
-    var nowDate = new Date();
+  const cacheExpired = (timestamp) => {
+    const timestampDate = new Date(timestamp);
+    const nowDate = new Date();
     timestampDate.setMinutes(
       timestampDate.getMinutes() +
-        commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS
+        commonProps.localStorageConfig.CACHE_EXPIRY_SECONDS,
     );
     return nowDate > timestampDate ? true : false;
   };
 
   /**
-   * @return implicit return, true if storage is available.
+   * @return {boolean} implicit return, true if storage is available.
    */
   const localStorageIsAvailable = () => (storageAvailable() ? true : false);
 
   /**
    * Adapted from: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-   * @return true if storage is available or false if not.
+   * @return {boolean} true if storage is available or false if not.
    */
   const storageAvailable = () => {
-    var storage;
+    let storage;
     try {
       storage = appLocalStorage;
-      var x = '__storage_test__';
+      const x = '__storage_test__';
       storage.setItem(x, x);
       storage.removeItem(x);
       return true;
@@ -119,7 +124,8 @@ const localStorageUtils = (function() {
           e.name === 'QuotaExceededError' ||
           // Firefox
           e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-        // acknowledge QuotaExceededError only if there's something already stored
+        // acknowledge QuotaExceededError only if there's something already
+        // stored
         storage &&
         storage.length !== 0
       );
@@ -131,7 +137,7 @@ const localStorageUtils = (function() {
    * @param {*} key
    * @return {DOMString} implicit return, storage entry or {null} if not found.
    */
-  const getLocalStorageItem = key => appLocalStorage.getItem(key);
+  const getLocalStorageItem = (key) => appLocalStorage.getItem(key);
 
   /**
    *
@@ -147,7 +153,7 @@ const localStorageUtils = (function() {
    * @param {string} key
    * @return {undefined}
    */
-  const removeLocalStorageItem = key => void appLocalStorage.removeItem(key);
+  const removeLocalStorageItem = (key) => void appLocalStorage.removeItem(key);
 
   /**
    * @return {undefined}
@@ -158,8 +164,8 @@ const localStorageUtils = (function() {
     retrieveEntry: retrieveEntry,
     persistEntry: persistEntry,
     appendToEntry: appendToEntry,
-    setStorageObject: setStorageObject
+    setStorageObject: setStorageObject,
   };
 })();
 
-export { localStorageUtils };
+export {localStorageUtils};
