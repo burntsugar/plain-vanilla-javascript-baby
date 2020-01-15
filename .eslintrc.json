@@ -3,20 +3,31 @@
         "browser": true,
         "es6": true
     },
-    "extends": [
-        "google"
-    ],
+    "extends": ["eslint:recommended", "google"],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
         "ecmaVersion": 2018,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "impliedStrict": true
-        }
+        "sourceType": "module"
     },
     "rules": {
+        "indent": [
+            "error",
+            2
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
     }
 }

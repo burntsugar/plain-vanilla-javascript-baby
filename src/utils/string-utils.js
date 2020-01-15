@@ -11,29 +11,32 @@ const stringUtils = (() => {
    * Operates on a given string and returns whether it is empty.
    * @public
    * @param {string} str the string to examine
-   * @returns {boolean} whether the string is empty such that str.length is equal to 0, or false if the argument is invalid.
+   * @return {boolean} whether the string is empty such that
+   * str.length is equal to 0, or false if the argument is invalid.
    */
-  const stringIsEmpty = str => {
+  const stringIsEmpty = (str) => {
     if (typeof str != 'string' || str == null) return true;
     return str.length == 0 ? true : false;
   };
 
   /**
-   * Operates on a given string, returning a copy with illegal characters removed.
+   * Operates on a given string, returning a copy with illegal
+   * characters removed.
    * Illegal characters are: | & ; $ % @ " < > ( ) + ,
    * @public
    * @param {string} str the string to cleans
-   * @returns {string} the cleansed copy of str, or undefined if the argument is invalid.
+   * @return {string} the cleansed copy of str, or undefined if
+   * the argument is invalid.
    */
-  const removeIllegalCharacters = str => {
+  const removeIllegalCharacters = (str) => {
     if (typeof str != 'string' || str == null) return undefined;
     return str.replace(/[|&;$%@"<>()+,]/g, '');
   };
 
   return {
     stringIsEmpty: stringIsEmpty,
-    removeIllegalCharacters: removeIllegalCharacters
+    removeIllegalCharacters: removeIllegalCharacters,
   };
 })();
 
-export { stringUtils };
+export {stringUtils};
