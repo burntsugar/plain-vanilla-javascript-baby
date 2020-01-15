@@ -10,7 +10,8 @@
 const removeNodeUtils = (() => {
   /**
    * @public
-   * Removes a node of the given child node id from the parent with the given parent node id. Does not remove the parent.
+   * Removes a node of the given child node id from the parent with the given
+   * parent node id. Does not remove the parent.
    * @param {string} parentid id of the parent node
    * @param {string} childid id of the child node
    */
@@ -26,20 +27,21 @@ const removeNodeUtils = (() => {
 
   /**
    * @public
-   * Removes nodes of the given child node ids from the parent with the given parent node id. Does not remove the parent.
+   * Removes nodes of the given child node ids from the parent with the given
+   * parent node id. Does not remove the parent.
    * @param {string} parentid id of the parent node
-   * @param {string[]} childids id of the child nodes
+   * @param {string[]} childNodeIds id of the child nodes
    */
-  const removeChildNodes = (parentid, childNodes) => {
-    childNodes.forEach(element => {
+  const removeChildNodes = (parentid, childNodeIds) => {
+    childNodeIds.forEach((element) => {
       removeNode(parentid, element);
     });
   };
 
   return {
     removeNode: removeNode,
-    removeChildNodes: removeChildNodes
+    removeChildNodes: removeChildNodes,
   };
 })();
 
-export { removeNodeUtils };
+export {removeNodeUtils};

@@ -9,21 +9,22 @@
  */
 const ulNodeUtils = (() => {
   /**
-   * Appends a ul element node, containing the given data as list items, to the given parent element node.
+   * Appends a ul element node, containing the given data as list items, to the
+   * given parent element node.
    * @param {object} dataObject the data to be displayed as list items
    * @param {string[]} nodeAttributes attributes belonging to the list
    * @param {string} parentNodeID id of the parent node to append the ul to.
    */
   const ulList = (dataObject, nodeAttributes, parentNodeID) => {
-    var ul = document.createElement('ul');
+    const ul = document.createElement('ul');
 
-    Object.keys(nodeAttributes).forEach(element => {
+    Object.keys(nodeAttributes).forEach((element) => {
       ul.setAttribute(element, nodeAttributes[element]);
     });
 
     document.getElementById(parentNodeID).appendChild(ul);
-    Object.keys(dataObject).forEach(element => {
-      var li = document.createElement('li');
+    Object.keys(dataObject).forEach((element) => {
+      const li = document.createElement('li');
       li.setAttribute('class', 'item');
       ul.appendChild(li);
       li.innerHTML =
@@ -34,8 +35,9 @@ const ulNodeUtils = (() => {
   /**
    *
    * @param {*} str
+   * @return {string}
    */
-  const formatText = str => {
+  const formatText = (str) => {
     if (typeof str == 'string' && str.length > 80) {
       return str.substring(0, 80) + '...';
     } else {
@@ -44,8 +46,8 @@ const ulNodeUtils = (() => {
   };
 
   return {
-    ulList: ulList
+    ulList: ulList,
   };
 })();
 
-export { ulNodeUtils };
+export {ulNodeUtils};
