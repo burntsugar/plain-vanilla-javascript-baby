@@ -16,20 +16,20 @@ const headingNodeUtils = (() => {
    * @param {string} text text contents of the h1 node
    */
   const h1Heading = (parentNodeID, nodeAttributes, text) => {
-    var h1 = document.createElement('h1');
+    const h1 = document.createElement('h1');
 
-    Object.keys(nodeAttributes).forEach(element => {
+    Object.keys(nodeAttributes).forEach((element) => {
       h1.setAttribute(element, nodeAttributes[element]);
     });
 
-    var textNode = document.createTextNode(text);
+    const textNode = document.createTextNode(text);
     h1.appendChild(textNode);
     document.getElementById(parentNodeID).appendChild(h1);
   };
 
   return {
-    h1Heading: h1Heading
+    h1Heading: h1Heading,
   };
 })();
 
-export { headingNodeUtils };
+export {headingNodeUtils};
