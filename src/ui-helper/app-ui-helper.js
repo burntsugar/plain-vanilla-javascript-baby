@@ -2,56 +2,59 @@
 
 /**
  * @author Rachael Colley <rcolley@rcolley>
- * @fileoverview Provides methods for adding and removing DOM elements to the app document.
+ * @fileoverview Provides methods for adding and removing DOM elements to the
+ * app document.
  */
 
-import { removeNodeUtils } from '../element-utils/remove-node-utils.js';
-import { commonProps } from '../common-props.js';
-import { headingNodeUtils } from '../element-utils/heading-node-utils.js';
-import { ulNodeUtils } from '../element-utils/ul-node-utils.js';
-import { imageNodeUtils } from '../element-utils/image-node-utils.js';
-import { toggleViz } from './toggle-viz.js';
-import { pNodeUtils } from '../element-utils/p-node-utils.js';
+import {removeNodeUtils} from '../element-utils/remove-node-utils.js';
+import {commonProps} from '../common-props.js';
+import {headingNodeUtils} from '../element-utils/heading-node-utils.js';
+import {ulNodeUtils} from '../element-utils/ul-node-utils.js';
+import {imageNodeUtils} from '../element-utils/image-node-utils.js';
+import {toggleViz} from './toggle-viz.js';
+import {pNodeUtils} from '../element-utils/p-node-utils.js';
 
 /** RMP */
 const appUiHelper = (() => {
   /**
    * @public
-   * Adds nodes to the document which display the user profile, after removing any present error nodes.
+   * Adds nodes to the document which display the user profile, after removing
+   * any present error nodes.
    * @param {object} userProfile the UserProfile object.
    */
-  const prepareSuccessNodes = userProfile => {
+  const prepareSuccessNodes = (userProfile) => {
     removeNodeUtils.removeNode(
       commonProps.elementIds.ID_PARENT_WRAPPER,
-      commonProps.elementIds.ID_NODE_ERROR_NODE
+      commonProps.elementIds.ID_NODE_ERROR_NODE,
     );
     imageNodeUtils.imgImage(
       commonProps.elementIds.ID_USER_IMAGE,
-      { id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous' },
-      userProfile.body.avatar_url
+      {id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous'},
+      userProfile.body.avatar_url,
     );
     headingNodeUtils.h1Heading(
       commonProps.elementIds.ID_USER_NAME,
-      { id: commonProps.elementIds.ID_HEADING_USERNAME },
-      userProfile.body.login
+      {id: commonProps.elementIds.ID_HEADING_USERNAME},
+      userProfile.body.login,
     );
     ulNodeUtils.ulList(
       userProfile.body,
-      { id: commonProps.elementIds.ID_UL_USER_DEETS },
-      commonProps.elementIds.ID_PARENT_WRAPPER
+      {id: commonProps.elementIds.ID_UL_USER_DEETS},
+      commonProps.elementIds.ID_PARENT_WRAPPER,
     );
   };
 
   /**
    * @public
-   * Adds a node to the document which displays an error message, after removing any present error node.
+   * Adds a node to the document which displays an error message, after
+   * removing any present error node.
    * @param {string} parentElementId id of the parent node
    * @param {string} errorNodeId id belonging to the new error node
    * @param {string} errorMessage error message text
    */
   const prepareErrorNode = (parentElementId, errorNodeId, errorMessage) => {
     removeNodeUtils.removeNode(parentElementId, errorNodeId);
-    pNodeUtils.pText(parentElementId, { id: errorNodeId }, errorMessage);
+    pNodeUtils.pText(parentElementId, {id: errorNodeId}, errorMessage);
   };
 
   /**
@@ -59,6 +62,7 @@ const appUiHelper = (() => {
    * Removes all nodes for a user profile.
    * @param {string} parentElementId id of the parent node.
    * @param {string[]} childElementIds ids of the child nodes.
+   * @return {undefined}
    */
   const removeUserDeetsNodes = (parentElementId, childElementIds) =>
     void removeNodeUtils.removeChildNodes(parentElementId, childElementIds);
@@ -66,25 +70,19 @@ const appUiHelper = (() => {
   /**
    * @public
    * For the given elements, makes it visible if it is not, or vice-versa.
-   * @param {string[]} elementIds id's of the elements upon which to toggle visibility.
+   * @param {string[]} elementIds id's of the elements upon which to toggle
+   * visibility.
+   * @return {undefined}
    */
   const toggleControlsVisibility = (elementIds) =>
     void toggleViz.toggleDisplayControls(elementIds);
-
-  /**
-   * @public
-   * For the given element, makes it visible if it is not, or vice-versa.
-   * @param {string} elementId id of the elements upon which to toggle visibility.
-   */
-  const toggleControlVisibility = (elementId) =>
-    void toggleViz.toggleDisplay(elementId);
 
   return {
     prepareSuccessNodes: prepareSuccessNodes,
     prepareErrorNode: prepareErrorNode,
     removeUserDeetsNodes: removeUserDeetsNodes,
-    toggleControlsVisibility: toggleControlsVisibility
+    toggleControlsVisibility: toggleControlsVisibility,
   };
 })();
 
-export { appUiHelper };
+export {appUiHelper};
