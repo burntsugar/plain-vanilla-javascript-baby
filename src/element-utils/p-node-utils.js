@@ -10,26 +10,27 @@
 const pNodeUtils = (() => {
   /**
    * @public
-   * Appends a new p element node to the parent element node belonging to the given id.
+   * Appends a new p element node to the parent element node belonging to the
+   * given id.
    * @param {string} parentNodeID id of the parent element node
    * @param {object} nodeAttributes attributes for the new p element node
    * @param {string} text the text to be displayed in the new p element node
    */
   const pText = (parentNodeID, nodeAttributes, text) => {
-    var p = document.createElement('p');
+    const p = document.createElement('p');
 
-    Object.keys(nodeAttributes).forEach(element => {
+    Object.keys(nodeAttributes).forEach((element) => {
       p.setAttribute(element, nodeAttributes[element]);
     });
 
-    var textNode = document.createTextNode(text);
+    const textNode = document.createTextNode(text);
     p.appendChild(textNode);
     document.getElementById(parentNodeID).appendChild(p);
   };
 
   return {
-    pText: pText
+    pText: pText,
   };
 })();
 
-export { pNodeUtils };
+export {pNodeUtils};
