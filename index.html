@@ -1,74 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="assets/styles/styles.css" />
-    <link rel="modulepreload" href="src/app-control.js" />
-  </head>
 
-  <body>
-    <div id="page-wrapper">
-      <div id="github-user-wrapper">
-        <div id="user-deets-header">
-          <div id="uimg"></div>
-          <div id="uname"></div>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Rachael Colley rcolley@rcolley" />
+  <title>Plain Vanilla JavaScript Baby</title>
+  <link rel="stylesheet" type="text/css" href="assets/styles/styles.css" />
+  <link rel="modulepreload" href="src/app-control.js" />
+</head>
+
+<body>
+  <div id="page-wrapper">
+    <div id="github-user-wrapper">
+      <div id="user-deets-header">
+        <div id="uimg"></div>
+        <div id="uname"></div>
       </div>
+    </div>
 
-      <div id="input-username-controls" class="hidden">
-        <h1>Wanna see your Github deets? You know you do...</h1>
-        <label for="input-githubusername">username: </label>
-        <input
-          type="text"
-          id="input-githubusername"
-          name="input-githubusername"
-          value="burntsugar"
-        />
-        <input class="btn-get" type="button" value="Find me on Github!" />
-        <input class="btn-clear" type="button" value="Clear" />
-      </div>
+    <div id="input-username-controls" class="hidden">
+      <h1>Wanna see your Github deets? You know you do...</h1>
+      <label for="input-githubusername">username: </label>
+      <input type="text" id="input-githubusername" name="input-githubusername" value="burntsugar" />
+      <input class="btn-get" type="button" value="Find me on Github!" />
+      <input class="btn-clear" type="button" value="Clear" />
+    </div>
 
-      <div id="reset-username-controls" class="hidden">
-        <input class="btn-reset" type="button" value="Reset" />
-      </div>
+    <div id="reset-username-controls" class="hidden">
+      <input class="btn-reset" type="button" value="Reset" />
+    </div>
 
-      <script type="module">
-        /** TODO: makeItPretty */
+    <footer>
+      See <a href="https://github.com/burntsugar/plain-vanilla-javascript-baby" target="_blank">Plain Vanilla JavaScript at Github</a> by <a href="https://github.com/burntsugar" target="_blank">burntsugar</a>
+    </footer>
 
-        import { appControl } from './src/app-control.js';
+    <script type="module">
+      
+      import { appControl } from './src/app-control.js';
 
-        appControl.initUiEvent();
+      appControl.initUiEvent();
 
-        window.addEventListener('keydown', event => {
-          if (event.keyCode == '13') {
-            const username = document.getElementById('input-githubusername')
-              .value;
-            appControl.getProfileUiEvent(username);
-          }
-        });
-
-        document.querySelector('.btn-get').addEventListener('click', event => {
+      window.addEventListener('keydown', event => {
+        if (event.keyCode == '13') {
           const username = document.getElementById('input-githubusername')
             .value;
           appControl.getProfileUiEvent(username);
+        }
+      });
+
+      document.querySelector('.btn-get').addEventListener('click', event => {
+        const username = document.getElementById('input-githubusername')
+          .value;
+        appControl.getProfileUiEvent(username);
+      });
+
+      document
+        .querySelector('.btn-clear')
+        .addEventListener('click', event => {
+          const username = (document.getElementById(
+            'input-githubusername'
+          ).value = '');
         });
 
-        document
-          .querySelector('.btn-clear')
-          .addEventListener('click', event => {
-            const username = (document.getElementById(
-              'input-githubusername'
-            ).value = '');
-          });
+      document
+        .querySelector('.btn-reset')
+        .addEventListener('click', event => {
+          appControl.removeProfileUiEvent();
+        });
+    </script>
+  </div>
+</body>
 
-        document
-          .querySelector('.btn-reset')
-          .addEventListener('click', event => {
-            appControl.removeProfileUiEvent();
-          });
-      </script>
-    </div>
-  </body>
 </html>
