@@ -10,15 +10,17 @@
 const imageNodeUtils = (() => {
   /**
    * @public
-   * Prepares an img element node, with the given image source, and appends it to the given parent node.
+   * Prepares an img element node, with the given image source, and appends it
+   * to the given parent node.
    * @param {string} parentNodeID the id of the parent node
    * @param {string[]} nodeAttributes attributes belonging to the new img node
-   * @param {*} imageURL source of the image data. This may be a relative url or data uri.
+   * @param {*} imageURL source of the image data. This may be a relative url
+   * or data uri.
    */
   const imgImage = (parentNodeID, nodeAttributes, imageURL) => {
-    var img = document.createElement('img');
+    const img = document.createElement('img');
 
-    Object.keys(nodeAttributes).forEach(element => {
+    Object.keys(nodeAttributes).forEach((element) => {
       img.setAttribute(element, nodeAttributes[element]);
     });
     img.width = 300;
@@ -27,8 +29,8 @@ const imageNodeUtils = (() => {
   };
 
   return {
-    imgImage: imgImage
+    imgImage: imgImage,
   };
 })();
 
-export { imageNodeUtils };
+export {imageNodeUtils};
