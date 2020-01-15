@@ -41,7 +41,7 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 ## ❄️ Goals
 * modern JavaScript features, style and convention
 * minimise use of global namespace
-* prefer ES6 modules
+* prefer ES6 classes and modules
 * prefer arrow functions
 * client storage apis with caching policy
 * JSDoc implementation comment coverage
@@ -61,7 +61,6 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 
 ## ❄️ Design patterns
 * Revealing Module Pattern RMP
-* Constructor Function
 
 ## ❄️ Test 
 * local storage mocking
