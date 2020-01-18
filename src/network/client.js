@@ -1,7 +1,7 @@
 'use strict';
 /**
  * @author Rachael Colley <rcolley@rcolley>
- * @fileoverview does stuff.
+ * @fileoverview XHR client.
  */
 
 import {commonProps} from '../common-props.js';
