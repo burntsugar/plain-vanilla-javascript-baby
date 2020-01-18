@@ -1,6 +1,8 @@
 # Plain Vanilla JavaScript Baby
 
-Proof of concept app using vanilla JavaScript.
+Proof of concept app using vanilla JavaScript and the [public Github REST API](https://developer.github.com/v3/#current-version).
+
+<br>
 
 ## ❄️ Status: 👷‍♀️ Development
 
@@ -12,59 +14,77 @@ Proof of concept app using vanilla JavaScript.
 1. `npm install` (node)
 1. `npm install lite-server --save-dev` (small dev-only server)
 
-Additionally, if you wish to run the Jest tests, you will require Jest libs and @babel/preset-env (for testing ES6 modules)...
+`npm run dev` to launch app on `http://localhost:3000`.
+
+<br>
+
+If you wish to run Jest tests, you will require Jest libs and @babel/preset-env (for testing ES6 modules)...
 
 1. `npm install jest --save-dev`
 1. `npm install jest-extended --save-dev`
 1. `npm install @babel/preset-env`
 
-## ❄️ Run
+`npm test` to run all tests.
 
-`npm run dev` will launch app on `http://localhost:3000`
+<br>
 
-## ❄️ Test
+If you wish to integrate with [linc](https://linc.sh/) CI tool...
 
-`npm test`
+1. `npm install --dev @fab/static`
+
+<br>
+
+If you wish to lint with eslint and Google...
+
+1. `npm install eslint --save-dev`
+1. `npm install eslint-config-google --save-dev`
+
+`./node_modules/.bin/eslint src/ ` to lint all modules.
+
+<br>
 
 ## ❄️ Dependencies
 
 * Node.js 13.5.0
 
 ## ❄️ Dev dependencies
-* lite-server 2.5.4
+
 * @babel/preset-env 7.7.7
+* eslint 6.8.0
+* eslint-config-google 0.14.0
 * jest 24.9.0
 * jest-extended 0.11.2
-
-
+* lite-server 2.5.4
 
 ## ❄️ Goals
-* modern JavaScript features, style and convention
-* minimise use of global namespace
-* prefer ES6 classes and modules
-* prefer arrow functions
-* client storage apis with caching policy
-* JSDoc implementation comment coverage
-* Jest test coverage
-* Mocking complex objects
-* Integration with CI tool for development feedback => [linc](https://linc.sh/)
 
-## ❄️ Features:
+* Jest test coverage...
+    * Mocking complex objects
+    * Exported functions and modules
+
+* Integration with CI/CD tool => [linc](https://linc.sh/).
+
+* ES6x features, style and convention...
+    * Promises
+    * async/await
+    * import/export
+
+* Storage and caching...
+    * Local storage
+    * 1 minute caching policy
+
+* Minimise use of global namespace...
+    * Prefer revealing Module Pattern (RMP)
+
+* JSDoc implementation comment coverage.
+
+* Code style...
+    * [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
+
+## ❄️ App Features:
 
 1. Display Github profile details and avatar from [https://api.github.com/users/v3](https://api.github.com/users/v3).
 2. Cache data to client.
-
-## ❄️ ES6
-* Promises
-* Async/Await
-* ESM import/export
-
-## ❄️ Design patterns
-* Revealing Module Pattern RMP
-
-## ❄️ Test 
-* local storage mocking
-* exported functions and classes
 
 ## ❄️ Browser apis
 
@@ -73,10 +93,6 @@ Additionally, if you wish to run the Jest tests, you will require Jest libs and 
 * [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 * [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) - [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 
-## ❄️ Style guide
-
-Working toward [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
-
 <hr>
 
 <br>
@@ -84,9 +100,12 @@ Working toward [Google JavaScript Style Guide](https://google.github.io/stylegui
 ### 🍦 about localStorage
 
 justification:
+
 * sinlge-page app
 * data is publicly available
 * data size does not exceed 1.2MB
+
+<br>
 
 <hr>
 
