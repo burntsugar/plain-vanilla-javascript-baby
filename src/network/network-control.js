@@ -5,7 +5,7 @@
  * @fileoverview Provides access to network.
  */
 
-import {fetchJsonResource} from './client.js';
+import {Client} from './client.js';
 import {checkNetwork} from './check-network.js';
 import {commonProps} from '../common-props.js';
 
@@ -18,7 +18,7 @@ const networkControl = (() => {
   /**
    * Object in use for fetch.
    */
-  let fetchClient = fetchJsonResource;
+  let fetchClient = Client;
 
   /**
    * Use to change the default fetch client object.
@@ -41,7 +41,7 @@ const networkControl = (() => {
    * @param {string} url to request
    */
   const startRequest = async (url) => {
-    await fetchClient(url)
+    await fetchClient.fetchJsonResource(url)
       .then((data) => {
         responseData = new Response(data.status, data.body);
       })
