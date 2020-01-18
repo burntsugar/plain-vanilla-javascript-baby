@@ -8,14 +8,13 @@ import {commonProps} from '../common-props.js';
 import {FileUtils} from '../utils/file-utils.js';
 
 const MockClient = (() => {
-
   const fetchJsonResource = async (url) => {
     switch (url) {
-      case 'networkexception':
-        return returnNoNetworkException();
-      case 'timeoutexception':
-        return returnTimeoutException();
-      default: 
+    case 'networkexception':
+      return returnNoNetworkException();
+    case 'timeoutexception':
+      return returnTimeoutException();
+    default:
       const pr = await start(url);
       return pr;
     }
@@ -47,22 +46,22 @@ const MockClient = (() => {
       reject(
         new DOMException(
           commonProps.domExceptionNames.ERROR_NAME_NO_NETWORK_ERROR,
-          commonProps.domExceptionIds.NETWORK_EXC_ID
+          commonProps.domExceptionIds.NETWORK_EXC_ID,
         ),
       );
-  });
-};
+    });
+  };
 
   const returnTimeoutException = () => {
     return new Promise((resolve, reject) => {
       reject(
         new DOMException(
           commonProps.domExceptionNames.ERROR_NAME_TIME_OUT_ERROR,
-          commonProps.domExceptionIds.TIMEOUT_EXC_ID
+          commonProps.domExceptionIds.TIMEOUT_EXC_ID,
         ),
       );
-  });
-};
+    });
+  };
 
   return {
     fetchJsonResource: fetchJsonResource,

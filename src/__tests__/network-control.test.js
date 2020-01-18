@@ -35,5 +35,4 @@ describe('client#get', () => {
     const testURL = 'timeoutexception';
     return networkControl.requestAPI(testURL).then((data) => expect(data.status).toEqual(commonProps.domExceptionNames.ERROR_NAME_TIME_OUT_ERROR));
   });
-
 });
