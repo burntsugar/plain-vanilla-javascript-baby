@@ -5,7 +5,7 @@
  * @fileoverview Provides access to network.
  */
 
-import {Client} from './client.js';
+import {FetchClient} from './fetch-client.js'
 import {checkNetwork} from './check-network.js';
 import {commonProps} from '../common-props.js';
 
@@ -17,7 +17,9 @@ const networkControl = (() => {
   /**
    * Object in use for fetch.
    */
-  let fetchClient = Client;
+  // let fetchClient = XHRClient;
+  let fetchClient = FetchClient;
+
 
   /**
    * Use to change the default fetch client object.

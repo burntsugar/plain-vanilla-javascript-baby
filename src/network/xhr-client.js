@@ -6,7 +6,7 @@
 
 import {commonProps} from '../common-props.js';
 
-const Client = (() => {
+const XHRClient = (() => {
 /**
  * @async
  * @param {string} url api url.
@@ -51,4 +51,4 @@ const Client = (() => {
   };
 })();
 
-export {Client};
+export {XHRClient};
