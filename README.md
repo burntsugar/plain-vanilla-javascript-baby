@@ -64,17 +64,21 @@ If you wish to lint with eslint and Google...
 
 * Integration with CI/CD tool => [linc](https://linc.sh/).
 
+* [Fetch API](https://fetch.spec.whatwg.org/).
+
 * ES6x features, style and convention...
     * Promises
     * async/await
     * import/export
+
+* [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
 
 * Storage and caching...
     * Local storage
     * 1 minute caching policy
 
 * Minimise use of global namespace...
-    * Prefer revealing Module Pattern (RMP)
+    * Prefer Revealing Module Pattern (RMP)
 
 * JSDoc implementation comment coverage.
 
@@ -86,13 +90,6 @@ If you wish to lint with eslint and Google...
 1. Display Github profile details and avatar from [https://api.github.com/users/v3](https://api.github.com/users/v3).
 2. Cache data to client.
 
-## ❄️ Browser apis
-
-* [Document Object Model (DOM)](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)
-* [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
-* [Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
-* [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) - [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-
 <hr>
 
 <br>
@@ -101,7 +98,7 @@ If you wish to lint with eslint and Google...
 
 justification:
 
-* sinlge-page app
+* single-page app
 * data is publicly available
 * data size does not exceed 1.2MB
 
