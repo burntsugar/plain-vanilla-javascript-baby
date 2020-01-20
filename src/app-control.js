@@ -36,14 +36,13 @@ const appControl = (() => {
   };
 
   /**
-   * Remove all profile nodes from the document.
+   * Hide profile display nodes in the document, and show controls.
    * @public
    */
   const removeProfileUiEvent = () => {
-    removeProfile();
     toggleControlsVisibility([
-      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
-      commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS,
+      commonProps.elementIds.ID_PROFILE_DISPLAY_SECTION,
+      commonProps.elementIds.ID_PROFILE_FEATURE_SECTION,
     ]);
   };
 
@@ -54,7 +53,7 @@ const appControl = (() => {
    */
   const initUiEvent = () =>
     void toggleControlsVisibility([
-      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
+      commonProps.elementIds.ID_PROFILE_FEATURE_SECTION,
     ]);
 
   /**
@@ -158,12 +157,11 @@ const appControl = (() => {
    * @param {string} errorMessage the error message to be displayed.
    * @return {undefined}
    */
-  const displayError = (errorMessage) =>
-    void appUiHelper.prepareErrorNode(
-      commonProps.elementIds.ID_PARENT_WRAPPER,
-      commonProps.elementIds.ID_NODE_ERROR_NODE,
-      errorMessage,
-    );
+  const displayError = (errorMessage) => {
+    // TODO: Refactor
+    document.getElementById('app-error-message').innerHTML = errorMessage;
+    document.getElementById('successfulSave').classList.remove('hidden');
+  }
 
   /**
    * Appends profile nodes to the document.
@@ -172,29 +170,29 @@ const appControl = (() => {
    */
   const displayProfile = (userProfile) => {
     toggleControlsVisibility([
-      commonProps.elementIds.ID_DIV_INPUT_USERNAME_CONTROLS,
-      commonProps.elementIds.ID_DIV_RESET_USERNAME_CONTROLS,
+      commonProps.elementIds.ID_PROFILE_FEATURE_SECTION,
+      commonProps.elementIds.ID_PROFILE_DISPLAY_SECTION,
     ]);
     appUiHelper.prepareSuccessNodes(userProfile);
     saveToLocalStorage(userProfile);
   };
 
-  /**
-   * Remove profile nodes from the document.
-   */
-  const removeProfile = () => {
-    appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_IMAGE, [
-      commonProps.elementIds.ID_IMAGE_USER,
-    ]);
+  // /**
+  //  * Remove profile nodes from the document.
+  //  */
+  // const removeProfile = () => {
+  //   appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_IMAGE, [
+  //     commonProps.elementIds.ID_IMAGE_USER,
+  //   ]);
 
-    appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_NAME, [
-      commonProps.elementIds.ID_HEADING_USERNAME,
-    ]);
+  //   appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_USER_NAME, [
+  //     commonProps.elementIds.ID_HEADING_USERNAME,
+  //   ]);
 
-    appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
-      commonProps.elementIds.ID_UL_USER_DEETS,
-    ]);
-  };
+  //   appUiHelper.removeUserDeetsNodes(commonProps.elementIds.ID_PARENT_WRAPPER, [
+  //     commonProps.elementIds.ID_UL_USER_DEETS,
+  //   ]);
+  // };
 
   /**
    * Toggle the visibility of document elements.
@@ -257,7 +255,7 @@ const appControl = (() => {
   const saveToLocalStorage = (userProfile) => {
     localStorageUtils.persistEntry(userProfile.body.login, userProfile.body);
     const userImageNode = document.getElementById(
-      commonProps.elementIds.ID_IMAGE_USER,
+      commonProps.elementIds.ID_PROFILE_DISPLAY_IMAGE_IMG,
     );
     userImageNode.addEventListener('load', function() {
       localStorageUtils.appendToEntry(
