@@ -1,7 +1,7 @@
 'use strict';
 /**
  * @author Rachael Colley <rcolley@rcolley>
- * @fileoverview Provides methods for adding h1 element nodes to the document.
+ * @fileoverview Provides methods for adding and updating h1 element nodes.
  */
 
 /**
@@ -27,8 +27,20 @@ const headingNodeUtils = (() => {
     document.getElementById(parentNodeID).appendChild(h1);
   };
 
+  /**
+   * Update a h1 node with the given text
+   * @public
+   * @param {String} nodeID
+   * @param {String} text
+   */
+  const updateH1 = (nodeID, text) => {
+    const h1 = document.getElementById(nodeID);
+    h1.innerHTML = text;
+  };
+
   return {
     h1Heading: h1Heading,
+    updateH1: updateH1,
   };
 })();
 
