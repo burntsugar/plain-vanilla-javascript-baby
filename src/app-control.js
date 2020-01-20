@@ -161,7 +161,7 @@ const appControl = (() => {
     // TODO: Refactor
     document.getElementById('app-error-message').innerHTML = errorMessage;
     document.getElementById('successfulSave').classList.remove('hidden');
-  }
+  };
 
   /**
    * Appends profile nodes to the document.
