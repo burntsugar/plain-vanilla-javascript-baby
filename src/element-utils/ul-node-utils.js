@@ -4,6 +4,8 @@
  * @fileoverview Provides methods to append ul element node to the document.
  */
 
+import {removeNodeUtils} from './remove-node-utils.js';
+
 /**
  * RMP
  */
@@ -33,6 +35,31 @@ const ulNodeUtils = (() => {
   };
 
   /**
+   * @public
+   * Update the given UL node with the given data.
+   * @param {string} parentNodeID
+   * @param {string} ulNodeID
+   * @param {object} dataObject
+   */
+  const updateUL = (parentNodeID, ulNodeID, dataObject) => {
+    removeNodeUtils.removeNode(parentNodeID, ulNodeID);
+
+    const ul = document.createElement('ul');
+    ul.setAttribute('id', ulNodeID);
+
+    document.getElementById(parentNodeID).appendChild(ul);
+
+    Object.keys(dataObject).forEach((element) => {
+      const li = document.createElement('li');
+      li.setAttribute('class', 'item');
+      ul.appendChild(li);
+      li.innerHTML =
+        li.innerHTML + element + ': ' + formatText(dataObject[element]);
+    });
+  };
+
+
+  /**
    *
    * @param {*} str
    * @return {string}
@@ -47,6 +74,7 @@ const ulNodeUtils = (() => {
 
   return {
     ulList: ulList,
+    updateUL: updateUL,
   };
 })();
 
