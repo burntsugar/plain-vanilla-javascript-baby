@@ -18,29 +18,21 @@ import {pNodeUtils} from '../element-utils/p-node-utils.js';
 const appUiHelper = (() => {
   /**
    * @public
-   * Adds nodes to the document which display the user profile, after removing
-   * any present error nodes.
+   * Adds nodes to the document which display the user profile.
    * @param {object} userProfile the UserProfile object.
    */
   const prepareSuccessNodes = (userProfile) => {
-    removeNodeUtils.removeNode(
-      commonProps.elementIds.ID_PARENT_WRAPPER,
-      commonProps.elementIds.ID_NODE_ERROR_NODE,
+    imageNodeUtils.updateImage( commonProps.elementIds.ID_PROFILE_DISPLAY_IMAGE_IMG, userProfile.body.avatar_url,
     );
-    imageNodeUtils.imgImage(
-      commonProps.elementIds.ID_USER_IMAGE,
-      {id: commonProps.elementIds.ID_IMAGE_USER, crossorigin: 'anonymous'},
-      userProfile.body.avatar_url,
-    );
-    headingNodeUtils.h1Heading(
-      commonProps.elementIds.ID_USER_NAME,
-      {id: commonProps.elementIds.ID_HEADING_USERNAME},
+
+    headingNodeUtils.updateH1(
+      commonProps.elementIds.ID_PROFILE_DISPLAY_USERNAME_H2,
       userProfile.body.login,
     );
-    ulNodeUtils.ulList(
+
+    ulNodeUtils.updateUL(
+      commonProps.elementIds.ID_PROFILE_DATA, commonProps.elementIds.ID_UL_USER_DEETS,
       userProfile.body,
-      {id: commonProps.elementIds.ID_UL_USER_DEETS},
-      commonProps.elementIds.ID_PARENT_WRAPPER,
     );
   };
 
