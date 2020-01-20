@@ -8,7 +8,7 @@ Proof of concept app using vanilla JavaScript and the [public Github REST API](h
 
 <br>
 
-## ❄️ Installation
+### ❄️ Installation
 
 1. `git clone <this_url> && cd <repo_name>`
 1. `npm install` (node)
@@ -43,11 +43,11 @@ If you wish to lint with eslint and Google...
 
 <br>
 
-## ❄️ Dependencies
+### ❄️ Dependencies
 
 * Node.js 13.5.0
 
-## ❄️ Dev dependencies
+### ❄️ Dev dependencies
 
 * @babel/preset-env 7.7.7
 * eslint 6.8.0
@@ -55,6 +55,8 @@ If you wish to lint with eslint and Google...
 * jest 24.9.0
 * jest-extended 0.11.2
 * lite-server 2.5.4
+
+<br>
 
 ## ❄️ Goals
 
@@ -66,6 +68,8 @@ If you wish to lint with eslint and Google...
 
 * [Fetch API](https://fetch.spec.whatwg.org/).
 
+* [Web Workers](https://html.spec.whatwg.org/multipage/#toc-workers)
+
 * ES6x features, style and convention...
     * Promises
     * async/await
@@ -73,7 +77,7 @@ If you wish to lint with eslint and Google...
 
 * [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
 
-* Storage and caching...
+* [Storage](https://html.spec.whatwg.org/multipage/webstorage.html#the-localstorage-attribute) and caching...
     * Local storage
     * 1 minute caching policy
 
@@ -84,6 +88,10 @@ If you wish to lint with eslint and Google...
 
 * Code style...
     * [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html#introduction)
+
+* [Bootstrap](https://getbootstrap.com/).
+
+<br>
 
 ## ❄️ App Features:
 
