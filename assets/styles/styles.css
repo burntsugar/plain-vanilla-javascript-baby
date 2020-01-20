@@ -1,54 +1,89 @@
+img {
+    width:100%;
+}
+
+#ul-user-deets {
+    margin:5px;
+    padding:5px;
+}
+
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background-color: lightsteelblue;
 }
 
-#page-wrapper {
-    width: 75vw;
-    margin: 0 auto;
-    overflow: hidden;
+footer {
+    font-size: 0.8em;
+    padding:5px;
+    background-color: #4b535e;
+    color:white;
 }
 
-#github-user-wrapper {
+footer a:link, a:hover, a:visited {
+    color:lightskyblue;
+}
+
+.hidden { display: none; }
+
+.prof-sect {
+    background-color: #2f435e;
+}
+
+section {
     box-sizing: border-box;
-    background-color: #DFC7C6;
+    background-color: white;
+    margin-bottom: 10px;
 }
 
-#user-deets-header {
+/* section */
+#profile-feature {
+}
+
+#input-username-controls {
+    box-sizing: border-box;
+    margin: 20px 20px 20px 5px;
+}
+
+/* section */
+#profile-display {
+}
+
+#profile-header {
     display: flex;
     justify-content: flex-start;
 }
 
-#user-deets-header #uimg {
+#profile-image {
     display: flex;
     justify-content: flex-start;
     width: 20%;
     background-color: #DFC7C6;
     overflow: hidden;
-    filter: opacity(.5);
+    filter: opacity(1);
+    margin: 5px;
 }
 
-#user-deets-header #uname {
+#profile-username {
     box-sizing: border-box;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     width: 80%;
+    margin: 5px 5px 5px 0px;
+    padding: 5px;
+    background-color:#657891;
+}
+
+#profile-data {
+    box-sizing: border-box;
+    background-color: white;
+    margin: 20px;
+}
+
+header {
     padding: 20px;
-    background-color: #B47978;
 }
 
-#user-deets-header h1 {
-    color: white;
+h1, h2 {
+    color:white;
 }
-
-#ul-user-deets {
-    margin:20px;
-    padding:20px;
-}
-
-footer {
-    margin-top: 50px;
-    font-size: 0.8em;
-}
-
-.hidden { display: none; }
