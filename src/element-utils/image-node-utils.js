@@ -28,8 +28,21 @@ const imageNodeUtils = (() => {
     document.getElementById(parentNodeID).appendChild(img);
   };
 
+  /**
+   * @public
+   * Update an image node with the given imageURL.
+   * @param {String} nodeID
+   * @param {*} imageURL
+   */
+  const updateImage = (nodeID, imageURL) => {
+    const img = document.getElementById(nodeID);
+    img.width = 300;
+    img.src = imageURL;
+  };
+
   return {
     imgImage: imgImage,
+    updateImage: updateImage,
   };
 })();
 
