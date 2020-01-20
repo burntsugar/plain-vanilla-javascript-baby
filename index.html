@@ -6,37 +6,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Rachael Colley rcolley@rcolley" />
   <title>Plain Vanilla JavaScript Baby</title>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="assets/styles/styles.css" />
+  <link rel="stylesheet" type="text/css" href="assets/styles/bs-or-styles.css" />
   <link rel="modulepreload" href="src/app-control.js" />
 </head>
 
 <body>
-  <div id="page-wrapper">
-    <div id="github-user-wrapper">
-      <div id="user-deets-header">
-        <div id="uimg"></div>
-        <div id="uname"></div>
+
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Plain Vanilla JavaScript Baby</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/burntsugar">burntsugar@Github</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.linkedin.com/in/rachaelcolley/">RColley@LinkedIn</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://developer.github.com/v3/#current-version">Github REST API</a>
+          </li>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <section id="profile-feature" class="hidden">
+          <header class="prof-sect">
+            <h1>Wanna see your Github deets? You know you do...</h1>
+          </header>
+          <div id="input-username-controls">
+            <label for="input-githubusername">username: </label>
+            <input type="text" id="input-githubusername" name="input-githubusername" value="burntsugar" />
+            <input class="btn-get" type="button" value="Find me on Github!" />
+            <input class="btn-clear" type="button" value="Clear" />
+          </div>
+
+
+          <div class="alert alert-warning alert-dismissible fade show hidden" role="alert" id="successfulSave">
+            <strong>Ooops!</strong> 
+            <span id="app-error-message">Username not found. Try again.</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+        </section>
+
+        <section id="profile-display" class="hidden">
+          <div id="profile-wrapper">
+            <header class="prof-sect">
+              <h1>Your Github profile data</h1>
+            </header>
+            <div id="profile-header">
+              <div id="profile-image">
+                <img id="pimage" crossorigin="anonymous" alt="pimage">
+              </div>
+              <div id="profile-username">
+                <h2 id="pusername">placeholder</h2>
+              </div>
+            </div>
+            <div id="profile-data">
+              <ul id="ul-user-deets">
+
+              </ul>
+            </div>
+          </div>
+
+          <div id="reset-username-controls">
+            <input class="btn-reset" type="button" value="Reset" />
+          </div>
+
+        </section>
+
+        <footer>
+          See
+          <a href="https://github.com/burntsugar/plain-vanilla-javascript-baby" target="_blank">Plain Vanilla JavaScript
+            at Github</a> by <a href="https://github.com/burntsugar" target="_blank">burntsugar</a>
+        </footer>
+
       </div>
     </div>
 
-    <div id="input-username-controls" class="hidden">
-      <h1>Wanna see your Github deets? You know you do...</h1>
-      <label for="input-githubusername">username: </label>
-      <input type="text" id="input-githubusername" name="input-githubusername" value="burntsugar" />
-      <input class="btn-get" type="button" value="Find me on Github!" />
-      <input class="btn-clear" type="button" value="Clear" />
-    </div>
-
-    <div id="reset-username-controls" class="hidden">
-      <input class="btn-reset" type="button" value="Reset" />
-    </div>
-
-    <footer>
-      See <a href="https://github.com/burntsugar/plain-vanilla-javascript-baby" target="_blank">Plain Vanilla JavaScript at Github</a> by <a href="https://github.com/burntsugar" target="_blank">burntsugar</a>
-    </footer>
-
     <script type="module">
-      
       import { appControl } from './src/app-control.js';
 
       appControl.initUiEvent();
@@ -49,11 +134,13 @@
         }
       });
 
-      document.querySelector('.btn-get').addEventListener('click', event => {
-        const username = document.getElementById('input-githubusername')
-          .value;
-        appControl.getProfileUiEvent(username);
-      });
+      document
+        .querySelector('.btn-get')
+        .addEventListener('click', event => {
+          const username = document.getElementById('input-githubusername')
+            .value;
+          appControl.getProfileUiEvent(username);
+        });
 
       document
         .querySelector('.btn-clear')
@@ -61,6 +148,8 @@
           const username = (document.getElementById(
             'input-githubusername'
           ).value = '');
+          document.getElementById('successfulSave').classList.add('hidden');
+          document.getElementById('input-githubusername').value = 'burntsugar'
         });
 
       document
@@ -69,6 +158,7 @@
           appControl.removeProfileUiEvent();
         });
     </script>
+
   </div>
 </body>
 
