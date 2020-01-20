@@ -6,12 +6,19 @@ const commonProps = (() => {
     ID_NODE_ERROR_NODE: 'error-node',
     ID_HEADING_USERNAME: 'h1-username',
     ID_IMAGE_USER: 'img-user',
-    ID_UL_USER_DEETS: 'ul-user-deets',
     ID_USER_HEADER: 'user-deets-header',
     ID_USER_IMAGE: 'uimg',
     ID_USER_NAME: 'uname',
     ID_DIV_INPUT_USERNAME_CONTROLS: 'input-username-controls',
     ID_DIV_RESET_USERNAME_CONTROLS: 'reset-username-controls',
+    ID_PROFILE_FEATURE_SECTION: 'profile-feature',
+    ID_PROFILE_DISPLAY_SECTION: 'profile-display',
+    ID_PROFILE_WRAPPER: 'profile-wrapper',
+    ID_PROFILE_DISPLAY_IMAGE: 'profile-image',
+    ID_PROFILE_DISPLAY_IMAGE_IMG: 'pimage',
+    ID_PROFILE_DISPLAY_USERNAME_H2: 'pusername',
+    ID_PROFILE_DATA: 'profile-data',
+    ID_UL_USER_DEETS: 'ul-user-deets',
   };
 
   const httpStatusCodes = {
