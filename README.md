@@ -8,40 +8,26 @@ Proof of concept app using vanilla JavaScript and the [public Github REST API](h
 
 <br>
 
-### ❄️ Installation
+### ❄️ Install
 
 1. `git clone <this_url> && cd <repo_name>`
-1. `npm install` (node)
-1. `npm install lite-server --save-dev` (small dev-only server)
+1. `npm install`
 
-`npm run dev` to launch app on `http://localhost:3000`.
+### ❄️ Run (dev)
 
-<br>
+`npm run dev` => launch app via [lite-server](https://github.com/johnpapa/lite-server#readme) on `http://localhost:3000`.
 
-If you wish to run Jest tests, you will require Jest libs and @babel/preset-env (for testing ES6 modules)...
+### ❄️ Test (Jest)
 
-1. `npm install jest --save-dev`
-1. `npm install jest-extended --save-dev`
-1. `npm install @babel/preset-env`
+`npm test` => run all [Jest](https://jestjs.io/docs/en/getting-started) suites.
 
-`npm test` to run all tests.
+### ❄️ Integrate with [linc](https://linc.sh/) CI tool...
 
-<br>
+1. `npm run build:fab` => test build
 
-If you wish to integrate with [linc](https://linc.sh/) CI tool...
+### ❄️ Lint with eslint Google flavor...
 
-1. `npm install --dev @fab/static`
-
-<br>
-
-If you wish to lint with eslint and Google...
-
-1. `npm install eslint --save-dev`
-1. `npm install eslint-config-google --save-dev`
-
-`./node_modules/.bin/eslint src/ ` to lint all modules.
-
-<br>
+`./node_modules/.bin/eslint src/ ` => lint all modules in src/.
 
 ### ❄️ Dependencies
 
@@ -75,13 +61,14 @@ If you wish to lint with eslint and Google...
     * async/await
     * import/export
 
-* [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
-
-* [Storage](https://html.spec.whatwg.org/multipage/webstorage.html#the-localstorage-attribute) and caching...
-    * Local storage
-    * 1 minute caching policy
+* Storage
+    * [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API).
+    * [Storage](https://html.spec.whatwg.org/multipage/webstorage.html#the-localstorage-attribute) and caching...
+        * Local storage
+        * 1 minute caching policy
 
 * Minimise use of global namespace...
+    * Prefer **const** and **let**
     * Prefer Revealing Module Pattern (RMP)
 
 * JSDoc implementation comment coverage.
