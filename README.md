@@ -13,6 +13,27 @@ Proof of concept app using vanilla JavaScript and the [public Github REST API](h
 1. `git clone <this_url> && cd <repo_name>`
 1. `npm install`
 
+### Build and run in Docker
+
+Prerequisite [Docker](https://docs.docker.com/install/)
+
+Build...
+
+````
+docker build -t vanilla-js-image .
+````
+
+Run...
+````
+docker run -dit --name vanilla-js-container -p 8080:80 vanilla-js-image
+````
+
+Browse...
+````
+http://localhost:8080/
+````
+
+
 ### ❄️ Run (dev)
 
 `npm run dev` => launch app via [lite-server](https://github.com/johnpapa/lite-server#readme) on `http://localhost:3000`.
