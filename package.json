@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "lite-server",
+    "dev": "lite-server --baseDir='public-html'",
     "build:fabdist": "rm -rf dist && mkdir dist && cd dist/ && mkdir src && cd .. && cp ./index.html dist/ && cp -r assets dist/ && cp package-fab.txt dist/package.json && cp -r src/* dist/src/",
     "build:fab": "npm run build:fabdist && npm run fab:compile",
     "fab:compile": "fab-static dist"
