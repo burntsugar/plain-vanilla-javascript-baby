@@ -52,16 +52,7 @@ http://localhost:8080/
 
 ### ❄️ Dependencies
 
-* Node.js 13.5.0
-
-### ❄️ Dev dependencies
-
-* @babel/preset-env 7.7.7
-* eslint 6.8.0
-* eslint-config-google 0.14.0
-* jest 24.9.0
-* jest-extended 0.11.2
-* lite-server 2.5.4
+* Node.js 13.5.x
 
 <br>
 
