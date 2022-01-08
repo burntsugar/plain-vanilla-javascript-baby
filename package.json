@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "lite-server",
+    "dev": "lite-server --baseDir='public-html'",
     "build:fabdist": "rm -rf dist && mkdir dist && cd dist/ && mkdir src && cd .. && cp ./index.html dist/ && cp -r assets dist/ && cp package-fab.txt dist/package.json && cp -r src/* dist/src/",
     "build:fab": "npm run build:fabdist && npm run fab:compile",
     "fab:compile": "fab-static dist"
@@ -21,19 +21,18 @@
   },
   "homepage": "https://github.com/burntsugar/plain-vanilla-javascript-baby#readme",
   "devDependencies": {
-    "@babel/preset-env": "^7.7.7",
-    "eslint": "^6.8.0",
-    "eslint-config-google": "^0.14.0",
-    "jest": "^24.9.0",
-    "jest-extended": "^0.11.2",
-    "lite-server": "^2.5.4"
-  },
-  "dependencies": {
+    "@babel/preset-env": "7.16.7",
+    "eslint": "8.6.0",
+    "eslint-config-google": "0.14.0",
+    "jest": "27.4.7",
+    "jest-extended": "1.2.0",
+    "lite-server": "2.6.1",
     "@fab/static": "^0.1.8"
   },
   "jest": {
     "roots": [
       "<rootDir>/src"
-    ]
+    ],
+    "testEnvironment": "jsdom"
   }
 }
